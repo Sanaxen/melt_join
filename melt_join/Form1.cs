@@ -62,6 +62,32 @@ namespace tft
             }
         }
 
+        public ListBox removeDup(ListBox l1)
+        {
+            ListBox tmp = new ListBox();
+
+            for (int i = 0; i < l1.Items.Count - 1; i++)
+            {
+                bool dup = false;
+                for (int j = i + 1; j < l1.Items.Count; j++)
+                {
+                    if (l1.Items[i].Equals(l1.Items[j]) == true)
+                    {
+                        dup = true;
+                    }
+                }
+                tmp.Items.Add(l1.Items[i]);
+            }
+
+            l1.Items.Clear();
+            for (int i = 0; i < tmp.Items.Count; i++)
+            {
+                l1.Items.Add(tmp.Items[i]);
+            }
+
+            return l1;
+        }
+
         public void cmd_save()
         {
             string file = "melt_join.r";
@@ -711,6 +737,18 @@ namespace tft
 
             listBox_remake(false, true);
 
+            comboBox4.Items.Clear();
+            comboBox5.Items.Clear();
+
+            comboBox4.Items.Add("-- none(Univariate) --");
+            comboBox4.Text = "-- none(Univariate) --";
+            comboBox5.Items.Add("-- none --");
+            comboBox5.Text = "-- none --";
+            for (int i = 0; i < listBox4.Items.Count; i++)
+            {
+                comboBox4.Items.Add(listBox4.Items[i].ToString());
+                comboBox5.Items.Add(listBox4.Items[i].ToString());
+            }
             try
             {
                 //load("");
@@ -1035,8 +1073,6 @@ namespace tft
                 label14.Text = "Feature value";
                 label3.Text = "";
 
-                comboBox4.Items.Clear();
-                comboBox5.Items.Clear();
                 listBox3.Items.Clear();
                 if (feature_cmd.Items.Count > 0)
                 {
@@ -1044,16 +1080,6 @@ namespace tft
                     {
                         listBox3.Items.Add(feature_cmd.Items[i]);
                     }
-                }
-
-                comboBox4.Items.Add("-- none(Univariate) --");
-                comboBox4.Text = "-- none(Univariate) --";
-                comboBox5.Items.Add("-- none --");
-                comboBox5.Text = "-- none --";
-                for (int i = 0; i < listBox4.Items.Count; i++)
-                {
-                    comboBox4.Items.Add(listBox4.Items[i].ToString());
-                    comboBox5.Items.Add(listBox4.Items[i].ToString());
                 }
             }
         }
@@ -1290,27 +1316,55 @@ namespace tft
                         {
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_meanr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
+                            if (skip_row_max < 2*int.Parse(args[2])-1) skip_row_max = 2 * int.Parse(args[2]) - 1;
                         }
                         else
                         {
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_meanr({2}, {3})", args[1], args[2], args[1], args[2]));
+                            if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
                         }
-                        if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
                     }
                     if (args[0] == "sd")
                     {
-                        addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr({2}, {3})", args[1], args[2], args[1], args[2]));
-                        if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        if (checkBox2.Checked)
+                        {
+                            addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
+                            addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
+                            if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                        }
+                        else
+                        {
+                            addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr({2}, {3})", args[1], args[2], args[1], args[2]));
+                            if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        }
                     }
                     if (args[0] == "min")
                     {
-                        addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr({2}, {3})", args[1], args[2], args[1], args[2]));
-                        if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        if (checkBox2.Checked)
+                        {
+                            addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
+                            addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
+                            if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                        }
+                        else
+                        {
+                            addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr({2}, {3})", args[1], args[2], args[1], args[2]));
+                            if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        }
                     }
                     if (args[0] == "max")
                     {
-                        addfeature_cmd.Items.Add(string.Format("max_{0}_{1} = roll_maxr({2}, {3})", args[1], args[2], args[1], args[2]));
-                        if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        if (checkBox2.Checked)
+                        {
+                            addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
+                            addfeature_cmd.Items.Add(string.Format("max_{0}_{1} = roll_maxr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
+                            if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                        }
+                        else
+                        {
+                            addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_maxr({2}, {3})", args[1], args[2], args[1], args[2]));
+                            if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        }
                     }
                     textBox7.Text += addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString() + "\r\n";
                 }
@@ -1322,6 +1376,8 @@ namespace tft
 
             if (addfeature_cmd.Items.Count >= 1)
             {
+                //addfeature_cmd = removeDup(addfeature_cmd);
+
                 cmd += "df <- df %>% \r\n";
                 if (comboBox4.Text != "-- none(Univariate) --")
                 {
