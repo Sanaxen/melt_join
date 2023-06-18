@@ -1401,6 +1401,14 @@ namespace tft
                         {
                             addfeature_cmd.Items.Add(string.Format("pm_{0} = as.factor(lubridate::pm(" + comboBox5.Text + "))", args[1]));
                         }
+                        if (args[0] == "minute")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("minute_{0} = as.factor(lubridate::minute(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "second")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("second_{0} = as.factor(lubridate::second(" + comboBox5.Text + "))", args[1]));
+                        }
                     }
                     textBox7.Text += addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString() + "\r\n";
                 }
@@ -1422,7 +1430,7 @@ namespace tft
                 cmd += "            mutate(\r\n";
 
                 cmd += "                  " + addfeature_cmd.Items[0].ToString() + "\r\n";
-                for (int i = 1; i < addfeature_cmd.Items.Count; i++)
+                for (int i = 1; i < addfeature_cmd.Items.Count-1; i++)
                 {
                     cmd += "                  ," + addfeature_cmd.Items[i].ToString() + "\r\n";
                 }
@@ -1448,6 +1456,8 @@ namespace tft
             {
                 cmd += "df <- df %>%  filter(sequence_index >= (sequence_index[1] + " + skip_row_max + "))\r\n";
             }
+
+            cmd += "\r\n";
 
             cmd += "\r\n";
             cmd += "if (";
@@ -1595,6 +1605,22 @@ namespace tft
         private void checkBox3_CheckedChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void button31_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("minute {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button32_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("second {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
         }
     }
 }
