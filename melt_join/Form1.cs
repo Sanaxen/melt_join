@@ -740,10 +740,10 @@ namespace tft
             comboBox4.Items.Clear();
             comboBox5.Items.Clear();
 
-            comboBox4.Items.Add("-- none(Univariate) --");
-            comboBox4.Text = "-- none(Univariate) --";
-            comboBox5.Items.Add("-- none --");
-            comboBox5.Text = "-- none --";
+            comboBox4.Items.Add("");
+            comboBox4.Text = "";
+            comboBox5.Items.Add("");
+            comboBox5.Text = "";
             for (int i = 0; i < listBox4.Items.Count; i++)
             {
                 comboBox4.Items.Add(listBox4.Items[i].ToString());
@@ -1248,7 +1248,7 @@ namespace tft
         private void button16_Click(object sender, EventArgs e)
         {
             if (listBox4.SelectedIndex < 0) return;
-            listBox3.Items.Add(string.Format("mean {0} {1}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString()));
+            listBox3.Items.Add(string.Format("mean {0} {1} {2}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString(),checkBox2.Checked?1:0));
             listBox3.SetSelected(listBox3.Items.Count - 1, true);
             textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
         }
@@ -1256,7 +1256,7 @@ namespace tft
         private void button17_Click(object sender, EventArgs e)
         {
             if (listBox4.SelectedIndex < 0) return;
-            listBox3.Items.Add(string.Format("sd {0} {1}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString()));
+            listBox3.Items.Add(string.Format("sd {0} {1} {2}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString(), checkBox3.Checked ? 1 : 0));
             listBox3.SetSelected(listBox3.Items.Count - 1, true);
             textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
         }
@@ -1264,7 +1264,7 @@ namespace tft
         private void button18_Click(object sender, EventArgs e)
         {
             if (listBox4.SelectedIndex < 0) return;
-            listBox3.Items.Add(string.Format("min {0} {1}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString()));
+            listBox3.Items.Add(string.Format("min {0} {1} {2}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString(), checkBox4.Checked ? 1 : 0));
             listBox3.SetSelected(listBox3.Items.Count - 1, true);
             textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
         }
@@ -1272,7 +1272,7 @@ namespace tft
         private void button19_Click(object sender, EventArgs e)
         {
             if (listBox4.SelectedIndex < 0) return;
-            listBox3.Items.Add(string.Format("max {0} {1}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString()));
+            listBox3.Items.Add(string.Format("max {0} {1} {2}", listBox4.SelectedItem.ToString(), numericUpDown2.Value.ToString(), checkBox5.Checked ? 1 : 0));
             listBox3.SetSelected(listBox3.Items.Count - 1, true);
             textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
         }
@@ -1312,7 +1312,7 @@ namespace tft
                     }
                     if (args[0] == "mean")
                     {
-                        if (checkBox2.Checked)
+                        if (args[3]=="1")
                         {
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_meanr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
@@ -1326,7 +1326,7 @@ namespace tft
                     }
                     if (args[0] == "sd")
                     {
-                        if (checkBox2.Checked)
+                        if (args[3] == "1")
                         {
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
@@ -1340,7 +1340,7 @@ namespace tft
                     }
                     if (args[0] == "min")
                     {
-                        if (checkBox2.Checked)
+                        if (args[3] == "1")
                         {
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
@@ -1354,7 +1354,7 @@ namespace tft
                     }
                     if (args[0] == "max")
                     {
-                        if (checkBox2.Checked)
+                        if (args[3] == "1")
                         {
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("max_{0}_{1} = roll_maxr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
@@ -1364,6 +1364,42 @@ namespace tft
                         {
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_maxr({2}, {3})", args[1], args[2], args[1], args[2]));
                             if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        }
+                    }
+
+                    if (comboBox5.Text != "")
+                    {
+                        if (args[0] == "year")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("year_{0} = as.factor(lubridate::year(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "month")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("month_{0} = as.factor(lubridate::month(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "wday")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("wday_{0} = as.factor(lubridate::wday(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "yday")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("yday_{0} = as.factor(lubridate::yday(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "day")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("day_{0} = as.factor(lubridate::day(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "hour")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("hour_{0} = as.factor(lubridate::hour(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "am")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("am_{0} = as.factor(lubridate::am(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "pm")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("pm_{0} = as.factor(lubridate::pm(" + comboBox5.Text + "))", args[1]));
                         }
                     }
                     textBox7.Text += addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString() + "\r\n";
@@ -1379,19 +1415,19 @@ namespace tft
                 //addfeature_cmd = removeDup(addfeature_cmd);
 
                 cmd += "df <- df %>% \r\n";
-                if (comboBox4.Text != "-- none(Univariate) --")
+                if (comboBox4.Text != "")
                 {
                     cmd += "            group_by(" + comboBox4.Text + ") %>%\r\n";
                 }
                 cmd += "            mutate(\r\n";
 
                 cmd += "                  " + addfeature_cmd.Items[0].ToString() + "\r\n";
-                for (int i = 1; i < feature_cmd.Items.Count; i++)
+                for (int i = 1; i < addfeature_cmd.Items.Count; i++)
                 {
                     cmd += "                  ," + addfeature_cmd.Items[i].ToString() + "\r\n";
                 }
 
-                if (comboBox4.Text != "-- none(Univariate) --")
+                if (comboBox4.Text != "")
                 {
                     cmd += "                  ," + addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString() + ") %>% \r\n";
                     cmd += "ungroup()\r\n";
@@ -1477,6 +1513,88 @@ namespace tft
                 if (listBox4.GetSelected(i)) listBox4.SetSelected(i, false);
                 else listBox4.SetSelected(i, true);
             }
+        }
+
+        private void label26_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button25_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("day {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button22_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("year {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button23_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("month {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button24_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("week {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button26_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("wday {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button27_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("yday {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button28_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("hour {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button29_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("am {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button30_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("pm {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void checkBox3_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
