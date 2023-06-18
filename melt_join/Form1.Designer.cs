@@ -111,6 +111,24 @@ namespace tft
             this.label7 = new System.Windows.Forms.Label();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label32 = new System.Windows.Forms.Label();
+            this.label31 = new System.Windows.Forms.Label();
+            this.button30 = new System.Windows.Forms.Button();
+            this.label30 = new System.Windows.Forms.Label();
+            this.button29 = new System.Windows.Forms.Button();
+            this.label29 = new System.Windows.Forms.Label();
+            this.button28 = new System.Windows.Forms.Button();
+            this.label28 = new System.Windows.Forms.Label();
+            this.button27 = new System.Windows.Forms.Button();
+            this.label27 = new System.Windows.Forms.Label();
+            this.button26 = new System.Windows.Forms.Button();
+            this.label26 = new System.Windows.Forms.Label();
+            this.button25 = new System.Windows.Forms.Button();
+            this.button24 = new System.Windows.Forms.Button();
+            this.label24 = new System.Windows.Forms.Label();
+            this.button23 = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.button22 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label23 = new System.Windows.Forms.Label();
             this.button19 = new System.Windows.Forms.Button();
@@ -137,24 +155,10 @@ namespace tft
             this.button15 = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            this.button22 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label24 = new System.Windows.Forms.Label();
-            this.button23 = new System.Windows.Forms.Button();
-            this.button24 = new System.Windows.Forms.Button();
-            this.label26 = new System.Windows.Forms.Label();
-            this.button25 = new System.Windows.Forms.Button();
-            this.label27 = new System.Windows.Forms.Label();
-            this.button26 = new System.Windows.Forms.Button();
-            this.label28 = new System.Windows.Forms.Label();
-            this.button27 = new System.Windows.Forms.Button();
-            this.label29 = new System.Windows.Forms.Label();
-            this.button28 = new System.Windows.Forms.Button();
-            this.label30 = new System.Windows.Forms.Label();
-            this.button29 = new System.Windows.Forms.Button();
-            this.label31 = new System.Windows.Forms.Label();
-            this.button30 = new System.Windows.Forms.Button();
-            this.label32 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.button31 = new System.Windows.Forms.Button();
+            this.label33 = new System.Windows.Forms.Label();
+            this.button32 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -1132,6 +1136,10 @@ namespace tft
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label33);
+            this.tabPage4.Controls.Add(this.button32);
+            this.tabPage4.Controls.Add(this.label25);
+            this.tabPage4.Controls.Add(this.button31);
             this.tabPage4.Controls.Add(this.label32);
             this.tabPage4.Controls.Add(this.label31);
             this.tabPage4.Controls.Add(this.button30);
@@ -1165,6 +1173,178 @@ namespace tft
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Feature value setting";
             this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(17, 505);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(27, 15);
+            this.label32.TabIndex = 123;
+            this.label32.Text = "pm";
+            // 
+            // label31
+            // 
+            this.label31.AutoSize = true;
+            this.label31.Location = new System.Drawing.Point(17, 478);
+            this.label31.Name = "label31";
+            this.label31.Size = new System.Drawing.Size(27, 15);
+            this.label31.TabIndex = 121;
+            this.label31.Text = "am";
+            // 
+            // button30
+            // 
+            this.button30.Location = new System.Drawing.Point(157, 505);
+            this.button30.Name = "button30";
+            this.button30.Size = new System.Drawing.Size(59, 25);
+            this.button30.TabIndex = 120;
+            this.button30.Text = "add";
+            this.button30.UseVisualStyleBackColor = true;
+            this.button30.Click += new System.EventHandler(this.button30_Click);
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(17, 447);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(40, 15);
+            this.label30.TabIndex = 119;
+            this.label30.Text = "hour";
+            // 
+            // button29
+            // 
+            this.button29.Location = new System.Drawing.Point(157, 474);
+            this.button29.Name = "button29";
+            this.button29.Size = new System.Drawing.Size(59, 25);
+            this.button29.TabIndex = 118;
+            this.button29.Text = "add";
+            this.button29.UseVisualStyleBackColor = true;
+            this.button29.Click += new System.EventHandler(this.button29_Click);
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(17, 416);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(39, 15);
+            this.label29.TabIndex = 117;
+            this.label29.Text = "yday";
+            // 
+            // button28
+            // 
+            this.button28.Location = new System.Drawing.Point(156, 447);
+            this.button28.Name = "button28";
+            this.button28.Size = new System.Drawing.Size(59, 25);
+            this.button28.TabIndex = 116;
+            this.button28.Text = "add";
+            this.button28.UseVisualStyleBackColor = true;
+            this.button28.Click += new System.EventHandler(this.button28_Click);
+            // 
+            // label28
+            // 
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(17, 385);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(42, 15);
+            this.label28.TabIndex = 115;
+            this.label28.Text = "wday";
+            // 
+            // button27
+            // 
+            this.button27.Location = new System.Drawing.Point(157, 416);
+            this.button27.Name = "button27";
+            this.button27.Size = new System.Drawing.Size(59, 25);
+            this.button27.TabIndex = 114;
+            this.button27.Text = "add";
+            this.button27.UseVisualStyleBackColor = true;
+            this.button27.Click += new System.EventHandler(this.button27_Click);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(17, 354);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(31, 15);
+            this.label27.TabIndex = 113;
+            this.label27.Text = "day";
+            // 
+            // button26
+            // 
+            this.button26.Location = new System.Drawing.Point(157, 385);
+            this.button26.Name = "button26";
+            this.button26.Size = new System.Drawing.Size(59, 25);
+            this.button26.TabIndex = 112;
+            this.button26.Text = "add";
+            this.button26.UseVisualStyleBackColor = true;
+            this.button26.Click += new System.EventHandler(this.button26_Click);
+            // 
+            // label26
+            // 
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(17, 319);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(44, 15);
+            this.label26.TabIndex = 111;
+            this.label26.Text = "week";
+            this.label26.Click += new System.EventHandler(this.label26_Click);
+            // 
+            // button25
+            // 
+            this.button25.Location = new System.Drawing.Point(157, 354);
+            this.button25.Name = "button25";
+            this.button25.Size = new System.Drawing.Size(59, 25);
+            this.button25.TabIndex = 110;
+            this.button25.Text = "add";
+            this.button25.UseVisualStyleBackColor = true;
+            this.button25.Click += new System.EventHandler(this.button25_Click);
+            // 
+            // button24
+            // 
+            this.button24.Location = new System.Drawing.Point(157, 319);
+            this.button24.Name = "button24";
+            this.button24.Size = new System.Drawing.Size(59, 25);
+            this.button24.TabIndex = 108;
+            this.button24.Text = "add";
+            this.button24.UseVisualStyleBackColor = true;
+            this.button24.Click += new System.EventHandler(this.button24_Click);
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(17, 286);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(52, 15);
+            this.label24.TabIndex = 107;
+            this.label24.Text = "month";
+            // 
+            // button23
+            // 
+            this.button23.Location = new System.Drawing.Point(157, 286);
+            this.button23.Name = "button23";
+            this.button23.Size = new System.Drawing.Size(59, 25);
+            this.button23.TabIndex = 106;
+            this.button23.Text = "add";
+            this.button23.UseVisualStyleBackColor = true;
+            this.button23.Click += new System.EventHandler(this.button23_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(17, 254);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(38, 15);
+            this.label5.TabIndex = 105;
+            this.label5.Text = "year";
+            // 
+            // button22
+            // 
+            this.button22.Location = new System.Drawing.Point(157, 254);
+            this.button22.Name = "button22";
+            this.button22.Size = new System.Drawing.Size(59, 25);
+            this.button22.TabIndex = 104;
+            this.button22.Text = "add";
+            this.button22.UseVisualStyleBackColor = true;
+            this.button22.Click += new System.EventHandler(this.button22_Click);
             // 
             // groupBox2
             // 
@@ -1426,19 +1606,19 @@ namespace tft
             // textBox7
             // 
             this.textBox7.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox7.Location = new System.Drawing.Point(11, 620);
+            this.textBox7.Location = new System.Drawing.Point(11, 639);
             this.textBox7.Margin = new System.Windows.Forms.Padding(4);
             this.textBox7.Multiline = true;
             this.textBox7.Name = "textBox7";
             this.textBox7.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBox7.Size = new System.Drawing.Size(555, 116);
+            this.textBox7.Size = new System.Drawing.Size(555, 97);
             this.textBox7.TabIndex = 93;
             // 
             // button20
             // 
             this.button20.BackColor = System.Drawing.Color.LightSteelBlue;
             this.button20.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button20.Location = new System.Drawing.Point(11, 583);
+            this.button20.Location = new System.Drawing.Point(11, 602);
             this.button20.Margin = new System.Windows.Forms.Padding(4);
             this.button20.Name = "button20";
             this.button20.Size = new System.Drawing.Size(204, 29);
@@ -1492,177 +1672,43 @@ namespace tft
             0,
             0});
             // 
-            // button22
+            // label25
             // 
-            this.button22.Location = new System.Drawing.Point(157, 254);
-            this.button22.Name = "button22";
-            this.button22.Size = new System.Drawing.Size(59, 25);
-            this.button22.TabIndex = 104;
-            this.button22.Text = "add";
-            this.button22.UseVisualStyleBackColor = true;
-            this.button22.Click += new System.EventHandler(this.button22_Click);
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(16, 536);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(56, 15);
+            this.label25.TabIndex = 125;
+            this.label25.Text = "minute";
             // 
-            // label5
+            // button31
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 254);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 15);
-            this.label5.TabIndex = 105;
-            this.label5.Text = "year";
+            this.button31.Location = new System.Drawing.Point(156, 536);
+            this.button31.Name = "button31";
+            this.button31.Size = new System.Drawing.Size(59, 25);
+            this.button31.TabIndex = 124;
+            this.button31.Text = "add";
+            this.button31.UseVisualStyleBackColor = true;
+            this.button31.Click += new System.EventHandler(this.button31_Click);
             // 
-            // label24
+            // label33
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(17, 286);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(52, 15);
-            this.label24.TabIndex = 107;
-            this.label24.Text = "month";
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(17, 567);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(59, 15);
+            this.label33.TabIndex = 127;
+            this.label33.Text = "second";
             // 
-            // button23
+            // button32
             // 
-            this.button23.Location = new System.Drawing.Point(157, 286);
-            this.button23.Name = "button23";
-            this.button23.Size = new System.Drawing.Size(59, 25);
-            this.button23.TabIndex = 106;
-            this.button23.Text = "add";
-            this.button23.UseVisualStyleBackColor = true;
-            this.button23.Click += new System.EventHandler(this.button23_Click);
-            // 
-            // button24
-            // 
-            this.button24.Location = new System.Drawing.Point(157, 319);
-            this.button24.Name = "button24";
-            this.button24.Size = new System.Drawing.Size(59, 25);
-            this.button24.TabIndex = 108;
-            this.button24.Text = "add";
-            this.button24.UseVisualStyleBackColor = true;
-            this.button24.Click += new System.EventHandler(this.button24_Click);
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(17, 319);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(44, 15);
-            this.label26.TabIndex = 111;
-            this.label26.Text = "week";
-            this.label26.Click += new System.EventHandler(this.label26_Click);
-            // 
-            // button25
-            // 
-            this.button25.Location = new System.Drawing.Point(157, 354);
-            this.button25.Name = "button25";
-            this.button25.Size = new System.Drawing.Size(59, 25);
-            this.button25.TabIndex = 110;
-            this.button25.Text = "add";
-            this.button25.UseVisualStyleBackColor = true;
-            this.button25.Click += new System.EventHandler(this.button25_Click);
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(17, 354);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(31, 15);
-            this.label27.TabIndex = 113;
-            this.label27.Text = "day";
-            // 
-            // button26
-            // 
-            this.button26.Location = new System.Drawing.Point(157, 385);
-            this.button26.Name = "button26";
-            this.button26.Size = new System.Drawing.Size(59, 25);
-            this.button26.TabIndex = 112;
-            this.button26.Text = "add";
-            this.button26.UseVisualStyleBackColor = true;
-            this.button26.Click += new System.EventHandler(this.button26_Click);
-            // 
-            // label28
-            // 
-            this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(17, 385);
-            this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(42, 15);
-            this.label28.TabIndex = 115;
-            this.label28.Text = "wday";
-            // 
-            // button27
-            // 
-            this.button27.Location = new System.Drawing.Point(157, 416);
-            this.button27.Name = "button27";
-            this.button27.Size = new System.Drawing.Size(59, 25);
-            this.button27.TabIndex = 114;
-            this.button27.Text = "add";
-            this.button27.UseVisualStyleBackColor = true;
-            this.button27.Click += new System.EventHandler(this.button27_Click);
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(17, 416);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(39, 15);
-            this.label29.TabIndex = 117;
-            this.label29.Text = "yday";
-            // 
-            // button28
-            // 
-            this.button28.Location = new System.Drawing.Point(156, 447);
-            this.button28.Name = "button28";
-            this.button28.Size = new System.Drawing.Size(59, 25);
-            this.button28.TabIndex = 116;
-            this.button28.Text = "add";
-            this.button28.UseVisualStyleBackColor = true;
-            this.button28.Click += new System.EventHandler(this.button28_Click);
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(17, 447);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(40, 15);
-            this.label30.TabIndex = 119;
-            this.label30.Text = "hour";
-            // 
-            // button29
-            // 
-            this.button29.Location = new System.Drawing.Point(157, 474);
-            this.button29.Name = "button29";
-            this.button29.Size = new System.Drawing.Size(59, 25);
-            this.button29.TabIndex = 118;
-            this.button29.Text = "add";
-            this.button29.UseVisualStyleBackColor = true;
-            this.button29.Click += new System.EventHandler(this.button29_Click);
-            // 
-            // label31
-            // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(17, 478);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(27, 15);
-            this.label31.TabIndex = 121;
-            this.label31.Text = "am";
-            // 
-            // button30
-            // 
-            this.button30.Location = new System.Drawing.Point(157, 505);
-            this.button30.Name = "button30";
-            this.button30.Size = new System.Drawing.Size(59, 25);
-            this.button30.TabIndex = 120;
-            this.button30.Text = "add";
-            this.button30.UseVisualStyleBackColor = true;
-            this.button30.Click += new System.EventHandler(this.button30_Click);
-            // 
-            // label32
-            // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(17, 505);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(27, 15);
-            this.label32.TabIndex = 123;
-            this.label32.Text = "pm";
+            this.button32.Location = new System.Drawing.Point(157, 567);
+            this.button32.Name = "button32";
+            this.button32.Size = new System.Drawing.Size(59, 25);
+            this.button32.TabIndex = 126;
+            this.button32.Text = "add";
+            this.button32.UseVisualStyleBackColor = true;
+            this.button32.Click += new System.EventHandler(this.button32_Click);
             // 
             // Form1
             // 
@@ -1843,6 +1889,10 @@ namespace tft
         private System.Windows.Forms.Button button23;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button button22;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.Button button32;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Button button31;
     }
 }
 
