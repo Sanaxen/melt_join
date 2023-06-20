@@ -137,6 +137,8 @@ namespace tft
         public string base_name2 = "";
 
         public string left_join_by = "";
+        public string IDCol = "";
+        public string TimeCol = "";
 
         ListBox colname_list = new ListBox();
         System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
@@ -799,6 +801,14 @@ namespace tft
                 {
                     comboBox4.Items.Add(listBox4.Items[i].ToString());
                     comboBox5.Items.Add(listBox4.Items[i].ToString());
+                    if ( IDCol != "" && IDCol == listBox4.Items[i].ToString())
+                    { 
+                        comboBox4.Text = IDCol;
+                    }
+                    if (TimeCol != "" && TimeCol == listBox4.Items[i].ToString())
+                    {
+                        comboBox5.Text = TimeCol;
+                    }
                 }
             }
         }
@@ -863,6 +873,14 @@ namespace tft
             {
                 comboBox4.Items.Add(listBox4.Items[i].ToString());
                 comboBox5.Items.Add(listBox4.Items[i].ToString());
+                if (IDCol != "" && IDCol == listBox4.Items[i].ToString())
+                {
+                    comboBox4.Text = IDCol;
+                }
+                if (TimeCol != "" && TimeCol == listBox4.Items[i].ToString())
+                {
+                    comboBox5.Text = TimeCol;
+                }
             }
             try
             {
@@ -1599,7 +1617,7 @@ namespace tft
             feature_gen += "}\r\n";
             feature_gen += "\r\n";
 
-            cmd += "source(feature_gen.r)\r\n";
+            cmd += "source('feature_gen.r')\r\n";
             cmd += "#write.csv(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
             cmd += "fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
             cmd += "\r\n";
@@ -1777,12 +1795,63 @@ namespace tft
 
             if (textBox12.Text == "") textBox12.Text  = textBox10.Text;
             if (textBox17.Text == "") textBox17.Text = textBox11.Text;
-            if (textBox13.Text == "") return;
-            if (textBox15.Text == "") return;
+            if (textBox14.Text == "") textBox14.Text = textBox13.Text;
+            if (textBox16.Text == "") textBox16.Text = textBox15.Text;
 
-            cmd += "train <- df %>% filter(" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "') & "+ comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "'))\r\n";
-            cmd += "valid <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox13.Text + "') & " + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "'))\r\n";
-            cmd += "test <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox15.Text + "'))\r\n";
+            if (textBox12.Text == "" || textBox13.Text == "") return;
+            if (textBox14.Text == "" || textBox15.Text == "") return;
+            if (textBox16.Text == "" || textBox17.Text == "") return;
+
+            cmd += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz ='UTC')\r\n";
+            cmd += "if (as.POSIXct('" + textBox17.Text + "', tz ='UTC') > max(df$" + comboBox5.Text + "))\r\n";
+            cmd += "{\r\n";
+            cmd += "\r\n";
+            if (comboBox4.Text == "")
+            {
+                cmd += "    for ( k in 1:1)\r\n";
+            }
+            else
+            {
+                cmd += "    IDs = unique(df$" + comboBox4.Text + ")\r\n";
+                cmd += "    for ( k in 1:length(IDs))\r\n";
+            }
+
+            cmd += "    {\r\n";
+            if (comboBox4.Text == "")
+            {
+                cmd += "	    tmp <- df\r\n";
+            }
+            else
+            {
+                cmd += "	    tmp <- df %>% filter(" + comboBox4.Text + " == IDs[k])\r\n";
+                cmd += "        tmp <- df %>% filter(" + comboBox4.Text + " == df$" + comboBox4.Text + "[1])\r\n";
+            }
+            cmd += "        dt = abs(difftime(tmp$" + comboBox5.Text + "[2],tmp$" + comboBox5.Text + "[1],  units='secs'))\r\n";
+
+            cmd += "        endtime = max(tmp$" + comboBox5.Text + ")\r\n";
+            cmd += "        addnum = as.numeric(difftime(as.POSIXct('" + textBox17.Text + "', tz='UTC'), endtime,  units='secs'))/as.numeric(dt)\r\n";
+            cmd += "	    for ( i in 1:addnum )\r\n";
+            cmd += "	    {\r\n";
+            cmd += "		    wrk <- tmp[nrow(tmp),]\r\n";
+            cmd += "		    t = endtime + seconds(dt)\r\n";
+            cmd += "		    wrk$"+ comboBox5.Text+" <- as.POSIXct(t, origin = '1970-01-01', tz='UTC')\r\n";
+            cmd += "\r\n";
+            cmd += "		    wrk2 <- wrk[,-c('date')]*0\r\n";
+            cmd += "            wrk2$date <- wrk$date\r\n";
+            cmd += "            wrk2 %>% dplyr::select('date', everything())\r\n";
+            cmd += "\r\n";
+
+            cmd += "		    tmp <- rbind(tmp, wrk)\r\n";
+            cmd += "		    endtime = max(tmp$"+ comboBox5.Text+")\r\n";
+            cmd += "	    }\r\n";
+            cmd += "	    df <- rbind(df, tmp)\r\n";
+            cmd += "    }\r\n";
+            cmd += "    fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
+            cmd += "}\r\n";
+            cmd += "\r\n";
+            cmd += "train <- df %>% filter(" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "', tz ='UTC'))\r\n";
+            cmd += "valid <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox14.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "', tz ='UTC'))\r\n";
+            cmd += "test  <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox16.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox17.Text + "', tz ='UTC'))\r\n";
 
             cmd += "fwrite(train,'" + base_name0 + "_train.csv" + "', row.names = FALSE)\r\n";
             cmd += "fwrite(valid,'" + base_name0 + "_valid.csv" + "', row.names = FALSE)\r\n";
@@ -1810,10 +1879,8 @@ namespace tft
             cmd_save();
             execute(file);
 
-            //base_name = base_name0 + string.Format("{0}", output_idx);
-            //update_output_idx();
+            update_output_idx();
 
-            //listBox_remake(false, true);
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -1917,6 +1984,32 @@ namespace tft
                 numericUpDown3.Enabled = false;
                 numericUpDown4.Enabled = false;
                 numericUpDown5.Enabled = false;
+            }
+        }
+
+        private void comboBox4_TextChanged(object sender, EventArgs e)
+        {
+            if (comboBox4.Text != "") IDCol = comboBox4.Text;
+        }
+
+        private void comboBox5_TextChanged(object sender, EventArgs e)
+        {
+            if (comboBox5.Text != "")
+            {
+                TimeCol = comboBox5.Text;
+
+                string s = TimeCol;
+                if (TimeCol.Length > 11)
+                {
+                    s = TimeCol.Substring(0,8);
+                    s += "...";
+                }
+                label45.Text = s;
+                label46.Text = s;
+                label47.Text = s;
+                label48.Text = s;
+                label49.Text = s;
+                label50.Text = s;
             }
         }
     }
