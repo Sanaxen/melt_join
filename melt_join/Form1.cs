@@ -463,6 +463,9 @@ namespace tft
             cmd += "set.seed(1)\r\n";
             cmd += "\r\n";
             cmd += "\r\n";
+            cmd += "freeram <- function(...) invisible(gc(...))\r\n";
+            cmd += "\r\n";
+            cmd += "\r\n";
 
             if (cmd_all == "") cmd_all = cmd;
             return cmd;
@@ -521,11 +524,12 @@ namespace tft
 
         void save()
         {
-            string file = "melt_join_setting_" + base_name0 + ".txt";
+            string file = "melt_join_setting_" + base_name0 + string.Format("{0}", output_idx)+".txt";
             try
             {
                 using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
                 {
+                    sw.Write(output_idx.ToString() + "\n");
                     sw.Write(listBox1.Items.Count.ToString() + "\n");
                     for (int i = 0; i < listBox1.Items.Count; i++)
                     {
@@ -540,6 +544,12 @@ namespace tft
                             sw.Write(listBox1.SelectedIndices[i].ToString() + "\n");
                         }
                     }
+
+                    sw.Write(listBox2.Items.Count.ToString() + "\n");
+                    for (int i = 0; i < listBox2.Items.Count; i++)
+                    {
+                        sw.Write(listBox2.Items[i].ToString() + "\n");
+                    }
                     sw.Write(listBox2.SelectedItems.Count.ToString() + "\n");
                     if (listBox2.SelectedItems.Count >= 1)
                     {
@@ -548,6 +558,13 @@ namespace tft
                             sw.Write(listBox2.SelectedIndices[i].ToString() + "\n");
                         }
                     }
+
+
+                    sw.Write(listBox3.Items.Count.ToString() + "\n");
+                    for (int i = 0; i < listBox3.Items.Count; i++)
+                    {
+                        sw.Write(listBox3.Items[i].ToString() + "\n");
+                    }
                     sw.Write(listBox3.SelectedItems.Count.ToString() + "\n");
                     if (listBox3.SelectedItems.Count >= 1)
                     {
@@ -555,6 +572,13 @@ namespace tft
                         {
                             sw.Write(listBox3.SelectedIndices[i].ToString() + "\n");
                         }
+                    }
+
+
+                    sw.Write(listBox4.Items.Count.ToString() + "\n");
+                    for (int i = 0; i < listBox4.Items.Count; i++)
+                    {
+                        sw.Write(listBox4.Items[i].ToString() + "\n");
                     }
                     sw.Write(listBox4.SelectedItems.Count.ToString() + "\n");
                     if (listBox4.SelectedItems.Count >= 1)
@@ -565,12 +589,77 @@ namespace tft
                         }
                     }
 
+                    sw.Write("textBox2," + textBox2.Text + "\n");
+                    sw.Write("textBox3," + textBox3.Text + "\n");
+                    sw.Write("textBox4," + textBox4.Text + "\n");
+                    sw.Write("textBox5," + textBox5.Text + "\n");
+                    sw.Write("textBox6," + textBox6.Text + "\n");
+                    sw.Write("textBox7," + textBox7.Text + "\n");
+                    sw.Write("textBox8," + textBox8.Text + "\n");
+                    sw.Write("textBox9," + textBox9.Text + "\n");
+                    sw.Write("textBox10," + textBox10.Text + "\n");
+                    sw.Write("textBox11," + textBox11.Text + "\n");
+                    sw.Write("textBox12," + textBox12.Text + "\n");
+                    sw.Write("textBox13," + textBox13.Text + "\n");
+                    sw.Write("textBox14," + textBox14.Text + "\n");
+                    sw.Write("textBox15," + textBox15.Text + "\n");
+                    sw.Write("textBox16," + textBox16.Text + "\n");
+                    sw.Write("textBox17," + textBox17.Text + "\n");
+                    sw.Write("textBox18," + textBox18.Text + "\n");
+                    sw.Write("textBox19," + textBox19.Text + "\n");
+                    sw.Write("textBox20," + textBox20.Text + "\n");
+                    sw.Write("textBox21," + textBox21.Text + "\n");
+                    sw.Write("textBox22," + textBox22.Text + "\n");
+                    sw.Write("textBox23," + textBox23.Text + "\n");
+                    sw.Write("textBox24," + textBox24.Text + "\n");
+                    sw.Write("textBox25," + textBox25.Text + "\n");
+
+                    sw.Write("comboBox1," + comboBox1.Text + "\n");
+                    sw.Write("comboBox2," + comboBox2.Text + "\n");
+                    sw.Write("comboBox3," + comboBox3.Text + "\n");
+                    sw.Write("comboBox4," + comboBox4.Text + "\n");
+                    sw.Write("comboBox5," + comboBox5.Text + "\n");
+                    sw.Write("comboBox6," + comboBox6.Text + "\n");
+                    //sw.Write("comboBox7," + comboBox7.Text + "\n");
+                    sw.Write("comboBox8," + comboBox8.Text + "\n");
+                    sw.Write("comboBox9," + comboBox9.Text + "\n");
+                    sw.Write("comboBox10," + comboBox10.Text + "\n");
+
+                    sw.Write("numericUpDown1," + numericUpDown1.Value.ToString() + "\n");
+                    sw.Write("numericUpDown2," + numericUpDown2.Value.ToString() + "\n");
+                    sw.Write("numericUpDown3," + numericUpDown3.Value.ToString() + "\n");
+                    sw.Write("numericUpDown4," + numericUpDown4.Value.ToString() + "\n");
+                    sw.Write("numericUpDown5," + numericUpDown5.Value.ToString() + "\n");
+                    sw.Write("numericUpDown6," + numericUpDown6.Value.ToString() + "\n");
+                    sw.Write("numericUpDown7," + numericUpDown7.Value.ToString() + "\n");
+                    sw.Write("numericUpDown8," + numericUpDown8.Value.ToString() + "\n");
+                    sw.Write("numericUpDown9," + numericUpDown9.Value.ToString() + "\n");
+                    //sw.Write("numericUpDown10," + numericUpDown10.Value.ToString() + "\n");
+                    sw.Write("numericUpDown11," + numericUpDown11.Value.ToString() + "\n");
+                    sw.Write("numericUpDown12," + numericUpDown12.Value.ToString() + "\n");
+                    sw.Write("numericUpDown13," + numericUpDown13.Value.ToString() + "\n");
+                    sw.Write("numericUpDown14," + numericUpDown14.Value.ToString() + "\n");
+                    sw.Write("numericUpDown15," + numericUpDown15.Value.ToString() + "\n");
+                    sw.Write("numericUpDown16," + numericUpDown16.Value.ToString() + "\n");
+                    sw.Write("numericUpDown17," + numericUpDown17.Value.ToString() + "\n");
+
+                    sw.Write("checkBox1," + (checkBox1.Checked?"TRUE":"FALSE") + "\n");
+                    sw.Write("checkBox2," + (checkBox2.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox3," + (checkBox3.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox4," + (checkBox4.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox5," + (checkBox5.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox6," + (checkBox6.Checked ? "TRUE" : "FALSE") + "\n");
+                    //sw.Write("checkBox7," + (checkBox7.Checked ? "TRUE" : "FALSE") + "\n");
+                    //sw.Write("checkBox8," + (checkBox8.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
+
                     sw.Write("r_path," + textBox1.Text + "\n");
                 }
             }
             catch
             {
-                if (MessageBox.Show("Cannot write in melt_join_setting_.txt", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                if (MessageBox.Show("Cannot write in "+file , "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
             try
@@ -581,7 +670,7 @@ namespace tft
         }
         void load(string setting_file)
         {
-            string file = "melt_join_setting_" + base_name0 + ".txt";
+            string file = "melt_join_setting_" + base_name0 + string.Format("{0}", output_idx) + ".txt";
             if (setting_file == "")
             {
                 if (base_name0 == "")
@@ -593,7 +682,7 @@ namespace tft
 
                 if (!File.Exists(file))
                 {
-                    MessageBox.Show("file not found[" + "melt_join_setting_" + base_name0 + ".txt]");
+                    MessageBox.Show("file not found[" + file + ".txt]");
                 }
                 listBox1.Items.Clear();
                 listBox2.Items.Clear();
@@ -615,6 +704,9 @@ namespace tft
                 while (sr.EndOfStream == false)
                 {
                     string s = sr.ReadLine();
+                    output_idx = int.Parse(s.Replace("\n", ""));
+
+                    s = sr.ReadLine();
                     int n = int.Parse(s.Replace("\n", ""));
                     for (int i = 0; i < n; i++)
                     {
@@ -622,19 +714,6 @@ namespace tft
                         if (setting_file == "")
                         {
                             listBox1.Items.Add(s.Replace("\n", ""));
-                            listBox2.Items.Add(s.Replace("\n", ""));
-                            listBox3.Items.Add(s.Replace("\n", ""));
-                            listBox4.Items.Add(s.Replace("\n", ""));
-                        }
-                    }
-                    if (setting_file == "")
-                    {
-                        for (int i = 0; i < n; i++)
-                        {
-                            listBox1.SetSelected(i, false);
-                            listBox2.SetSelected(i, false);
-                            listBox3.SetSelected(i, false);
-                            listBox4.SetSelected(i, false);
                         }
                     }
                     s = sr.ReadLine();
@@ -645,6 +724,17 @@ namespace tft
                         int k = int.Parse(s.Replace("\n", ""));
                         listBox1.SetSelected(k, true);
                     }
+
+                    s = sr.ReadLine();
+                    n = int.Parse(s.Replace("\n", ""));
+                    for (int i = 0; i < n; i++)
+                    {
+                        s = sr.ReadLine();
+                        if (setting_file == "")
+                        {
+                            listBox2.Items.Add(s.Replace("\n", ""));
+                        }
+                    }
                     s = sr.ReadLine();
                     n = int.Parse(s.Replace("\n", ""));
                     for (int i = 0; i < n; i++)
@@ -653,6 +743,18 @@ namespace tft
                         int k = int.Parse(s.Replace("\n", ""));
                         listBox2.SetSelected(k, true);
                     }
+
+
+                    s = sr.ReadLine();
+                    n = int.Parse(s.Replace("\n", ""));
+                    for (int i = 0; i < n; i++)
+                    {
+                        s = sr.ReadLine();
+                        if (setting_file == "")
+                        {
+                            listBox3.Items.Add(s.Replace("\n", ""));
+                        }
+                    }
                     s = sr.ReadLine();
                     n = int.Parse(s.Replace("\n", ""));
                     for (int i = 0; i < n; i++)
@@ -660,6 +762,18 @@ namespace tft
                         s = sr.ReadLine();
                         int k = int.Parse(s.Replace("\n", ""));
                         listBox3.SetSelected(k, true);
+                    }
+
+
+                    s = sr.ReadLine();
+                    n = int.Parse(s.Replace("\n", ""));
+                    for (int i = 0; i < n; i++)
+                    {
+                        s = sr.ReadLine();
+                        if (setting_file == "")
+                        {
+                            listBox4.Items.Add(s.Replace("\n", ""));
+                        }
                     }
                     s = sr.ReadLine();
                     n = int.Parse(s.Replace("\n", ""));
@@ -673,6 +787,277 @@ namespace tft
                     {
                         s = sr.ReadLine();
                         var ss = s.Split(',');
+
+
+                        if (ss[0].IndexOf("textBox11") >= 0)
+                        {
+                            textBox11.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox12") >= 0)
+                        {
+                            textBox12.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox13") >= 0)
+                        {
+                            textBox13.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox14") >= 0)
+                        {
+                            textBox14.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox15") >= 0)
+                        {
+                            textBox15.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox16") >= 0)
+                        {
+                            textBox16.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox17") >= 0)
+                        {
+                            textBox17.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox18") >= 0)
+                        {
+                            textBox18.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox19") >= 0)
+                        {
+                            textBox19.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox20") >= 0)
+                        {
+                            textBox20.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox21") >= 0)
+                        {
+                            textBox21.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox22") >= 0)
+                        {
+                            textBox22.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox23") >= 0)
+                        {
+                            textBox23.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox24") >= 0)
+                        {
+                            textBox18.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox25") >= 0)
+                        {
+                            textBox25.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox2") >= 0)
+                        {
+                            textBox2.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox3") >= 0)
+                        {
+                            textBox3.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox4") >= 0)
+                        {
+                            textBox4.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox5") >= 0)
+                        {
+                            textBox5.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox6") >= 0)
+                        {
+                            textBox6.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox7") >= 0)
+                        {
+                            textBox7.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox8") >= 0)
+                        {
+                            textBox8.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox9") >= 0)
+                        {
+                            textBox9.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("textBox10") >= 0)
+                        {
+                            textBox10.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+
+                        if (ss[0].IndexOf("comboBox10") >= 0)
+                        {
+                            comboBox10.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox1") >= 0)
+                        {
+                            comboBox1.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox2") >= 0)
+                        {
+                            comboBox2.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox3") >= 0)
+                        {
+                            comboBox3.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox4") >= 0)
+                        {
+                            comboBox4.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox5") >= 0)
+                        {
+                            comboBox5.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox6") >= 0)
+                        {
+                            comboBox6.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        //if (ss[0].IndexOf("comboBox7") >= 0)
+                        //{
+                        //    comboBox7.Text = ss[1].Replace("\r\n", "");
+                        //    continue;
+                        //}
+                        if (ss[0].IndexOf("comboBox8") >= 0)
+                        {
+                            comboBox8.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("comboBox9") >= 0)
+                        {
+                            comboBox9.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+
+                        //if (ss[0].IndexOf("numericUpDown10") >= 0)
+                        //{
+                        //    numericUpDown10.Text = ss[1].Replace("\r\n", "");
+                        //    continue;
+                        //}
+                        if (ss[0].IndexOf("numericUpDown11") >= 0)
+                        {
+                            numericUpDown11.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown12") >= 0)
+                        {
+                            numericUpDown12.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown13") >= 0)
+                        {
+                            numericUpDown13.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown14") >= 0)
+                        {
+                            numericUpDown14.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown15") >= 0)
+                        {
+                            numericUpDown15.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown16") >= 0)
+                        {
+                            numericUpDown16.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown17") >= 0)
+                        {
+                            numericUpDown17.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        //if (ss[0].IndexOf("numericUpDown18") >= 0)
+                        //{
+                        //    numericUpDown18.Text = ss[1].Replace("\r\n", "");
+                        //    continue;
+                        //}
+                        //if (ss[0].IndexOf("numericUpDown19") >= 0)
+                        //{
+                        //    numericUpDown19.Text = ss[1].Replace("\r\n", "");
+                        //    continue;
+                        //}
+
+
+                        if (ss[0].IndexOf("numericUpDown1") >= 0)
+                        {
+                            numericUpDown1.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown2") >= 0)
+                        {
+                            numericUpDown2.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown3") >= 0)
+                        {
+                            numericUpDown3.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown4") >= 0)
+                        {
+                            numericUpDown4.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown5") >= 0)
+                        {
+                            numericUpDown5.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown6") >= 0)
+                        {
+                            numericUpDown6.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown7") >= 0)
+                        {
+                            numericUpDown7.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown8") >= 0)
+                        {
+                            numericUpDown8.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
+                        if (ss[0].IndexOf("numericUpDown9") >= 0)
+                        {
+                            numericUpDown9.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
 
                         if (ss[0].IndexOf("r_path") >= 0)
                         {
@@ -989,6 +1374,17 @@ namespace tft
 
             cmd = melt(base_name);
 
+            if (numericUpDown8.Value > 0)
+            {
+                cmd += "tmp <- df\r\n";
+                cmd += "for (n in 1:"+ numericUpDown8.Value.ToString()+") {\r\n";
+                cmd += "    column_name = sprintf('" + textBox18.Text + "'," + numericUpDown7.Value.ToString() + " +n, sep = \"\")\r\n";
+                cmd += "    tmp = tmp %>% mutate(!!column_name := 0)\r\n";
+                cmd += "}\r\n";
+                cmd += "df <- tmp\r\n";
+                cmd += "rm(tmp)\r\n";
+                cmd += "freeram()\r\n";
+            }
             cmd += with_current_df_cmd;
 
             if (listBox1.SelectedItems.Count == 0)
@@ -1023,6 +1419,7 @@ namespace tft
 
             cmd_all += cmd;
             cmd_save();
+            save();
             execute(file);
 
             base_name = base_name0 + string.Format("{0}", output_idx);
@@ -1171,6 +1568,29 @@ namespace tft
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = false;
+                listBox2.Enabled = false;
+                listBox3.Enabled = false;
+                listBox4.SelectionMode = SelectionMode.MultiSimple;
+                listBox2.SelectionMode = SelectionMode.One;
+                listBox3.SelectionMode = SelectionMode.One;
+                label16.Text = "select vars";
+                label11.Text = "";
+                label14.Text = "";
+                label3.Text = "";
+
+                listBox3.Items.Clear();
+                if (feature_cmd.Items.Count > 0)
+                {
+                    for (int i = 0; i < feature_cmd.Items.Count; i++)
+                    {
+                        listBox3.Items.Add(feature_cmd.Items[i]);
+                    }
+                }
+            }
+            if (tabControl1.SelectedIndex == 2)
+            {
+                listBox4.Enabled = true;
+                listBox1.Enabled = false;
                 listBox2.Enabled = true;
                 listBox3.Enabled = true;
 
@@ -1181,7 +1601,7 @@ namespace tft
                 label14.Text = "right column";
                 label3.Text = "left column = right  column";
             }
-            if (tabControl1.SelectedIndex == 2)
+            if (tabControl1.SelectedIndex == 3)
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = false;
@@ -1194,7 +1614,7 @@ namespace tft
                 label14.Text = "";
                 label3.Text = "";
             }
-            if (tabControl1.SelectedIndex == 3)
+            if (tabControl1.SelectedIndex == 4)
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = false;
@@ -1217,6 +1637,41 @@ namespace tft
                     }
                 }
             }
+            if (tabControl1.SelectedIndex == 5)
+            {
+                listBox4.Enabled = false;
+                listBox1.Enabled = false;
+                listBox2.Enabled = false;
+                listBox3.Enabled = false;
+                label16.Text = "select vars";
+                label11.Text = "";
+                label14.Text = "Feature value";
+                label3.Text = "";
+            }
+            if(tabControl1.SelectedIndex == 6)
+            {
+                listBox4.Enabled = true;
+                listBox1.Enabled = true;
+                listBox2.Enabled = false;
+                listBox3.Enabled = false;
+                listBox4.SelectionMode = SelectionMode.One;
+                listBox2.SelectionMode = SelectionMode.MultiSimple;
+                listBox3.SelectionMode = SelectionMode.One;
+                label16.Text = "target";
+                label11.Text = "Feature";
+                label14.Text = "";
+                label3.Text = "";
+
+                listBox3.Items.Clear();
+                if (feature_cmd.Items.Count > 0)
+                {
+                    for (int i = 0; i < feature_cmd.Items.Count; i++)
+                    {
+                        listBox3.Items.Add(feature_cmd.Items[i]);
+                    }
+                }
+            }
+
         }
 
         private void button9_Click_1(object sender, EventArgs e)
@@ -1435,6 +1890,7 @@ namespace tft
 
             textBox7.Text = "";
             int skip_row_max = 0;
+            int lag_min = 100000000;
             if (listBox3.SelectedItems.Count >= 1)
             {
                 for (int i = 0; i < listBox3.SelectedItems.Count; i++)
@@ -1445,6 +1901,7 @@ namespace tft
                     {
                         addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                         if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                        if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                     }
                     if (args[0] == "mean")
                     {
@@ -1453,11 +1910,13 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_meanr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2*int.Parse(args[2])-1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
                         }
                         else
                         {
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_meanr({2}, {3})", args[1], args[2], args[1], args[2]));
                             if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                     }
                     if (args[0] == "sd")
@@ -1467,11 +1926,13 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
                         }
                         else
                         {
                             addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr({2}, {3})", args[1], args[2], args[1], args[2]));
                             if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                     }
                     if (args[0] == "min")
@@ -1481,11 +1942,13 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
                         }
                         else
                         {
                             addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr({2}, {3})", args[1], args[2], args[1], args[2]));
                             if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                     }
                     if (args[0] == "max")
@@ -1495,13 +1958,18 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("max_{0}_{1} = roll_maxr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
                         }
                         else
                         {
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_maxr({2}, {3})", args[1], args[2], args[1], args[2]));
                             if (skip_row_max < int.Parse(args[2])) skip_row_max = int.Parse(args[2]);
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                     }
+
+                    numericUpDown9.Value = lag_min;
+                    numericUpDown9.Refresh();
 
                     if (comboBox5.Text != "")
                     {
@@ -1555,9 +2023,31 @@ namespace tft
             }
 
             string feature_gen = "";
+
+            feature_gen += "feature_gen <- function(df){\r\n";
             if (addfeature_cmd.Items.Count >= 1)
             {
                 //addfeature_cmd = removeDup(addfeature_cmd);
+                //cmd += "df <- df[unique(colnames(df))]\r\n";
+
+                if (comboBox5.Text != "")
+                {
+                    if (comboBox4.Text != "")
+                    {
+                        feature_gen += "x <- df %>% filter(" + comboBox4.Text + "== df$" + comboBox4.Text + "[1])\r\n";
+                        feature_gen += "if ( x$" + comboBox5.Text + "[1] > x$" + comboBox5.Text + "[2]){\r\n";
+                        feature_gen += "    df <- df %>% arrange(data)\r\n";
+                        feature_gen += "}\r\n";
+                        feature_gen += "rm(x)\r\n";
+                        feature_gen += "freeram()\r\n";
+                    }
+                    else
+                    {
+                        feature_gen += "if (df$" + comboBox5.Text + "[1] > df$" + comboBox5.Text + "){\r\n";
+                        feature_gen += "    df <- df %>% arrange(data)\r\n";
+                        feature_gen += "}\r\n";
+                    }
+                }
 
                 feature_gen += "df <- df %>% \r\n";
                 if (comboBox4.Text != "")
@@ -1616,8 +2106,11 @@ namespace tft
             feature_gen += "  		    mutate(across(where(is.character), ~ as.factor(.x)))\r\n";
             feature_gen += "}\r\n";
             feature_gen += "\r\n";
+            feature_gen += "return(df);}\r\n";
 
-            cmd += "source('feature_gen.r')\r\n";
+
+            cmd += "source('feature_gen_fnc.r')\r\n";
+            cmd += "df <- feature_gen(df)\r\n";
             cmd += "#write.csv(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
             cmd += "fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
             cmd += "\r\n";
@@ -1639,17 +2132,17 @@ namespace tft
                     return;
             }
 
-            file = "feature_gen.r";
+            string file2 = "feature_gen_fnc.r";
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file2, false, System.Text.Encoding.GetEncoding("shift_jis")))
                 {
                     sw.Write(feature_gen);
                 }
             }
             catch
             {
-                if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                if (MessageBox.Show("Cannot write in " + file2, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
 
@@ -1793,7 +2286,7 @@ namespace tft
 
             cmd += with_current_df_cmd;
 
-            if (textBox12.Text == "") textBox12.Text  = textBox10.Text;
+            if (textBox12.Text == "") textBox12.Text = textBox10.Text;
             if (textBox17.Text == "") textBox17.Text = textBox11.Text;
             if (textBox14.Text == "") textBox14.Text = textBox13.Text;
             if (textBox16.Text == "") textBox16.Text = textBox15.Text;
@@ -1806,6 +2299,19 @@ namespace tft
             cmd += "if (as.POSIXct('" + textBox17.Text + "', tz ='UTC') > max(df$" + comboBox5.Text + "))\r\n";
             cmd += "{\r\n";
             cmd += "\r\n";
+            cmd += "    n = 1\r\n";
+            cmd += "    N = 0\r\n";
+            if (radioButton1.Checked)
+            {
+                cmd += "    zero_padding = T\r\n";
+                cmd += "    random_sampling = F\r\n";
+            }
+            else
+            {
+                cmd += "    zero_padding = F\r\n";
+                cmd += "    random_sampling = T\r\n";
+            }
+
             if (comboBox4.Text == "")
             {
                 cmd += "    for ( k in 1:1)\r\n";
@@ -1824,40 +2330,118 @@ namespace tft
             else
             {
                 cmd += "	    tmp <- df %>% filter(" + comboBox4.Text + " == IDs[k])\r\n";
-                cmd += "        tmp <- df %>% filter(" + comboBox4.Text + " == df$" + comboBox4.Text + "[1])\r\n";
             }
             cmd += "        dt = abs(difftime(tmp$" + comboBox5.Text + "[2],tmp$" + comboBox5.Text + "[1],  units='secs'))\r\n";
-
+            cmd += "\r\n";
             cmd += "        endtime = max(tmp$" + comboBox5.Text + ")\r\n";
             cmd += "        addnum = as.numeric(difftime(as.POSIXct('" + textBox17.Text + "', tz='UTC'), endtime,  units='secs'))/as.numeric(dt)\r\n";
+            cmd += "        tmp2 = NULL\r\n";
+            cmd += "        if ( N == 0 )\r\n";
+            cmd += "        {\r\n";
+            if (comboBox4.Text == "")
+            {
+                cmd += "            N = addnum\r\n";
+            }
+            else
+            {
+                cmd += "            N = addnum*length(IDs)\r\n";
+            }
+            cmd += "        }\r\n";
             cmd += "	    for ( i in 1:addnum )\r\n";
             cmd += "	    {\r\n";
             cmd += "		    wrk <- tmp[nrow(tmp),]\r\n";
             cmd += "		    t = endtime + seconds(dt)\r\n";
             cmd += "		    wrk$"+ comboBox5.Text+" <- as.POSIXct(t, origin = '1970-01-01', tz='UTC')\r\n";
             cmd += "\r\n";
-            cmd += "		    wrk2 <- wrk[,-c('date')]*0\r\n";
-            cmd += "            wrk2$date <- wrk$date\r\n";
-            cmd += "            wrk2 %>% dplyr::select('date', everything())\r\n";
+            cmd += "            if ( zero_padding ){\r\n";
+            if (comboBox4.Text == "")
+            {
+                cmd += "		       wrk2 <- wrk[,-c('" + comboBox5.Text + "')]*0\r\n";
+            }
+            else
+            {
+                cmd += "		       wrk2 <- wrk[,-c('" + comboBox5.Text + "','" + comboBox4.Text + "')]*0\r\n";
+            }
+            cmd += "            }\r\n";
             cmd += "\r\n";
-
-            cmd += "		    tmp <- rbind(tmp, wrk)\r\n";
-            cmd += "		    endtime = max(tmp$"+ comboBox5.Text+")\r\n";
+            cmd += "			if ( random_sampling ){\r\n";
+            if (comboBox4.Text == "")
+            {
+                cmd += "			   wrk2 <- wrk[,-c('" + comboBox5.Text + "')]\r\n";
+            }
+            else
+            {
+                cmd += "			   wrk2 <- wrk[,-c('" + comboBox5.Text + "','" + comboBox4.Text + "')]\r\n";
+            }
+            cmd += "			   names <- colnames(wrk2)\r\n";
+            cmd += "               for ( j in 1:length(names)){\r\n";
+            cmd += "                   d <- data.frame(df)[,names[j]]\r\n";
+            cmd += "                   wrk2[1,j] <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            cmd += "			   }\r\n";
+            cmd += "			}\r\n";
+            if (comboBox4.Text == "")
+            {
+                cmd += "		    wrk2$" + comboBox5.Text + " <- wrk$" + comboBox5.Text + "\r\n";
+                cmd += "		    wrk <- wrk2 %>% dplyr::select('" + comboBox5.Text + "', , everything())\r\n";
+            }
+            else
+            {
+                cmd += "		    wrk2$" + comboBox5.Text + " <- wrk$" + comboBox5.Text + "\r\n";
+                cmd += "		    wrk2$" + comboBox4.Text + " <- tmp$" + comboBox4.Text + "[1]\r\n";
+                cmd += "		    wrk <- wrk2 %>% dplyr::select(c('" + comboBox5.Text + "','" + comboBox4.Text + "') , everything())\r\n";
+            }
+            cmd += "\r\n";
+            cmd += "\r\n";
+            cmd += "		    tmp2 <- bind_rows(tmp2, wrk)\r\n";
+            cmd += "		    endtime = max(tmp2$"+ comboBox5.Text+")\r\n";
+            cmd += "            if ( n %% 100 == 0)\r\n";
+            cmd += "            {\r\n";
+            cmd += "                 print( sprintf(\"%d/%d %.3f%%\", n, N, 100*as.integer(1000*n/N)/1000))\r\n";
+            cmd += "                 flush.console()\r\n";
+            cmd += "            }\r\n";
             cmd += "	    }\r\n";
-            cmd += "	    df <- rbind(df, tmp)\r\n";
+            cmd += "        tmp2 <- tmp2 %>% dplyr::select(colnames(df))\r\n";
+            cmd += "	    df <- bind_rows(df, tmp2)\r\n";
+            cmd += "        rm(tmp2)\r\n";
+            cmd += "        freeram()\r\n";
             cmd += "    }\r\n";
             cmd += "    fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
             cmd += "}\r\n";
             cmd += "\r\n";
-            cmd += "train <- df %>% filter(" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "', tz ='UTC'))\r\n";
-            cmd += "valid <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox14.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "', tz ='UTC'))\r\n";
-            cmd += "test  <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox16.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox17.Text + "', tz ='UTC'))\r\n";
 
-            cmd += "fwrite(train,'" + base_name0 + "_train.csv" + "', row.names = FALSE)\r\n";
-            cmd += "fwrite(valid,'" + base_name0 + "_valid.csv" + "', row.names = FALSE)\r\n";
-            cmd += "fwrite(test,'" + base_name0 + "_test.csv" + "', row.names = FALSE)\r\n";
+            string split = "";
+            split += "split_data <- function(df){\r\n";
+            split += "train <- df %>% filter(" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "', tz ='UTC'))\r\n";
+            split += "valid <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox14.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "', tz ='UTC'))\r\n";
+            split += "test  <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox16.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox17.Text + "', tz ='UTC'))\r\n";
+
+            split += "fwrite(train,'" + base_name0 + "_train.csv" + "', row.names = FALSE)\r\n";
+            split += "fwrite(valid,'" + base_name0 + "_valid.csv" + "', row.names = FALSE)\r\n";
+            split += "fwrite(test,'" + base_name0 + "_test.csv" + "', row.names = FALSE)\r\n";
+            split += "return( list(train, valid, test))}\r\n";
+
+            cmd += "source('split_func.r')\r\n";
+            cmd += "split <- split_data(df)\r\n";
+            cmd += "train <- split[[1]]\r\n";
+            cmd += "valid <- split[[2]]\r\n";
+            cmd += "test  <- split[[3]]\r\n";
             cmd += "\r\n";
             cmd += "\r\n";
+
+            string src = string.Format("split_func.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write(split);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + src, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
 
             string file = string.Format("split{0}.r", output_idx);
             try
@@ -1879,6 +2463,7 @@ namespace tft
             cmd_save();
             execute(file);
 
+            base_name = base_name0 + string.Format("{0}", output_idx);
             update_output_idx();
 
             with_current_df_cmd = "";
@@ -2011,6 +2596,294 @@ namespace tft
                 label49.Text = s;
                 label50.Text = s;
             }
+        }
+
+        private void button35_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedItems.Count == 0)
+            {
+                if (MessageBox.Show("No columns selected to delete.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            string cmd = "";
+
+            string cmd1 = tft_header_ru();
+
+            cmd += "#df <- read.csv(\"" + base_name + ".csv\", header=T, stringsAsFactors = F, na.strings = c(\"\", \"NA\"))\r\n";
+            cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+
+
+            if (listBox4.SelectedItems.Count >= 1)
+            {
+                for (int i = 0; i < listBox4.SelectedItems.Count; i++)
+                {
+                    cmd += "df$" + listBox4.SelectedItems[i].ToString() + " <- NULL\r\n";
+                }
+            }
+
+            cmd += "#write.csv(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
+            cmd += "fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
+            cmd += "\r\n";
+            cmd += "\r\n";
+
+            string file = string.Format("delete_columns{0}.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write("options(width=1000)\r\n");
+                    sw.Write(cmd1);
+                    sw.Write(cmd);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            cmd_all += cmd;
+            cmd_save();
+            execute(file);
+
+            base_name = base_name0 + string.Format("{0}", output_idx);
+            update_output_idx();
+
+            listBox_remake(false, true);
+            with_current_df_cmd = "";
+            textBox6.Text = with_current_df_cmd;
+        }
+
+        private void button36_Click(object sender, EventArgs e)
+        {
+            textBox25.Text = "0.1";     //eta
+            textBox19.Text = "1.0";     //min_child_weigth
+            textBox20.Text = "1.0";     //subsample
+            numericUpDown14.Value = 6;  //max_depth
+            textBox24.Text = "0.0";     //gamma
+            textBox23.Text = "0.0";     //alpha
+            textBox22.Text = "0.0";     //lambda
+            textBox21.Text = "0.0";     //colsample_bytree
+            numericUpDown13.Value = 0;  //num_class
+            numericUpDown12.Value = 3;  //num_thread
+        }
+
+        private void button37_Click(object sender, EventArgs e)
+        {
+            string cmd1 = tft_header_ru();
+            string cmd = "";
+
+            cmd += "train <- fread(\"" + base_name0 + "_train.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+            cmd += "valid <- fread(\"" + base_name0 + "_valid.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+            cmd += "test <- fread(\"" + base_name0 + "_test.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+
+            cmd += "\r\n";
+            cmd += "\r\n";
+            cmd += "use_features = c(\r\n";
+            cmd += "    '" + listBox1.Items[listBox1.SelectedIndices[0]].ToString() + "'";
+            for (int i = 1; i < listBox1.SelectedIndices.Count; i++)
+            {
+                cmd += ",\r\n";
+                cmd += "    '" + listBox1.Items[listBox1.SelectedIndices[i]].ToString() + "'";
+            }
+            cmd += "\r\n)\r\n";
+
+            string train = "";
+
+            train += "training <- function(train, valid, test, use_features){\r\n";
+            train += "train_data <- train %>% select(-" + listBox4.SelectedItem.ToString() + ")\r\n";
+            train += "train_labels <- train %>% select(" + listBox4.SelectedItem.ToString() + ")\r\n";
+            train += "valid_data <- valid %>% select(-" + listBox4.SelectedItem.ToString() + ")\r\n";
+            train += "valid_labels <- valid %>% select(" + listBox4.SelectedItem.ToString() + ")\r\n";
+            train += "test_data <- test %>% select(-" + listBox4.SelectedItem.ToString() + ")\r\n";
+            train += "test_labels <- test %>% select(" + listBox4.SelectedItem.ToString() + ")\r\n";
+            train += "\r\n\r\n";
+            train += "train_data <- as.data.frame(train_data)\r\n";
+            train += "train_labels <- as.data.frame(train_labels)\r\n";
+            train += "valid_data <- as.data.frame(valid_data)\r\n";
+            train += "valid_labels <- as.data.frame(valid_labels)\r\n";
+            train += "test_data <- as.data.frame(test_data)\r\n";
+            train += "test_labels <- as.data.frame(test_labels)\r\n";
+
+
+            train += "train_set_xgb = xgb.DMatrix(data = data.matrix(train_data[, use_features]), label = data.matrix(train_labels))\r\n";
+            train += "valid_set_xgb = xgb.DMatrix(data = data.matrix(valid_data[, use_features]), label = data.matrix(valid_labels))\r\n";
+            train += "\r\n";
+            train += "\r\n";
+            train += "use_GPU = ";
+            train += checkBox9.Checked ? "TRUE":"FALSE"+"\r\n";
+            train += "eta ="+textBox25.Text +"\r\n";
+            train += "min_child_weight = "+ textBox19.Text+"\r\n";
+            train += "gamma = "+textBox24.Text +"\r\n";
+            train += "max_depth= " + numericUpDown14.Value.ToString() + "\r\n";
+            train += "if ( use_GPU )\r\n";
+            train += "{\r\n";
+            train += "	params <- list(booster =  " + comboBox10.Text + "\r\n";
+            train += "                   ,min_child_weight = min_child_weight\r\n";
+            train += "	               ,tree_method= " + comboBox6.Text + ", gpu_id=0,task_type = \"GPU\"\r\n";
+            train += "	               ,objective = " + comboBox9.Text + "\r\n";
+            train += "	               ,eta=eta\r\n";
+            train += "                   ,gamma=gamma\r\n";
+            train += "                   ,max_depth=max_depth)\r\n";
+            train += "}else\r\n";
+            train += "{\r\n";
+            train += "	params <- list(booster = " + comboBox10.Text + "\r\n";
+            train += "                   ,min_child_weight = min_child_weight\r\n";
+            train += "	               ,tree_method=" + comboBox6.Text + "\r\n";
+            train += "	               ,objective = " + comboBox9.Text + "\r\n";
+            train += "	               ,eta=eta\r\n";
+            train += "                   ,gamma=gamma\r\n";
+            train += "                   ,max_depth=max_depth)\r\n";
+            train += "}\r\n";
+
+            train += "num_iterations = " + numericUpDown17.Value.ToString() + "\r\n";
+            if ( checkBox10.Checked)
+            {
+                train += "\r\n";
+                train += "xgb_cv <- xgb.cv(data = train_set_xgb\r\n";
+                train += "                  , param = params\r\n";
+                train += "                  , maximize = FALSE\r\n";
+                train += "                  , evaluation = " + comboBox9.Text + "\r\n"; 
+                train += "                  , nrounds = nrounds\r\n";
+                train += "                  , nthreads = " + numericUpDown12.Value.ToString() + "\r\n";
+                train += "                  , nfold = " + numericUpDown16.Value.ToString() + "\r\n";
+                train += "                  , early_stopping_round =" + numericUpDown15.Value.ToString() + "\r\n";
+                train += ")\r\n";
+                train += "num_iterations = xgb_cv$best_iteration\r\n";
+            }
+            train += "model_xgb <- xgb.train(data = train_set_xgb,\r\n";
+            train += "                              , param = params\r\n";
+            train += "                              , maximize = FALSE\r\n";
+            train += "                              , eval.metric = " + comboBox8.Text + "\r\n";
+            train += "                              , nrounds = num_iterations\r\n";
+            train += "                              , watchlist = list(train = train_set_xgb, eval = valid_set_xgb)\r\n";
+            train += "                              , early_stopping_round = " + numericUpDown15.Value.ToString() + "\r\n";
+            train += "                              , nthread=" + numericUpDown12.Value.ToString() + "\r\n";
+            train += ")\r\n";
+            train += "\r\n";
+            train += "saveRDS(model_xgb, file = \"model_xgb\")\r\n";
+            train += "importance <- xgb.importance(feature_names = colnames(train_set_xgb), model = model_xgb)\r\n";
+            train += "importance_plt<-xgb.plot.importance(importance_matrix = importance)\r\n";
+            train += "#ggsave(file = \"importance.png\", plot = importance_plt, dpi = 100, width = 6.4, height = 4.8)\r\n";
+            train += "return(model_xgb)}\r\n";
+
+            cmd += "source('training_fnc.r')\r\n";
+            cmd += "model_xgb <- training(train,valid, test, use_features)\r\n";
+
+            string src = string.Format("training_fnc.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write(train);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + src, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+            string file = string.Format("train{0}.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write("options(width=1000)\r\n");
+                    sw.Write(cmd1);
+                    sw.Write(cmd);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            cmd_all += cmd;
+            cmd_save();
+            execute(file);
+
+            with_current_df_cmd = "";
+            textBox6.Text = with_current_df_cmd;
+        }
+
+        private void button38_Click(object sender, EventArgs e)
+        {
+            string cmd1 = tft_header_ru();
+            string cmd = "";
+
+            cmd += "test <- fread(\"" + base_name0 + "_test.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+            cmd += "use_features = c(\r\n";
+            cmd += "    '" + listBox1.Items[listBox1.SelectedIndices[0]].ToString() + "'";
+            for (int i = 1; i < listBox1.SelectedIndices.Count; i++)
+            {
+                cmd += ",\r\n";
+                cmd += "    '" + listBox1.Items[listBox1.SelectedIndices[i]].ToString() + "'";
+            }
+            cmd += "\r\n)\r\n";
+
+            string prediction = "";
+
+            prediction += "prediction <- function(test, model_xgb){\r\n";
+            prediction += "test_data <- test %>% select(-" + listBox4.SelectedItem.ToString() + ")\r\n";
+            prediction += "test_labels <- test %>% select(" + listBox4.SelectedItem.ToString() + ")\r\n";
+            prediction += "\r\n";
+            prediction += "test_data <- as.data.frame(test_data)\r\n";
+            prediction += "test_labels <- as.data.frame(test_labels)\r\n";
+            prediction += "\r\n";
+
+            prediction += "test_set_xgb = xgb.DMatrix(data = data.matrix(test_data[, use_features]), label = data.matrix(test_labels))\r\n";
+            prediction += "\r\n";
+            prediction += "\r\n";
+            prediction += "pred = predict(model_xgb, test_set_xgb)\r\n";
+            prediction += "\r\n";
+            prediction += "predict <- test\r\n";
+            prediction += "predict$predict <- pred\r\n";
+            prediction += "return(predict)}\r\n";
+
+            cmd += "source('prediction_fnc.r')\r\n";
+            cmd += "model_xgb <- readRDS(\"model_xgb\")\r\n";
+            cmd += "predict <- prediction(test,model_xgb)\r\n";
+
+            cmd += "fwrite(predict,'" + base_name0 + "_predict.csv', row.names = FALSE)\r\n";
+
+            string src = string.Format("prediction_fnc.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write(prediction);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + src, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            string file = string.Format("predict{0}.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write("options(width=1000)\r\n");
+                    sw.Write(cmd1);
+                    sw.Write(cmd);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            cmd_all += cmd;
+            cmd_save();
+            execute(file);
+
+            with_current_df_cmd = "";
+            textBox6.Text = with_current_df_cmd;
         }
     }
 }

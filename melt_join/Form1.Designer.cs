@@ -57,6 +57,22 @@ namespace tft
             this.button10 = new System.Windows.Forms.Button();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.button36 = new System.Windows.Forms.Button();
+            this.checkBox9 = new System.Windows.Forms.CheckBox();
+            this.label56 = new System.Windows.Forms.Label();
+            this.label57 = new System.Windows.Forms.Label();
+            this.label61 = new System.Windows.Forms.Label();
+            this.label62 = new System.Windows.Forms.Label();
+            this.label63 = new System.Windows.Forms.Label();
+            this.label64 = new System.Windows.Forms.Label();
+            this.label65 = new System.Windows.Forms.Label();
+            this.label66 = new System.Windows.Forms.Label();
+            this.label67 = new System.Windows.Forms.Label();
+            this.label68 = new System.Windows.Forms.Label();
+            this.label69 = new System.Windows.Forms.Label();
+            this.label70 = new System.Windows.Forms.Label();
+            this.label71 = new System.Windows.Forms.Label();
+            this.label74 = new System.Windows.Forms.Label();
             this.listBox4 = new System.Windows.Forms.ListBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -98,6 +114,15 @@ namespace tft
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.label53 = new System.Windows.Forms.Label();
+            this.textBox18 = new System.Windows.Forms.TextBox();
+            this.label52 = new System.Windows.Forms.Label();
+            this.numericUpDown8 = new System.Windows.Forms.NumericUpDown();
+            this.label51 = new System.Windows.Forms.Label();
+            this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button35 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -160,7 +185,16 @@ namespace tft
             this.label10 = new System.Windows.Forms.Label();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label49 = new System.Windows.Forms.Label();
+            this.label50 = new System.Windows.Forms.Label();
+            this.label47 = new System.Windows.Forms.Label();
+            this.label48 = new System.Windows.Forms.Label();
+            this.label46 = new System.Windows.Forms.Label();
+            this.label45 = new System.Windows.Forms.Label();
             this.textBox16 = new System.Windows.Forms.TextBox();
             this.textBox13 = new System.Windows.Forms.TextBox();
             this.textBox12 = new System.Windows.Forms.TextBox();
@@ -187,12 +221,36 @@ namespace tft
             this.button33 = new System.Windows.Forms.Button();
             this.textBox11 = new System.Windows.Forms.TextBox();
             this.textBox10 = new System.Windows.Forms.TextBox();
-            this.label45 = new System.Windows.Forms.Label();
-            this.label46 = new System.Windows.Forms.Label();
-            this.label47 = new System.Windows.Forms.Label();
-            this.label48 = new System.Windows.Forms.Label();
-            this.label49 = new System.Windows.Forms.Label();
-            this.label50 = new System.Windows.Forms.Label();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.button38 = new System.Windows.Forms.Button();
+            this.button37 = new System.Windows.Forms.Button();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label55 = new System.Windows.Forms.Label();
+            this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.textBox19 = new System.Windows.Forms.TextBox();
+            this.textBox20 = new System.Windows.Forms.TextBox();
+            this.numericUpDown11 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown12 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown13 = new System.Windows.Forms.NumericUpDown();
+            this.label60 = new System.Windows.Forms.Label();
+            this.textBox21 = new System.Windows.Forms.TextBox();
+            this.textBox22 = new System.Windows.Forms.TextBox();
+            this.textBox23 = new System.Windows.Forms.TextBox();
+            this.numericUpDown14 = new System.Windows.Forms.NumericUpDown();
+            this.textBox24 = new System.Windows.Forms.TextBox();
+            this.textBox25 = new System.Windows.Forms.TextBox();
+            this.comboBox8 = new System.Windows.Forms.ComboBox();
+            this.comboBox9 = new System.Windows.Forms.ComboBox();
+            this.comboBox10 = new System.Windows.Forms.ComboBox();
+            this.label72 = new System.Windows.Forms.Label();
+            this.numericUpDown15 = new System.Windows.Forms.NumericUpDown();
+            this.label73 = new System.Windows.Forms.Label();
+            this.numericUpDown16 = new System.Windows.Forms.NumericUpDown();
+            this.numericUpDown17 = new System.Windows.Forms.NumericUpDown();
+            this.checkBox10 = new System.Windows.Forms.CheckBox();
+            this.tabPage8 = new System.Windows.Forms.TabPage();
+            this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
+            this.label54 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -211,6 +269,10 @@ namespace tft
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel3.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
+            this.tabPage6.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel2.SuspendLayout();
@@ -221,11 +283,22 @@ namespace tft
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.tabPage5.SuspendLayout();
+            this.groupBox6.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).BeginInit();
+            this.tabPage7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).BeginInit();
             this.SuspendLayout();
             // 
             // textBox1
@@ -313,14 +386,13 @@ namespace tft
             this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button4.Location = new System.Drawing.Point(531, 4);
-            this.button4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(100, 23);
             this.button4.TabIndex = 47;
             this.button4.Text = "setting save";
             this.toolTip1.SetToolTip(this.button4, "Save the configuration");
             this.button4.UseVisualStyleBackColor = true;
-            this.button4.Visible = false;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button5
@@ -328,14 +400,13 @@ namespace tft
             this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.button5.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button5.Location = new System.Drawing.Point(635, 4);
-            this.button5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button5.Margin = new System.Windows.Forms.Padding(2);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(96, 23);
             this.button5.TabIndex = 48;
             this.button5.Text = "setting load";
             this.toolTip1.SetToolTip(this.button5, "Load configuration");
             this.button5.UseVisualStyleBackColor = true;
-            this.button5.Visible = false;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // label16
@@ -407,7 +478,7 @@ namespace tft
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(10, 36);
+            this.label1.Location = new System.Drawing.Point(7, 160);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(71, 12);
             this.label1.TabIndex = 82;
@@ -419,7 +490,7 @@ namespace tft
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(10, 13);
+            this.label2.Location = new System.Drawing.Point(7, 132);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(87, 12);
             this.label2.TabIndex = 83;
@@ -540,6 +611,187 @@ namespace tft
             this.toolTip1.SetToolTip(this.comboBox4, "Select an identification ID for each univariate in the case of multivariate");
             this.comboBox4.TextChanged += new System.EventHandler(this.comboBox4_TextChanged);
             // 
+            // button36
+            // 
+            this.button36.BackColor = System.Drawing.Color.Lime;
+            this.button36.Location = new System.Drawing.Point(8, 96);
+            this.button36.Margin = new System.Windows.Forms.Padding(2);
+            this.button36.Name = "button36";
+            this.button36.Size = new System.Drawing.Size(21, 18);
+            this.button36.TabIndex = 211;
+            this.toolTip1.SetToolTip(this.button36, "パラメータリセット\r\n初期の値に戻します");
+            this.button36.UseVisualStyleBackColor = false;
+            this.button36.Click += new System.EventHandler(this.button36_Click);
+            // 
+            // checkBox9
+            // 
+            this.checkBox9.AutoSize = true;
+            this.checkBox9.Location = new System.Drawing.Point(12, 378);
+            this.checkBox9.Name = "checkBox9";
+            this.checkBox9.Size = new System.Drawing.Size(50, 16);
+            this.checkBox9.TabIndex = 206;
+            this.checkBox9.Text = "GPU";
+            this.toolTip1.SetToolTip(this.checkBox9, "GPUを使って計算速度を加速出来ます");
+            this.checkBox9.UseVisualStyleBackColor = true;
+            // 
+            // label56
+            // 
+            this.label56.AutoSize = true;
+            this.label56.Location = new System.Drawing.Point(66, 378);
+            this.label56.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label56.Name = "label56";
+            this.label56.Size = new System.Drawing.Size(45, 12);
+            this.label56.TabIndex = 204;
+            this.label56.Text = "n_gpus";
+            this.toolTip1.SetToolTip(this.label56, "GPUごとに1つのプロセスを使用する分散トレーニング\r\nシングルプロセスマルチGPUトレーニングはサポートされません。");
+            // 
+            // label57
+            // 
+            this.label57.AutoSize = true;
+            this.label57.Location = new System.Drawing.Point(222, 280);
+            this.label57.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label57.Name = "label57";
+            this.label57.Size = new System.Drawing.Size(50, 12);
+            this.label57.TabIndex = 202;
+            this.label57.Text = "nthread";
+            this.toolTip1.SetToolTip(this.label57, "マルチスレッドによるトレーニングを行います。");
+            // 
+            // label61
+            // 
+            this.label61.AutoSize = true;
+            this.label61.Location = new System.Drawing.Point(18, 328);
+            this.label61.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label61.Name = "label61";
+            this.label61.Size = new System.Drawing.Size(108, 12);
+            this.label61.TabIndex = 195;
+            this.label61.Text = "colsample_bytree";
+            this.toolTip1.SetToolTip(this.label61, "各木においてランダムに抽出される説明変数の割合\r\ndefault 0.8");
+            // 
+            // label62
+            // 
+            this.label62.AutoSize = true;
+            this.label62.Location = new System.Drawing.Point(18, 303);
+            this.label62.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label62.Name = "label62";
+            this.label62.Size = new System.Drawing.Size(47, 12);
+            this.label62.TabIndex = 193;
+            this.label62.Text = "lambda";
+            this.toolTip1.SetToolTip(this.label62, "決定木の葉の重みに関するL2正則化項を意味します。\r\n値を大きくすることで過学習を防止します。\r\ndefault 1.0");
+            // 
+            // label63
+            // 
+            this.label63.AutoSize = true;
+            this.label63.Location = new System.Drawing.Point(18, 277);
+            this.label63.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label63.Name = "label63";
+            this.label63.Size = new System.Drawing.Size(37, 12);
+            this.label63.TabIndex = 191;
+            this.label63.Text = "alpha";
+            this.toolTip1.SetToolTip(this.label63, "決定木の葉の重みに関するL1正則化項を意味します。\r\n値を大きくすることで過学習を防止します。\r\ndefault 0.0");
+            // 
+            // label64
+            // 
+            this.label64.AutoSize = true;
+            this.label64.Location = new System.Drawing.Point(188, 192);
+            this.label64.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label64.Name = "label64";
+            this.label64.Size = new System.Drawing.Size(67, 12);
+            this.label64.TabIndex = 189;
+            this.label64.Text = "max_depth";
+            this.toolTip1.SetToolTip(this.label64, "決定木の深さの最大値\r\n値が大きいとほどモデルが複雑になるため、過学習する可能性が高くなります。\r\ndefault 6");
+            // 
+            // label65
+            // 
+            this.label65.AutoSize = true;
+            this.label65.Location = new System.Drawing.Point(188, 168);
+            this.label65.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label65.Name = "label65";
+            this.label65.Size = new System.Drawing.Size(68, 12);
+            this.label65.TabIndex = 188;
+            this.label65.Text = "subsample";
+            this.toolTip1.SetToolTip(this.label65, "各決定木においてランダムに抽出される標本(データ)の割合を意味します。\r\n小さくすることで過学習を避けることができますが、保守的なモデルとなります。\r\ndefau" +
+        "lt 1.0");
+            // 
+            // label66
+            // 
+            this.label66.AutoSize = true;
+            this.label66.Location = new System.Drawing.Point(186, 144);
+            this.label66.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label66.Name = "label66";
+            this.label66.Size = new System.Drawing.Size(104, 12);
+            this.label66.TabIndex = 187;
+            this.label66.Text = "min_child_weight";
+            this.toolTip1.SetToolTip(this.label66, "分割中にノードの重みがこれを超えた時点で分割をやめる\r\ndefault 1.0");
+            // 
+            // label67
+            // 
+            this.label67.AutoSize = true;
+            this.label67.Location = new System.Drawing.Point(4, 225);
+            this.label67.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label67.Name = "label67";
+            this.label67.Size = new System.Drawing.Size(46, 12);
+            this.label67.TabIndex = 185;
+            this.label67.Text = "gamma";
+            this.toolTip1.SetToolTip(this.label67, "損失関数の減少がこの値を超える時にのみ分割を進める\r\ndefault 0.0");
+            // 
+            // label68
+            // 
+            this.label68.AutoSize = true;
+            this.label68.Location = new System.Drawing.Point(3, 168);
+            this.label68.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label68.Name = "label68";
+            this.label68.Size = new System.Drawing.Size(24, 12);
+            this.label68.TabIndex = 183;
+            this.label68.Text = "eta";
+            this.toolTip1.SetToolTip(this.label68, "学習幅（学習率）。[0,1]の値をとる。値が小さいと学習が進みにくい.\r\n小さくすると、モデルの分類性を高めることが可能です。\r\n過学習が進み精度が悪化する恐れが" +
+        "あります。\r\ndefault:0.1");
+            // 
+            // label69
+            // 
+            this.label69.AutoSize = true;
+            this.label69.Location = new System.Drawing.Point(3, 149);
+            this.label69.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label69.Name = "label69";
+            this.label69.Size = new System.Drawing.Size(73, 12);
+            this.label69.TabIndex = 182;
+            this.label69.Text = "eval_metric";
+            this.toolTip1.SetToolTip(this.label69, resources.GetString("label69.ToolTip"));
+            // 
+            // label70
+            // 
+            this.label70.AutoSize = true;
+            this.label70.Location = new System.Drawing.Point(188, 118);
+            this.label70.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label70.Name = "label70";
+            this.label70.Size = new System.Drawing.Size(60, 12);
+            this.label70.TabIndex = 180;
+            this.label70.Text = "objective";
+            this.toolTip1.SetToolTip(this.label70, "最小化させるべき損失関数を指定します。\r\n・reg:linear(線形回帰)\r\n・reg:logistic(ロジスティック回帰)\r\n・binary:logisti" +
+        "c(2項分類で確率を返す)\r\n・multi:softmax(多項分類でクラスの値を返す)\r\nmulti:softmaxを指定した場合、num_classの指定が" +
+        "必要となります。");
+            // 
+            // label71
+            // 
+            this.label71.AutoSize = true;
+            this.label71.Location = new System.Drawing.Point(4, 121);
+            this.label71.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label71.Name = "label71";
+            this.label71.Size = new System.Drawing.Size(50, 12);
+            this.label71.TabIndex = 178;
+            this.label71.Text = "booster";
+            this.toolTip1.SetToolTip(this.label71, "実行するモデルのタイプをツリーモデルか線形モデルのどちらかを指定できます。");
+            // 
+            // label74
+            // 
+            this.label74.AutoSize = true;
+            this.label74.Location = new System.Drawing.Point(4, 55);
+            this.label74.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label74.Name = "label74";
+            this.label74.Size = new System.Drawing.Size(85, 12);
+            this.label74.TabIndex = 172;
+            this.label74.Text = "max iteration";
+            this.toolTip1.SetToolTip(this.label74, "ブースティングを行う回数(決定木の本数)です。\r\nクロスバリデーションを行うことで最適なブースティング回数を求めることができます。");
+            // 
             // listBox4
             // 
             this.listBox4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -558,7 +810,7 @@ namespace tft
             this.panel7.Controls.Add(this.panel8);
             this.panel7.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel7.Location = new System.Drawing.Point(0, 0);
-            this.panel7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel7.Margin = new System.Windows.Forms.Padding(2);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(742, 624);
             this.panel7.TabIndex = 76;
@@ -574,7 +826,7 @@ namespace tft
             this.panel9.Controls.Add(this.panel10);
             this.panel9.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel9.Location = new System.Drawing.Point(0, 116);
-            this.panel9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel9.Margin = new System.Windows.Forms.Padding(2);
             this.panel9.Name = "panel9";
             this.panel9.Size = new System.Drawing.Size(742, 508);
             this.panel9.TabIndex = 1;
@@ -586,7 +838,7 @@ namespace tft
             this.panel13.Controls.Add(this.panel17);
             this.panel13.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel13.Location = new System.Drawing.Point(547, 0);
-            this.panel13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel13.Margin = new System.Windows.Forms.Padding(2);
             this.panel13.Name = "panel13";
             this.panel13.Size = new System.Drawing.Size(181, 508);
             this.panel13.TabIndex = 6;
@@ -606,7 +858,7 @@ namespace tft
             // 
             this.splitter13.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter13.Location = new System.Drawing.Point(0, 28);
-            this.splitter13.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter13.Margin = new System.Windows.Forms.Padding(2);
             this.splitter13.Name = "splitter13";
             this.splitter13.Size = new System.Drawing.Size(181, 2);
             this.splitter13.TabIndex = 3;
@@ -617,7 +869,7 @@ namespace tft
             this.panel17.Controls.Add(this.label3);
             this.panel17.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel17.Location = new System.Drawing.Point(0, 0);
-            this.panel17.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel17.Margin = new System.Windows.Forms.Padding(2);
             this.panel17.Name = "panel17";
             this.panel17.Size = new System.Drawing.Size(181, 28);
             this.panel17.TabIndex = 2;
@@ -625,7 +877,7 @@ namespace tft
             // splitter9
             // 
             this.splitter9.Location = new System.Drawing.Point(545, 0);
-            this.splitter9.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter9.Margin = new System.Windows.Forms.Padding(2);
             this.splitter9.Name = "splitter9";
             this.splitter9.Size = new System.Drawing.Size(2, 508);
             this.splitter9.TabIndex = 5;
@@ -638,7 +890,7 @@ namespace tft
             this.panel12.Controls.Add(this.panel16);
             this.panel12.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel12.Location = new System.Drawing.Point(367, 0);
-            this.panel12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel12.Margin = new System.Windows.Forms.Padding(2);
             this.panel12.Name = "panel12";
             this.panel12.Size = new System.Drawing.Size(178, 508);
             this.panel12.TabIndex = 4;
@@ -647,7 +899,7 @@ namespace tft
             // 
             this.splitter12.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter12.Location = new System.Drawing.Point(0, 28);
-            this.splitter12.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter12.Margin = new System.Windows.Forms.Padding(2);
             this.splitter12.Name = "splitter12";
             this.splitter12.Size = new System.Drawing.Size(178, 2);
             this.splitter12.TabIndex = 3;
@@ -658,7 +910,7 @@ namespace tft
             this.panel16.Controls.Add(this.label14);
             this.panel16.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel16.Location = new System.Drawing.Point(0, 0);
-            this.panel16.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel16.Margin = new System.Windows.Forms.Padding(2);
             this.panel16.Name = "panel16";
             this.panel16.Size = new System.Drawing.Size(178, 28);
             this.panel16.TabIndex = 2;
@@ -666,7 +918,7 @@ namespace tft
             // splitter8
             // 
             this.splitter8.Location = new System.Drawing.Point(365, 0);
-            this.splitter8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter8.Margin = new System.Windows.Forms.Padding(2);
             this.splitter8.Name = "splitter8";
             this.splitter8.Size = new System.Drawing.Size(2, 508);
             this.splitter8.TabIndex = 3;
@@ -679,7 +931,7 @@ namespace tft
             this.panel11.Controls.Add(this.panel15);
             this.panel11.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel11.Location = new System.Drawing.Point(183, 0);
-            this.panel11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel11.Margin = new System.Windows.Forms.Padding(2);
             this.panel11.Name = "panel11";
             this.panel11.Size = new System.Drawing.Size(182, 508);
             this.panel11.TabIndex = 2;
@@ -688,7 +940,7 @@ namespace tft
             // 
             this.splitter11.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter11.Location = new System.Drawing.Point(0, 28);
-            this.splitter11.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter11.Margin = new System.Windows.Forms.Padding(2);
             this.splitter11.Name = "splitter11";
             this.splitter11.Size = new System.Drawing.Size(182, 2);
             this.splitter11.TabIndex = 3;
@@ -700,7 +952,7 @@ namespace tft
             this.panel15.Controls.Add(this.label11);
             this.panel15.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel15.Location = new System.Drawing.Point(0, 0);
-            this.panel15.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel15.Margin = new System.Windows.Forms.Padding(2);
             this.panel15.Name = "panel15";
             this.panel15.Size = new System.Drawing.Size(182, 28);
             this.panel15.TabIndex = 2;
@@ -719,7 +971,7 @@ namespace tft
             // splitter7
             // 
             this.splitter7.Location = new System.Drawing.Point(181, 0);
-            this.splitter7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter7.Margin = new System.Windows.Forms.Padding(2);
             this.splitter7.Name = "splitter7";
             this.splitter7.Size = new System.Drawing.Size(2, 508);
             this.splitter7.TabIndex = 1;
@@ -732,7 +984,7 @@ namespace tft
             this.panel10.Controls.Add(this.panel14);
             this.panel10.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel10.Location = new System.Drawing.Point(0, 0);
-            this.panel10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel10.Margin = new System.Windows.Forms.Padding(2);
             this.panel10.Name = "panel10";
             this.panel10.Size = new System.Drawing.Size(181, 508);
             this.panel10.TabIndex = 0;
@@ -741,7 +993,7 @@ namespace tft
             // 
             this.splitter10.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter10.Location = new System.Drawing.Point(0, 28);
-            this.splitter10.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter10.Margin = new System.Windows.Forms.Padding(2);
             this.splitter10.Name = "splitter10";
             this.splitter10.Size = new System.Drawing.Size(181, 2);
             this.splitter10.TabIndex = 1;
@@ -753,7 +1005,7 @@ namespace tft
             this.panel14.Controls.Add(this.label16);
             this.panel14.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel14.Location = new System.Drawing.Point(0, 0);
-            this.panel14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel14.Margin = new System.Windows.Forms.Padding(2);
             this.panel14.Name = "panel14";
             this.panel14.Size = new System.Drawing.Size(181, 28);
             this.panel14.TabIndex = 0;
@@ -774,7 +1026,7 @@ namespace tft
             this.splitter6.Cursor = System.Windows.Forms.Cursors.HSplit;
             this.splitter6.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter6.Location = new System.Drawing.Point(0, 108);
-            this.splitter6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter6.Margin = new System.Windows.Forms.Padding(2);
             this.splitter6.Name = "splitter6";
             this.splitter6.Size = new System.Drawing.Size(742, 8);
             this.splitter6.TabIndex = 2;
@@ -790,7 +1042,7 @@ namespace tft
             this.panel8.Controls.Add(this.button4);
             this.panel8.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel8.Location = new System.Drawing.Point(0, 0);
-            this.panel8.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel8.Margin = new System.Windows.Forms.Padding(2);
             this.panel8.Name = "panel8";
             this.panel8.Size = new System.Drawing.Size(742, 108);
             this.panel8.TabIndex = 0;
@@ -807,9 +1059,9 @@ namespace tft
             this.groupBox3.Controls.Add(this.label19);
             this.groupBox3.Controls.Add(this.comboBox4);
             this.groupBox3.Location = new System.Drawing.Point(2, 30);
-            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox3.Size = new System.Drawing.Size(766, 46);
             this.groupBox3.TabIndex = 76;
             this.groupBox3.TabStop = false;
@@ -879,7 +1131,7 @@ namespace tft
             // splitter14
             // 
             this.splitter14.Location = new System.Drawing.Point(742, 0);
-            this.splitter14.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.splitter14.Margin = new System.Windows.Forms.Padding(2);
             this.splitter14.Name = "splitter14";
             this.splitter14.Size = new System.Drawing.Size(9, 624);
             this.splitter14.TabIndex = 77;
@@ -889,7 +1141,7 @@ namespace tft
             // 
             this.button2.BackColor = System.Drawing.Color.LightSteelBlue;
             this.button2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.Location = new System.Drawing.Point(13, 60);
+            this.button2.Location = new System.Drawing.Point(9, 218);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(204, 23);
             this.button2.TabIndex = 78;
@@ -911,7 +1163,7 @@ namespace tft
             // 
             // textBox2
             // 
-            this.textBox2.Location = new System.Drawing.Point(110, 6);
+            this.textBox2.Location = new System.Drawing.Point(107, 125);
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(106, 19);
             this.textBox2.TabIndex = 80;
@@ -919,7 +1171,7 @@ namespace tft
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(110, 38);
+            this.textBox3.Location = new System.Drawing.Point(107, 157);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(106, 19);
             this.textBox3.TabIndex = 81;
@@ -931,22 +1183,25 @@ namespace tft
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(751, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(535, 624);
+            this.panel1.Size = new System.Drawing.Size(530, 624);
             this.panel1.TabIndex = 85;
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Controls.Add(this.tabPage8);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(535, 624);
+            this.tabControl1.Size = new System.Drawing.Size(530, 624);
             this.tabControl1.TabIndex = 0;
             this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
             // 
@@ -958,8 +1213,8 @@ namespace tft
             this.tabPage1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage1.Size = new System.Drawing.Size(527, 598);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(522, 598);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Horizontal -> Vertical";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -968,10 +1223,10 @@ namespace tft
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = global::melt_join.Properties.Resources.image00;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 147);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox1.Location = new System.Drawing.Point(3, 250);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(521, 448);
+            this.pictureBox1.Size = new System.Drawing.Size(516, 345);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 88;
             this.pictureBox1.TabStop = false;
@@ -979,14 +1234,15 @@ namespace tft
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter2.Location = new System.Drawing.Point(3, 144);
+            this.splitter2.Location = new System.Drawing.Point(3, 247);
             this.splitter2.Name = "splitter2";
-            this.splitter2.Size = new System.Drawing.Size(521, 3);
+            this.splitter2.Size = new System.Drawing.Size(516, 3);
             this.splitter2.TabIndex = 87;
             this.splitter2.TabStop = false;
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.groupBox7);
             this.panel3.Controls.Add(this.button2);
             this.panel3.Controls.Add(this.textBox2);
             this.panel3.Controls.Add(this.textBox3);
@@ -995,8 +1251,102 @@ namespace tft
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(521, 141);
+            this.panel3.Size = new System.Drawing.Size(516, 244);
             this.panel3.TabIndex = 86;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.label53);
+            this.groupBox7.Controls.Add(this.textBox18);
+            this.groupBox7.Controls.Add(this.label52);
+            this.groupBox7.Controls.Add(this.numericUpDown8);
+            this.groupBox7.Controls.Add(this.label51);
+            this.groupBox7.Controls.Add(this.numericUpDown7);
+            this.groupBox7.Location = new System.Drawing.Point(3, 7);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(268, 104);
+            this.groupBox7.TabIndex = 29;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "add colmun";
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(14, 80);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(44, 12);
+            this.label53.TabIndex = 5;
+            this.label53.Text = "format";
+            // 
+            // textBox18
+            // 
+            this.textBox18.Location = new System.Drawing.Point(104, 73);
+            this.textBox18.Name = "textBox18";
+            this.textBox18.Size = new System.Drawing.Size(120, 19);
+            this.textBox18.TabIndex = 4;
+            this.textBox18.Text = "d_%d";
+            // 
+            // label52
+            // 
+            this.label52.AutoSize = true;
+            this.label52.Location = new System.Drawing.Point(14, 50);
+            this.label52.Name = "label52";
+            this.label52.Size = new System.Drawing.Size(74, 12);
+            this.label52.TabIndex = 3;
+            this.label52.Text = "add number";
+            // 
+            // numericUpDown8
+            // 
+            this.numericUpDown8.Location = new System.Drawing.Point(104, 48);
+            this.numericUpDown8.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown8.Name = "numericUpDown8";
+            this.numericUpDown8.Size = new System.Drawing.Size(120, 19);
+            this.numericUpDown8.TabIndex = 2;
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(14, 20);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(84, 12);
+            this.label51.TabIndex = 1;
+            this.label51.Text = "inital number";
+            // 
+            // numericUpDown7
+            // 
+            this.numericUpDown7.Location = new System.Drawing.Point(104, 18);
+            this.numericUpDown7.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown7.Name = "numericUpDown7";
+            this.numericUpDown7.Size = new System.Drawing.Size(120, 19);
+            this.numericUpDown7.TabIndex = 0;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.button35);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Size = new System.Drawing.Size(522, 598);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "delete columns";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // button35
+            // 
+            this.button35.Location = new System.Drawing.Point(29, 50);
+            this.button35.Name = "button35";
+            this.button35.Size = new System.Drawing.Size(75, 23);
+            this.button35.TabIndex = 0;
+            this.button35.Text = "execute";
+            this.button35.UseVisualStyleBackColor = true;
+            this.button35.Click += new System.EventHandler(this.button35_Click);
             // 
             // tabPage2
             // 
@@ -1006,8 +1356,8 @@ namespace tft
             this.tabPage2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
-            this.tabPage2.Size = new System.Drawing.Size(527, 598);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(522, 598);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Merge";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1017,9 +1367,9 @@ namespace tft
             this.pictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox3.Image = global::melt_join.Properties.Resources.image01;
             this.pictureBox3.Location = new System.Drawing.Point(3, 154);
-            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pictureBox3.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(521, 441);
+            this.pictureBox3.Size = new System.Drawing.Size(516, 441);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 88;
             this.pictureBox3.TabStop = false;
@@ -1029,7 +1379,7 @@ namespace tft
             this.splitter1.Dock = System.Windows.Forms.DockStyle.Top;
             this.splitter1.Location = new System.Drawing.Point(3, 151);
             this.splitter1.Name = "splitter1";
-            this.splitter1.Size = new System.Drawing.Size(521, 3);
+            this.splitter1.Size = new System.Drawing.Size(516, 3);
             this.splitter1.TabIndex = 87;
             this.splitter1.TabStop = false;
             // 
@@ -1041,7 +1391,7 @@ namespace tft
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(521, 148);
+            this.panel2.Size = new System.Drawing.Size(516, 148);
             this.panel2.TabIndex = 86;
             // 
             // tabPage3
@@ -1062,7 +1412,7 @@ namespace tft
             this.tabPage3.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(528, 598);
+            this.tabPage3.Size = new System.Drawing.Size(522, 598);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "type";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1176,7 +1526,7 @@ namespace tft
             this.tabPage4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(527, 598);
+            this.tabPage4.Size = new System.Drawing.Size(522, 598);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Feature value setting";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1194,7 +1544,7 @@ namespace tft
             // button32
             // 
             this.button32.Location = new System.Drawing.Point(126, 454);
-            this.button32.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button32.Margin = new System.Windows.Forms.Padding(2);
             this.button32.Name = "button32";
             this.button32.Size = new System.Drawing.Size(47, 20);
             this.button32.TabIndex = 126;
@@ -1215,7 +1565,7 @@ namespace tft
             // button31
             // 
             this.button31.Location = new System.Drawing.Point(125, 429);
-            this.button31.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button31.Margin = new System.Windows.Forms.Padding(2);
             this.button31.Name = "button31";
             this.button31.Size = new System.Drawing.Size(47, 20);
             this.button31.TabIndex = 124;
@@ -1246,7 +1596,7 @@ namespace tft
             // button30
             // 
             this.button30.Location = new System.Drawing.Point(126, 404);
-            this.button30.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button30.Margin = new System.Windows.Forms.Padding(2);
             this.button30.Name = "button30";
             this.button30.Size = new System.Drawing.Size(47, 20);
             this.button30.TabIndex = 120;
@@ -1267,7 +1617,7 @@ namespace tft
             // button29
             // 
             this.button29.Location = new System.Drawing.Point(126, 379);
-            this.button29.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button29.Margin = new System.Windows.Forms.Padding(2);
             this.button29.Name = "button29";
             this.button29.Size = new System.Drawing.Size(47, 20);
             this.button29.TabIndex = 118;
@@ -1288,7 +1638,7 @@ namespace tft
             // button28
             // 
             this.button28.Location = new System.Drawing.Point(125, 358);
-            this.button28.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button28.Margin = new System.Windows.Forms.Padding(2);
             this.button28.Name = "button28";
             this.button28.Size = new System.Drawing.Size(47, 20);
             this.button28.TabIndex = 116;
@@ -1309,7 +1659,7 @@ namespace tft
             // button27
             // 
             this.button27.Location = new System.Drawing.Point(126, 333);
-            this.button27.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button27.Margin = new System.Windows.Forms.Padding(2);
             this.button27.Name = "button27";
             this.button27.Size = new System.Drawing.Size(47, 20);
             this.button27.TabIndex = 114;
@@ -1330,7 +1680,7 @@ namespace tft
             // button26
             // 
             this.button26.Location = new System.Drawing.Point(126, 308);
-            this.button26.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button26.Margin = new System.Windows.Forms.Padding(2);
             this.button26.Name = "button26";
             this.button26.Size = new System.Drawing.Size(47, 20);
             this.button26.TabIndex = 112;
@@ -1352,7 +1702,7 @@ namespace tft
             // button25
             // 
             this.button25.Location = new System.Drawing.Point(126, 283);
-            this.button25.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button25.Margin = new System.Windows.Forms.Padding(2);
             this.button25.Name = "button25";
             this.button25.Size = new System.Drawing.Size(47, 20);
             this.button25.TabIndex = 110;
@@ -1363,7 +1713,7 @@ namespace tft
             // button24
             // 
             this.button24.Location = new System.Drawing.Point(126, 255);
-            this.button24.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button24.Margin = new System.Windows.Forms.Padding(2);
             this.button24.Name = "button24";
             this.button24.Size = new System.Drawing.Size(47, 20);
             this.button24.TabIndex = 108;
@@ -1384,7 +1734,7 @@ namespace tft
             // button23
             // 
             this.button23.Location = new System.Drawing.Point(126, 229);
-            this.button23.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button23.Margin = new System.Windows.Forms.Padding(2);
             this.button23.Name = "button23";
             this.button23.Size = new System.Drawing.Size(47, 20);
             this.button23.TabIndex = 106;
@@ -1405,7 +1755,7 @@ namespace tft
             // button22
             // 
             this.button22.Location = new System.Drawing.Point(126, 203);
-            this.button22.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button22.Margin = new System.Windows.Forms.Padding(2);
             this.button22.Name = "button22";
             this.button22.Size = new System.Drawing.Size(47, 20);
             this.button22.TabIndex = 104;
@@ -1431,9 +1781,9 @@ namespace tft
             this.groupBox2.Controls.Add(this.button17);
             this.groupBox2.Controls.Add(this.button18);
             this.groupBox2.Location = new System.Drawing.Point(2, 39);
-            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox2.Size = new System.Drawing.Size(239, 152);
             this.groupBox2.TabIndex = 103;
             this.groupBox2.TabStop = false;
@@ -1466,7 +1816,7 @@ namespace tft
             this.checkBox5.Checked = true;
             this.checkBox5.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox5.Location = new System.Drawing.Point(194, 126);
-            this.checkBox5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox5.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox5.Name = "checkBox5";
             this.checkBox5.Size = new System.Drawing.Size(42, 16);
             this.checkBox5.TabIndex = 102;
@@ -1501,7 +1851,7 @@ namespace tft
             this.checkBox4.Checked = true;
             this.checkBox4.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox4.Location = new System.Drawing.Point(194, 101);
-            this.checkBox4.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox4.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox4.Name = "checkBox4";
             this.checkBox4.Size = new System.Drawing.Size(42, 16);
             this.checkBox4.TabIndex = 101;
@@ -1523,7 +1873,7 @@ namespace tft
             this.checkBox3.Checked = true;
             this.checkBox3.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox3.Location = new System.Drawing.Point(194, 74);
-            this.checkBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox3.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox3.Name = "checkBox3";
             this.checkBox3.Size = new System.Drawing.Size(42, 16);
             this.checkBox3.TabIndex = 100;
@@ -1546,7 +1896,7 @@ namespace tft
             this.checkBox2.Checked = true;
             this.checkBox2.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox2.Location = new System.Drawing.Point(194, 50);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox2.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox2.Name = "checkBox2";
             this.checkBox2.Size = new System.Drawing.Size(42, 16);
             this.checkBox2.TabIndex = 99;
@@ -1612,9 +1962,9 @@ namespace tft
             this.groupBox1.Controls.Add(this.textBox9);
             this.groupBox1.Controls.Add(this.label21);
             this.groupBox1.Location = new System.Drawing.Point(255, 98);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
             this.groupBox1.Size = new System.Drawing.Size(191, 94);
             this.groupBox1.TabIndex = 98;
             this.groupBox1.TabStop = false;
@@ -1626,7 +1976,7 @@ namespace tft
             this.checkBox1.Checked = true;
             this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
             this.checkBox1.Location = new System.Drawing.Point(4, 17);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.checkBox1.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(58, 16);
             this.checkBox1.TabIndex = 98;
@@ -1733,6 +2083,7 @@ namespace tft
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.groupBox6);
             this.tabPage5.Controls.Add(this.groupBox5);
             this.tabPage5.Controls.Add(this.groupBox4);
             this.tabPage5.Controls.Add(this.label41);
@@ -1742,11 +2093,44 @@ namespace tft
             this.tabPage5.Controls.Add(this.textBox10);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(527, 598);
+            this.tabPage5.Size = new System.Drawing.Size(522, 598);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "data split";
             this.tabPage5.UseVisualStyleBackColor = true;
             this.tabPage5.Click += new System.EventHandler(this.tabPage5_Click);
+            // 
+            // groupBox6
+            // 
+            this.groupBox6.Controls.Add(this.radioButton2);
+            this.groupBox6.Controls.Add(this.radioButton1);
+            this.groupBox6.Location = new System.Drawing.Point(23, 348);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(287, 49);
+            this.groupBox6.TabIndex = 28;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Extended explanatory variables";
+            // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(118, 18);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(76, 16);
+            this.radioButton2.TabIndex = 28;
+            this.radioButton2.Text = "sampling";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Checked = true;
+            this.radioButton1.Location = new System.Drawing.Point(7, 18);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(99, 16);
+            this.radioButton1.TabIndex = 27;
+            this.radioButton1.TabStop = true;
+            this.radioButton1.Text = "zero padding";
+            this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // groupBox5
             // 
@@ -1774,6 +2158,66 @@ namespace tft
             this.groupBox5.TabIndex = 24;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Section setting";
+            // 
+            // label49
+            // 
+            this.label49.AutoSize = true;
+            this.label49.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label49.Location = new System.Drawing.Point(407, 109);
+            this.label49.Name = "label49";
+            this.label49.Size = new System.Drawing.Size(44, 11);
+            this.label49.TabIndex = 26;
+            this.label49.Text = "label49";
+            // 
+            // label50
+            // 
+            this.label50.AutoSize = true;
+            this.label50.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label50.Location = new System.Drawing.Point(161, 113);
+            this.label50.Name = "label50";
+            this.label50.Size = new System.Drawing.Size(44, 11);
+            this.label50.TabIndex = 25;
+            this.label50.Text = "label50";
+            // 
+            // label47
+            // 
+            this.label47.AutoSize = true;
+            this.label47.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label47.Location = new System.Drawing.Point(407, 64);
+            this.label47.Name = "label47";
+            this.label47.Size = new System.Drawing.Size(44, 11);
+            this.label47.TabIndex = 24;
+            this.label47.Text = "label47";
+            // 
+            // label48
+            // 
+            this.label48.AutoSize = true;
+            this.label48.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label48.Location = new System.Drawing.Point(161, 66);
+            this.label48.Name = "label48";
+            this.label48.Size = new System.Drawing.Size(44, 11);
+            this.label48.TabIndex = 23;
+            this.label48.Text = "label48";
+            // 
+            // label46
+            // 
+            this.label46.AutoSize = true;
+            this.label46.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label46.Location = new System.Drawing.Point(407, 18);
+            this.label46.Name = "label46";
+            this.label46.Size = new System.Drawing.Size(44, 11);
+            this.label46.TabIndex = 22;
+            this.label46.Text = "label46";
+            // 
+            // label45
+            // 
+            this.label45.AutoSize = true;
+            this.label45.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label45.Location = new System.Drawing.Point(161, 17);
+            this.label45.Name = "label45";
+            this.label45.Size = new System.Drawing.Size(44, 11);
+            this.label45.TabIndex = 21;
+            this.label45.Text = "label45";
             // 
             // textBox16
             // 
@@ -1997,7 +2441,7 @@ namespace tft
             // 
             // button33
             // 
-            this.button33.Location = new System.Drawing.Point(22, 379);
+            this.button33.Location = new System.Drawing.Point(29, 417);
             this.button33.Name = "button33";
             this.button33.Size = new System.Drawing.Size(130, 23);
             this.button33.TabIndex = 9;
@@ -2019,71 +2463,461 @@ namespace tft
             this.textBox10.Size = new System.Drawing.Size(157, 19);
             this.textBox10.TabIndex = 1;
             // 
-            // label45
+            // tabPage7
             // 
-            this.label45.AutoSize = true;
-            this.label45.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label45.Location = new System.Drawing.Point(161, 17);
-            this.label45.Name = "label45";
-            this.label45.Size = new System.Drawing.Size(44, 11);
-            this.label45.TabIndex = 21;
-            this.label45.Text = "label45";
+            this.tabPage7.Controls.Add(this.label54);
+            this.tabPage7.Controls.Add(this.numericUpDown9);
+            this.tabPage7.Controls.Add(this.button38);
+            this.tabPage7.Controls.Add(this.button37);
+            this.tabPage7.Controls.Add(this.groupBox8);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(522, 598);
+            this.tabPage7.TabIndex = 6;
+            this.tabPage7.Text = "tabPage7";
+            this.tabPage7.UseVisualStyleBackColor = true;
             // 
-            // label46
+            // button38
             // 
-            this.label46.AutoSize = true;
-            this.label46.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label46.Location = new System.Drawing.Point(407, 18);
-            this.label46.Name = "label46";
-            this.label46.Size = new System.Drawing.Size(44, 11);
-            this.label46.TabIndex = 22;
-            this.label46.Text = "label46";
+            this.button38.Location = new System.Drawing.Point(18, 468);
+            this.button38.Name = "button38";
+            this.button38.Size = new System.Drawing.Size(75, 23);
+            this.button38.TabIndex = 2;
+            this.button38.Text = "button38";
+            this.button38.UseVisualStyleBackColor = true;
+            this.button38.Click += new System.EventHandler(this.button38_Click);
             // 
-            // label47
+            // button37
             // 
-            this.label47.AutoSize = true;
-            this.label47.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label47.Location = new System.Drawing.Point(407, 64);
-            this.label47.Name = "label47";
-            this.label47.Size = new System.Drawing.Size(44, 11);
-            this.label47.TabIndex = 24;
-            this.label47.Text = "label47";
+            this.button37.Location = new System.Drawing.Point(18, 430);
+            this.button37.Name = "button37";
+            this.button37.Size = new System.Drawing.Size(75, 23);
+            this.button37.TabIndex = 1;
+            this.button37.Text = "button37";
+            this.button37.UseVisualStyleBackColor = true;
+            this.button37.Click += new System.EventHandler(this.button37_Click);
             // 
-            // label48
+            // groupBox8
             // 
-            this.label48.AutoSize = true;
-            this.label48.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label48.Location = new System.Drawing.Point(161, 66);
-            this.label48.Name = "label48";
-            this.label48.Size = new System.Drawing.Size(44, 11);
-            this.label48.TabIndex = 23;
-            this.label48.Text = "label48";
+            this.groupBox8.Controls.Add(this.label55);
+            this.groupBox8.Controls.Add(this.comboBox6);
+            this.groupBox8.Controls.Add(this.button36);
+            this.groupBox8.Controls.Add(this.textBox19);
+            this.groupBox8.Controls.Add(this.textBox20);
+            this.groupBox8.Controls.Add(this.checkBox9);
+            this.groupBox8.Controls.Add(this.numericUpDown11);
+            this.groupBox8.Controls.Add(this.label56);
+            this.groupBox8.Controls.Add(this.numericUpDown12);
+            this.groupBox8.Controls.Add(this.label57);
+            this.groupBox8.Controls.Add(this.numericUpDown13);
+            this.groupBox8.Controls.Add(this.label60);
+            this.groupBox8.Controls.Add(this.textBox21);
+            this.groupBox8.Controls.Add(this.label61);
+            this.groupBox8.Controls.Add(this.textBox22);
+            this.groupBox8.Controls.Add(this.label62);
+            this.groupBox8.Controls.Add(this.textBox23);
+            this.groupBox8.Controls.Add(this.label63);
+            this.groupBox8.Controls.Add(this.numericUpDown14);
+            this.groupBox8.Controls.Add(this.label64);
+            this.groupBox8.Controls.Add(this.label65);
+            this.groupBox8.Controls.Add(this.label66);
+            this.groupBox8.Controls.Add(this.textBox24);
+            this.groupBox8.Controls.Add(this.label67);
+            this.groupBox8.Controls.Add(this.textBox25);
+            this.groupBox8.Controls.Add(this.label68);
+            this.groupBox8.Controls.Add(this.label69);
+            this.groupBox8.Controls.Add(this.comboBox8);
+            this.groupBox8.Controls.Add(this.label70);
+            this.groupBox8.Controls.Add(this.comboBox9);
+            this.groupBox8.Controls.Add(this.label71);
+            this.groupBox8.Controls.Add(this.comboBox10);
+            this.groupBox8.Controls.Add(this.label72);
+            this.groupBox8.Controls.Add(this.numericUpDown15);
+            this.groupBox8.Controls.Add(this.label73);
+            this.groupBox8.Controls.Add(this.numericUpDown16);
+            this.groupBox8.Controls.Add(this.label74);
+            this.groupBox8.Controls.Add(this.numericUpDown17);
+            this.groupBox8.Controls.Add(this.checkBox10);
+            this.groupBox8.Location = new System.Drawing.Point(3, 8);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(367, 402);
+            this.groupBox8.TabIndex = 0;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "hyper parameter";
             // 
-            // label49
+            // label55
             // 
-            this.label49.AutoSize = true;
-            this.label49.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label49.Location = new System.Drawing.Point(407, 109);
-            this.label49.Name = "label49";
-            this.label49.Size = new System.Drawing.Size(44, 11);
-            this.label49.TabIndex = 26;
-            this.label49.Text = "label49";
+            this.label55.AutoSize = true;
+            this.label55.Location = new System.Drawing.Point(3, 192);
+            this.label55.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label55.Name = "label55";
+            this.label55.Size = new System.Drawing.Size(77, 12);
+            this.label55.TabIndex = 214;
+            this.label55.Text = "tree_method";
             // 
-            // label50
+            // comboBox6
             // 
-            this.label50.AutoSize = true;
-            this.label50.Font = new System.Drawing.Font("MS UI Gothic", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label50.Location = new System.Drawing.Point(161, 113);
-            this.label50.Name = "label50";
-            this.label50.Size = new System.Drawing.Size(44, 11);
-            this.label50.TabIndex = 25;
-            this.label50.Text = "label50";
+            this.comboBox6.FormattingEnabled = true;
+            this.comboBox6.Items.AddRange(new object[] {
+            "\'auto\'",
+            "\'exact\'",
+            "\'approx\'",
+            "\'hist\'",
+            "\'gpu_hist\'"});
+            this.comboBox6.Location = new System.Drawing.Point(89, 189);
+            this.comboBox6.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox6.Name = "comboBox6";
+            this.comboBox6.Size = new System.Drawing.Size(86, 20);
+            this.comboBox6.TabIndex = 213;
+            this.comboBox6.Text = "\"auto\"";
+            // 
+            // textBox19
+            // 
+            this.textBox19.Location = new System.Drawing.Point(294, 141);
+            this.textBox19.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox19.Name = "textBox19";
+            this.textBox19.Size = new System.Drawing.Size(63, 19);
+            this.textBox19.TabIndex = 210;
+            this.textBox19.Text = "1.0";
+            // 
+            // textBox20
+            // 
+            this.textBox20.Location = new System.Drawing.Point(294, 165);
+            this.textBox20.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox20.Name = "textBox20";
+            this.textBox20.Size = new System.Drawing.Size(64, 19);
+            this.textBox20.TabIndex = 207;
+            this.textBox20.Text = "1";
+            // 
+            // numericUpDown11
+            // 
+            this.numericUpDown11.Location = new System.Drawing.Point(128, 376);
+            this.numericUpDown11.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown11.Maximum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            this.numericUpDown11.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown11.Name = "numericUpDown11";
+            this.numericUpDown11.Size = new System.Drawing.Size(62, 19);
+            this.numericUpDown11.TabIndex = 205;
+            this.numericUpDown11.Value = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown12
+            // 
+            this.numericUpDown12.Location = new System.Drawing.Point(276, 277);
+            this.numericUpDown12.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown12.Maximum = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            this.numericUpDown12.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown12.Name = "numericUpDown12";
+            this.numericUpDown12.Size = new System.Drawing.Size(58, 19);
+            this.numericUpDown12.TabIndex = 203;
+            this.numericUpDown12.Value = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown13
+            // 
+            this.numericUpDown13.Location = new System.Drawing.Point(128, 349);
+            this.numericUpDown13.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown13.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown13.Name = "numericUpDown13";
+            this.numericUpDown13.Size = new System.Drawing.Size(58, 19);
+            this.numericUpDown13.TabIndex = 198;
+            this.numericUpDown13.Visible = false;
+            // 
+            // label60
+            // 
+            this.label60.AutoSize = true;
+            this.label60.Location = new System.Drawing.Point(18, 351);
+            this.label60.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label60.Name = "label60";
+            this.label60.Size = new System.Drawing.Size(66, 12);
+            this.label60.TabIndex = 197;
+            this.label60.Text = "num_class";
+            this.label60.Visible = false;
+            // 
+            // textBox21
+            // 
+            this.textBox21.Location = new System.Drawing.Point(128, 325);
+            this.textBox21.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox21.Name = "textBox21";
+            this.textBox21.Size = new System.Drawing.Size(60, 19);
+            this.textBox21.TabIndex = 196;
+            this.textBox21.Text = "1.0";
+            // 
+            // textBox22
+            // 
+            this.textBox22.Location = new System.Drawing.Point(128, 300);
+            this.textBox22.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox22.Name = "textBox22";
+            this.textBox22.Size = new System.Drawing.Size(60, 19);
+            this.textBox22.TabIndex = 194;
+            this.textBox22.Text = "1.0";
+            // 
+            // textBox23
+            // 
+            this.textBox23.Location = new System.Drawing.Point(128, 277);
+            this.textBox23.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox23.Name = "textBox23";
+            this.textBox23.Size = new System.Drawing.Size(60, 19);
+            this.textBox23.TabIndex = 192;
+            this.textBox23.Text = "0.0";
+            // 
+            // numericUpDown14
+            // 
+            this.numericUpDown14.Location = new System.Drawing.Point(294, 192);
+            this.numericUpDown14.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown14.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown14.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown14.Name = "numericUpDown14";
+            this.numericUpDown14.Size = new System.Drawing.Size(62, 19);
+            this.numericUpDown14.TabIndex = 190;
+            this.numericUpDown14.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            // 
+            // textBox24
+            // 
+            this.textBox24.Location = new System.Drawing.Point(112, 218);
+            this.textBox24.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox24.Name = "textBox24";
+            this.textBox24.Size = new System.Drawing.Size(63, 19);
+            this.textBox24.TabIndex = 186;
+            this.textBox24.Text = "0.0";
+            // 
+            // textBox25
+            // 
+            this.textBox25.Location = new System.Drawing.Point(115, 165);
+            this.textBox25.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox25.Name = "textBox25";
+            this.textBox25.Size = new System.Drawing.Size(60, 19);
+            this.textBox25.TabIndex = 184;
+            this.textBox25.Text = "0.1";
+            // 
+            // comboBox8
+            // 
+            this.comboBox8.FormattingEnabled = true;
+            this.comboBox8.Items.AddRange(new object[] {
+            "\"rmse\"",
+            "\"mae\"",
+            "\"logloss\"",
+            "\"error\"",
+            "\"auc\"",
+            "\"merror\"",
+            "\"mlogloss\"",
+            "\"map\"",
+            "\"ndcg\""});
+            this.comboBox8.Location = new System.Drawing.Point(83, 141);
+            this.comboBox8.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox8.Name = "comboBox8";
+            this.comboBox8.Size = new System.Drawing.Size(92, 20);
+            this.comboBox8.TabIndex = 181;
+            this.comboBox8.Text = "\"rmse\"";
+            // 
+            // comboBox9
+            // 
+            this.comboBox9.FormattingEnabled = true;
+            this.comboBox9.Items.AddRange(new object[] {
+            "\"reg:squarederror\"",
+            "\"binary:logstic\"",
+            "\"binary:logsticraw\"",
+            "\"multi:softmax\"",
+            "\"multi:softprob\"",
+            "\"rank:pairwise\"",
+            "\"count:poisson\"",
+            "\"survival:cox\"",
+            "\"reg:linear\"",
+            "\"reg:tweedie\""});
+            this.comboBox9.Location = new System.Drawing.Point(264, 113);
+            this.comboBox9.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox9.Name = "comboBox9";
+            this.comboBox9.Size = new System.Drawing.Size(92, 20);
+            this.comboBox9.TabIndex = 179;
+            this.comboBox9.Text = "\"reg:squarederror\"";
+            // 
+            // comboBox10
+            // 
+            this.comboBox10.FormattingEnabled = true;
+            this.comboBox10.Items.AddRange(new object[] {
+            "\"gbtree\"",
+            "\"gblinear\"",
+            "\"dart\""});
+            this.comboBox10.Location = new System.Drawing.Point(68, 118);
+            this.comboBox10.Margin = new System.Windows.Forms.Padding(2);
+            this.comboBox10.Name = "comboBox10";
+            this.comboBox10.Size = new System.Drawing.Size(107, 20);
+            this.comboBox10.TabIndex = 177;
+            this.comboBox10.Text = "\"gbtree\"";
+            // 
+            // label72
+            // 
+            this.label72.AutoSize = true;
+            this.label72.Location = new System.Drawing.Point(5, 80);
+            this.label72.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label72.Name = "label72";
+            this.label72.Size = new System.Drawing.Size(91, 12);
+            this.label72.TabIndex = 176;
+            this.label72.Text = "early_stopping";
+            // 
+            // numericUpDown15
+            // 
+            this.numericUpDown15.Location = new System.Drawing.Point(99, 78);
+            this.numericUpDown15.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown15.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown15.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown15.Name = "numericUpDown15";
+            this.numericUpDown15.Size = new System.Drawing.Size(76, 19);
+            this.numericUpDown15.TabIndex = 175;
+            this.numericUpDown15.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // label73
+            // 
+            this.label73.AutoSize = true;
+            this.label73.Location = new System.Drawing.Point(147, 20);
+            this.label73.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label73.Name = "label73";
+            this.label73.Size = new System.Drawing.Size(28, 12);
+            this.label73.TabIndex = 174;
+            this.label73.Text = "fold";
+            // 
+            // numericUpDown16
+            // 
+            this.numericUpDown16.Location = new System.Drawing.Point(179, 16);
+            this.numericUpDown16.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown16.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numericUpDown16.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown16.Name = "numericUpDown16";
+            this.numericUpDown16.Size = new System.Drawing.Size(48, 19);
+            this.numericUpDown16.TabIndex = 173;
+            this.numericUpDown16.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+            // 
+            // numericUpDown17
+            // 
+            this.numericUpDown17.Location = new System.Drawing.Point(99, 55);
+            this.numericUpDown17.Margin = new System.Windows.Forms.Padding(2);
+            this.numericUpDown17.Maximum = new decimal(new int[] {
+            10000000,
+            0,
+            0,
+            0});
+            this.numericUpDown17.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDown17.Name = "numericUpDown17";
+            this.numericUpDown17.Size = new System.Drawing.Size(76, 19);
+            this.numericUpDown17.TabIndex = 171;
+            this.numericUpDown17.Value = new decimal(new int[] {
+            50000,
+            0,
+            0,
+            0});
+            // 
+            // checkBox10
+            // 
+            this.checkBox10.AutoSize = true;
+            this.checkBox10.Location = new System.Drawing.Point(5, 17);
+            this.checkBox10.Margin = new System.Windows.Forms.Padding(2);
+            this.checkBox10.Name = "checkBox10";
+            this.checkBox10.Size = new System.Drawing.Size(116, 16);
+            this.checkBox10.TabIndex = 170;
+            this.checkBox10.Text = "crossvalidation";
+            this.checkBox10.UseVisualStyleBackColor = true;
+            // 
+            // tabPage8
+            // 
+            this.tabPage8.Location = new System.Drawing.Point(4, 22);
+            this.tabPage8.Name = "tabPage8";
+            this.tabPage8.Size = new System.Drawing.Size(522, 598);
+            this.tabPage8.TabIndex = 7;
+            this.tabPage8.Text = "tabPage8";
+            this.tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // numericUpDown9
+            // 
+            this.numericUpDown9.Location = new System.Drawing.Point(227, 471);
+            this.numericUpDown9.Maximum = new decimal(new int[] {
+            100000,
+            0,
+            0,
+            0});
+            this.numericUpDown9.Name = "numericUpDown9";
+            this.numericUpDown9.Size = new System.Drawing.Size(79, 19);
+            this.numericUpDown9.TabIndex = 3;
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(113, 473);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(114, 12);
+            this.label54.TabIndex = 4;
+            this.label54.Text = "recursive feature ";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(1286, 624);
+            this.ClientSize = new System.Drawing.Size(1281, 624);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.splitter14);
             this.Controls.Add(this.panel7);
@@ -2114,6 +2948,11 @@ namespace tft
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
+            this.tabPage6.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -2129,6 +2968,8 @@ namespace tft
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.tabPage5.ResumeLayout(false);
             this.tabPage5.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.groupBox4.ResumeLayout(false);
@@ -2136,6 +2977,18 @@ namespace tft
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown5)).EndInit();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2304,6 +3157,64 @@ namespace tft
         private System.Windows.Forms.Label label48;
         private System.Windows.Forms.Label label46;
         private System.Windows.Forms.Label label45;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button button35;
+        private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.TextBox textBox18;
+        private System.Windows.Forms.Label label52;
+        private System.Windows.Forms.NumericUpDown numericUpDown8;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.NumericUpDown numericUpDown7;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label55;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.Button button36;
+        private System.Windows.Forms.TextBox textBox19;
+        private System.Windows.Forms.TextBox textBox20;
+        private System.Windows.Forms.CheckBox checkBox9;
+        public System.Windows.Forms.NumericUpDown numericUpDown11;
+        public System.Windows.Forms.Label label56;
+        public System.Windows.Forms.NumericUpDown numericUpDown12;
+        public System.Windows.Forms.Label label57;
+        public System.Windows.Forms.NumericUpDown numericUpDown13;
+        public System.Windows.Forms.Label label60;
+        private System.Windows.Forms.TextBox textBox21;
+        private System.Windows.Forms.Label label61;
+        private System.Windows.Forms.TextBox textBox22;
+        private System.Windows.Forms.Label label62;
+        private System.Windows.Forms.TextBox textBox23;
+        private System.Windows.Forms.Label label63;
+        private System.Windows.Forms.NumericUpDown numericUpDown14;
+        private System.Windows.Forms.Label label64;
+        private System.Windows.Forms.Label label65;
+        private System.Windows.Forms.Label label66;
+        private System.Windows.Forms.TextBox textBox24;
+        private System.Windows.Forms.Label label67;
+        private System.Windows.Forms.TextBox textBox25;
+        private System.Windows.Forms.Label label68;
+        private System.Windows.Forms.Label label69;
+        private System.Windows.Forms.ComboBox comboBox8;
+        private System.Windows.Forms.Label label70;
+        private System.Windows.Forms.ComboBox comboBox9;
+        private System.Windows.Forms.Label label71;
+        private System.Windows.Forms.ComboBox comboBox10;
+        private System.Windows.Forms.Label label72;
+        private System.Windows.Forms.NumericUpDown numericUpDown15;
+        private System.Windows.Forms.Label label73;
+        private System.Windows.Forms.NumericUpDown numericUpDown16;
+        private System.Windows.Forms.Label label74;
+        private System.Windows.Forms.NumericUpDown numericUpDown17;
+        public System.Windows.Forms.CheckBox checkBox10;
+        private System.Windows.Forms.Button button37;
+        private System.Windows.Forms.Button button38;
+        private System.Windows.Forms.NumericUpDown numericUpDown9;
+        private System.Windows.Forms.Label label54;
     }
 }
 

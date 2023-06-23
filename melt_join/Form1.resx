@@ -131,6 +131,18 @@
 the day of the week can be used as a predictor for a daily time series,
  and it’s known for every time step, no matter if it’s from past or future.</value>
   </data>
+  <data name="label69.ToolTip" xml:space="preserve">
+    <value>テストデータに対する評価指標を意味します。
+デフォルトの基準はobjectiveパラメータによって決まります。
+
+　　　・rmse(2乗平均平方根誤差)
+　　　・logloss(負の対数尺度)
+　　　・error(2-クラス分類のエラー率)
+　　　・merror(多クラス分類のエラー率)
+　　　・mlogloss(多クラスの対数損失)
+　　　・aue(ROC曲線下の面積で性能の良さを表す)
+　　　・mae(平均絶対誤差)</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>37</value>
   </metadata>
