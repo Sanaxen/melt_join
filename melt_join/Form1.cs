@@ -37,6 +37,7 @@ namespace tft
         public string with_current_df_cmd = "";
         public ListBox feature_cmd = new ListBox();
 
+        public int status = 0;
         public Form1()
         {
             InitializeComponent();
@@ -66,6 +67,13 @@ namespace tft
         {
             if (idx >= 0) output_idx = idx;
             output_idx++;
+            numericUpDown6.Value = output_idx;
+
+            return output_idx;
+        }
+        public int update_output_error()
+        {
+            output_idx--;
             numericUpDown6.Value = output_idx;
 
             return output_idx;
@@ -281,7 +289,10 @@ namespace tft
                     }
                     sr.Close();
                 }
-                catch { sr.Close(); }
+                catch { sr.Close(); status = -1; }
+            }else
+            {
+                status = -1;
             }
 
             if(File.Exists("TimeStart_End.txt"))
@@ -304,7 +315,10 @@ namespace tft
                     }
                     sr.Close();
                 }
-                catch { sr.Close(); }
+                catch { sr.Close(); status = -1; }
+            }else
+            {
+                status = -1;
             }
             return list;
         }
@@ -649,7 +663,7 @@ namespace tft
                     sw.Write("checkBox4," + (checkBox4.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox5," + (checkBox5.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox6," + (checkBox6.Checked ? "TRUE" : "FALSE") + "\n");
-                    //sw.Write("checkBox7," + (checkBox7.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox7," + (checkBox7.Checked ? "TRUE" : "FALSE") + "\n");
                     //sw.Write("checkBox8," + (checkBox8.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
@@ -1059,6 +1073,52 @@ namespace tft
                             continue;
                         }
 
+                        if (ss[0].IndexOf("checkBox10") >= 0)
+                        {
+                            checkBox10.Checked = (ss[1].Replace("\r\n", "")=="TRUE")?true:false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox2") >= 0)
+                        {
+                            checkBox2.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox3") >= 0)
+                        {
+                            checkBox3.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox4") >= 0)
+                        {
+                            checkBox4.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox5") >= 0)
+                        {
+                            checkBox5.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox6") >= 0)
+                        {
+                            checkBox6.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox7") >= 0)
+                        {
+                            checkBox7.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        //if (ss[0].IndexOf("checkBox8") >= 0)
+                        //{
+                        //    checkBox8.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                        //    continue;
+                        //}
+                        if (ss[0].IndexOf("checkBox9") >= 0)
+                        {
+                            checkBox9.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+
                         if (ss[0].IndexOf("r_path") >= 0)
                         {
                             string path = ss[1].Replace("\r\n", "");
@@ -1367,6 +1427,7 @@ namespace tft
 
         private void button2_Click(object sender, EventArgs e)
         {
+            status = 0;
             string cmd = "";
 
             string cmd1 = tft_header_ru();
@@ -1419,13 +1480,18 @@ namespace tft
 
             cmd_all += cmd;
             cmd_save();
-            save();
             execute(file);
 
             base_name = base_name0 + string.Format("{0}", output_idx);
             update_output_idx();
             
             listBox_remake(false, true);
+            if (status != 0)
+            {
+                update_output_error();
+                base_name = base_name0 + string.Format("{0}", output_idx);
+                return;
+            }
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -1441,6 +1507,7 @@ namespace tft
 
         private void button3_Click(object sender, EventArgs e)
         {
+            status = 0;
             string cmd = "";
 
             string cmd1 = tft_header_ru();
@@ -1528,6 +1595,12 @@ namespace tft
             update_output_idx();
 
             listBox_remake(false, true);
+            if (status != 0)
+            {
+                update_output_error();
+                base_name = base_name0 + string.Format("{0}", output_idx);
+                return;
+            }
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -1785,6 +1858,7 @@ namespace tft
 
         private void button14_Click(object sender, EventArgs e)
         {
+            status = 0;
             string cmd = "";
 
             string cmd1 = tft_header_ru();
@@ -1823,6 +1897,12 @@ namespace tft
             update_output_idx();
 
             listBox_remake(false, true);
+            if (status != 0)
+            {
+                update_output_error();
+                base_name = base_name0 + string.Format("{0}", output_idx);
+                return;
+            }
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
 
@@ -1870,6 +1950,7 @@ namespace tft
 
         private void button20_Click(object sender, EventArgs e)
         {
+            status = 0;
             string cmd = "";
 
             string cmd1 = tft_header_ru();
@@ -1910,7 +1991,7 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("mean_{0}_{1} = roll_meanr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2*int.Parse(args[2])-1) skip_row_max = 2 * int.Parse(args[2]) - 1;
-                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                         else
                         {
@@ -1926,7 +2007,7 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("sd_{0}_{1} = roll_sdr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
-                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                         else
                         {
@@ -1942,7 +2023,7 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("min_{0}_{1} = roll_minr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
-                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                         else
                         {
@@ -1958,7 +2039,7 @@ namespace tft
                             addfeature_cmd.Items.Add(string.Format("lag_{0}_{1} = dplyr::lag({2}, n = {3})", args[1], args[2], args[1], args[2]));
                             addfeature_cmd.Items.Add(string.Format("max_{0}_{1} = roll_maxr(lag_{2}_{3}, {4})", args[1], args[2], args[1], args[2], args[2]));
                             if (skip_row_max < 2 * int.Parse(args[2]) - 1) skip_row_max = 2 * int.Parse(args[2]) - 1;
-                            if (lag_min > 2 * int.Parse(args[2]) - 1) lag_min = 2 * int.Parse(args[2]) - 1;
+                            if (lag_min > int.Parse(args[2])) lag_min = int.Parse(args[2]);
                         }
                         else
                         {
@@ -1976,6 +2057,10 @@ namespace tft
                         if (args[0] == "year")
                         {
                             addfeature_cmd.Items.Add(string.Format("year_{0} = as.factor(lubridate::year(" + comboBox5.Text + "))", args[1]));
+                        }
+                        if (args[0] == "quarter")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("quarter_{0} = as.factor(lubridate::quarter(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "month")
                         {
@@ -2024,7 +2109,7 @@ namespace tft
 
             string feature_gen = "";
 
-            feature_gen += "feature_gen <- function(df){\r\n";
+            feature_gen += "feature_gen <- function(df, clip=TRUE){\r\n";
             if (addfeature_cmd.Items.Count >= 1)
             {
                 //addfeature_cmd = removeDup(addfeature_cmd);
@@ -2081,7 +2166,9 @@ namespace tft
             feature_gen += "            mutate(sequence_index = row_number())\r\n";
             if (skip_row_max > 0)
             {
-                feature_gen += "df <- df %>%  filter(sequence_index >= (sequence_index[1] + " + skip_row_max + "))\r\n";
+                feature_gen += "if ( clip ){\r\n";
+                feature_gen += "    df <- df %>%  filter(sequence_index >= (sequence_index[1] + " + skip_row_max + "))\r\n";
+                feature_gen += "}\r\n\r\n";
             }
 
             feature_gen += "\r\n";
@@ -2158,6 +2245,12 @@ namespace tft
             update_output_idx();
 
             listBox_remake(false, true);
+            if (status != 0)
+            {
+                update_output_error();
+                base_name = base_name0 + string.Format("{0}", output_idx);
+                return;
+            }
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -2278,7 +2371,21 @@ namespace tft
 
         private void button33_Click_1(object sender, EventArgs e)
         {
+            status = 0;
             if (comboBox5.Text == "") return;
+
+            if (File.Exists(base_name0 + "_train.csv"))
+            {
+                File.Delete(base_name0 + "_train.csv");
+            }
+            if (File.Exists(base_name0 + "_valid.csv"))
+            {
+                File.Delete(base_name0 + "_valid.csv");
+            }
+            if (File.Exists(base_name0 + "_test.csv"))
+            {
+                File.Delete(base_name0 + "_test.csv");
+            }
             string cmd = "";
             string cmd1 = tft_header_ru();
 
@@ -2411,20 +2518,25 @@ namespace tft
 
             string split = "";
             split += "split_data <- function(df){\r\n";
+            split += "df <- as.data.frame(df)\r\n";
+            split += "df <- df[unique(colnames(df))]\r\n";
+
             split += "train <- df %>% filter(" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "', tz ='UTC'))\r\n";
             split += "valid <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox14.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "', tz ='UTC'))\r\n";
             split += "test  <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox16.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox17.Text + "', tz ='UTC'))\r\n";
 
-            split += "fwrite(train,'" + base_name0 + "_train.csv" + "', row.names = FALSE)\r\n";
-            split += "fwrite(valid,'" + base_name0 + "_valid.csv" + "', row.names = FALSE)\r\n";
-            split += "fwrite(test,'" + base_name0 + "_test.csv" + "', row.names = FALSE)\r\n";
             split += "return( list(train, valid, test))}\r\n";
 
             cmd += "source('split_func.r')\r\n";
             cmd += "split <- split_data(df)\r\n";
-            cmd += "train <- split[[1]]\r\n";
-            cmd += "valid <- split[[2]]\r\n";
-            cmd += "test  <- split[[3]]\r\n";
+            cmd += "train <- as.data.frame(split[[1]])\r\n";
+            cmd += "valid <- as.data.frame(split[[2]])\r\n";
+            cmd += "test  <- as.data.frame(split[[3]])\r\n";
+            cmd += "\r\n";
+            cmd += "\r\n";
+            cmd += "fwrite(train,'" + base_name0 + "_train.csv" + "', row.names = FALSE)\r\n";
+            cmd += "fwrite(valid,'" + base_name0 + "_valid.csv" + "', row.names = FALSE)\r\n";
+            cmd += "fwrite(test,'" + base_name0 + "_test.csv" + "', row.names = FALSE)\r\n";
             cmd += "\r\n";
             cmd += "\r\n";
 
@@ -2463,9 +2575,25 @@ namespace tft
             cmd_save();
             execute(file);
 
+            if ( !File.Exists( base_name0 + "_train.csv"))
+            {
+                status = -1;
+            }
+            if (!File.Exists(base_name0 + "_valid.csv"))
+            {
+                status = -1;
+            }
+            if (!File.Exists(base_name0 + "_test.csv"))
+            {
+                status = -1;
+            }
+            if ( status < 0)
+            {
+                if (MessageBox.Show("Error in separating train, validate, and test data frames.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
             base_name = base_name0 + string.Format("{0}", output_idx);
             update_output_idx();
-
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -2600,6 +2728,7 @@ namespace tft
 
         private void button35_Click(object sender, EventArgs e)
         {
+            status = 0;
             if (listBox4.SelectedItems.Count == 0)
             {
                 if (MessageBox.Show("No columns selected to delete.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
@@ -2651,6 +2780,12 @@ namespace tft
             update_output_idx();
 
             listBox_remake(false, true);
+            if (status != 0)
+            {
+                update_output_error();
+                base_name = base_name0 + string.Format("{0}", output_idx);
+                return;
+            }
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -2671,6 +2806,34 @@ namespace tft
 
         private void button37_Click(object sender, EventArgs e)
         {
+            status = 0;
+            if (!File.Exists(base_name0 + "_train.csv"))
+            {
+                status = -1;
+            }
+            if (!File.Exists(base_name0 + "_valid.csv"))
+            {
+                status = -1;
+            }
+            if (!File.Exists(base_name0 + "_test.csv"))
+            {
+                status = -1;
+            }
+            if (status < 0)
+            {
+                if (MessageBox.Show("Split the data frame into training, validation, and testing", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+            if (listBox1.SelectedIndices.Count == 0 )
+            {
+                if (MessageBox.Show("No features selected", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+            if (listBox4.SelectedIndices.Count == 0)
+            {
+                if (MessageBox.Show("No target selected", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
             string cmd1 = tft_header_ru();
             string cmd = "";
 
@@ -2810,6 +2973,24 @@ namespace tft
 
         private void button38_Click(object sender, EventArgs e)
         {
+            status = 0;
+            if (!File.Exists(base_name0 + "_train.csv"))
+            {
+                status = -1;
+            }
+            if (!File.Exists(base_name0 + "_valid.csv"))
+            {
+                status = -1;
+            }
+            if (!File.Exists(base_name0 + "_test.csv"))
+            {
+                status = -1;
+            }
+            if (status < 0)
+            {
+                if (MessageBox.Show("No data frame used for predictive testing", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
             string cmd1 = tft_header_ru();
             string cmd = "";
 
@@ -2842,13 +3023,80 @@ namespace tft
             prediction += "predict$predict <- pred\r\n";
             prediction += "return(predict)}\r\n";
 
+
+            string recursive_Feature = "";
+            recursive_Feature += "recursive_Feature_predict <- function(test, model_xgb){\r\n";
+            recursive_Feature += "test  <- as.data.frame(test)\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "test_org <- test\r\n";
+            recursive_Feature += "nn <- nrow(test)\r\n";
+            recursive_Feature += "obs <- test$volume_porcentagem\r\n";
+            recursive_Feature += "n = length(unique(df$sistema))\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "lag_min = 14\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "s = 1\r\n";
+            recursive_Feature += "e = lag_min*n\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "for ( k in 1:10000)\r\n";
+            recursive_Feature += "{\r\n";
+            recursive_Feature += "	d <- c(s:e)\r\n";
+            recursive_Feature += "	x <- test[d,]\r\n";
+            recursive_Feature += "	x[is.na(x)] <- 0\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "	predict <- prediction(x,model_xgb)\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "	test$volume_porcentagem[d] <- predict$predict\r\n";
+            recursive_Feature += "	\r\n";
+            recursive_Feature += "	test <- feature_gen(test, clip = FALSE)\r\n";
+            recursive_Feature += "	test <- as.data.frame(test)\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "	#print(sum(test$volume_porcentagem - obs))\r\n";
+            recursive_Feature += "	s = e + 1\r\n";
+            recursive_Feature += "	e = s + lag_min*n-1\r\n";
+            recursive_Feature += "	\r\n";
+            recursive_Feature += "	if ( s >= nn) break\r\n";
+            recursive_Feature += "	if ( e >= nn) e = nn\r\n";
+            recursive_Feature += "}\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "predict <- test_org\r\n";
+            recursive_Feature += "predict$predict <- test$volume_porcentagem\r\n";
+            recursive_Feature += "predict$volume_porcentagem <- obs\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "return(predict)}\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "\r\n";
+
             cmd += "source('prediction_fnc.r')\r\n";
             cmd += "model_xgb <- readRDS(\"model_xgb\")\r\n";
-            cmd += "predict <- prediction(test,model_xgb)\r\n";
+
+            if ( checkBox7.Checked)
+            {
+                cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
+                cmd += "predict <- recursive_Feature_predict(test,model_xgb)\r\n";
+            }else
+            {
+                cmd += "predict <- prediction(test,model_xgb)\r\n";
+            }
 
             cmd += "fwrite(predict,'" + base_name0 + "_predict.csv', row.names = FALSE)\r\n";
 
-            string src = string.Format("prediction_fnc.r", output_idx);
+            string src = string.Format("recursive_Feature_prediction_fnc.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write(recursive_Feature);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + src, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            src = string.Format("prediction_fnc.r", output_idx);
             try
             {
                 using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
@@ -2861,6 +3109,7 @@ namespace tft
                 if (MessageBox.Show("Cannot write in " + src, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
+
 
             string file = string.Format("predict{0}.r", output_idx);
             try
@@ -2881,9 +3130,26 @@ namespace tft
             cmd_all += cmd;
             cmd_save();
             execute(file);
+            if (!File.Exists(base_name0 + "_predict.csv"))
+            {
+                status = -1;
+            }
+            if (status < 0)
+            {
+                if (MessageBox.Show("Error in running forecast.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
 
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
+        }
+
+        private void button39_Click(object sender, EventArgs e)
+        {
+            if (listBox4.SelectedIndex < 0 || comboBox5.Text == "") return;
+            listBox3.Items.Add(string.Format("quarter {0} 0", comboBox5.Text));
+            listBox3.SetSelected(listBox3.Items.Count - 1, true);
+            textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
         }
     }
 }
