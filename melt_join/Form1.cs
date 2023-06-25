@@ -117,6 +117,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -247,6 +248,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return null;
             }
@@ -282,6 +284,7 @@ namespace tft
                         }
                         if (list.Items.Count != num)
                         {
+                            status = -1;
                             MessageBox.Show("Does the column name contain \", \" or \"spaces\"?\n" +
                                 "ou may not be getting the column names correctly.", "警告", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         }
@@ -673,6 +676,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in "+file , "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -689,6 +693,7 @@ namespace tft
             {
                 if (base_name0 == "")
                 {
+                    status = -1;
                     MessageBox.Show("input csv file !");
                     return;
                 }
@@ -1474,6 +1479,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -1558,6 +1564,7 @@ namespace tft
             }
             if ( args == "")
             {
+                status = -1;
                 if (MessageBox.Show("The keysets to merge are not letting me choose.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -1583,6 +1590,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -1775,6 +1783,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -1885,6 +1894,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -2103,6 +2113,7 @@ namespace tft
                 }
             }else
             {
+                status = -1;
                 if (MessageBox.Show("No features to add have been selected.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -2215,6 +2226,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -2229,6 +2241,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file2, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -2550,6 +2563,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + src, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -2567,6 +2581,7 @@ namespace tft
             }
             catch
             {
+                status = -1;
                 if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
@@ -3025,7 +3040,7 @@ namespace tft
 
 
             string recursive_Feature = "";
-            recursive_Feature += "recursive_Feature_predict <- function(test, model_xgb){\r\n";
+            recursive_Feature += "recursive_Feature_predict <- function(test, model_xgb, recursive_step){\r\n";
             recursive_Feature += "test  <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "test_org <- test\r\n";
@@ -3033,13 +3048,14 @@ namespace tft
             recursive_Feature += "obs <- test$volume_porcentagem\r\n";
             recursive_Feature += "n = length(unique(df$sistema))\r\n";
             recursive_Feature += "\r\n";
-            recursive_Feature += "lag_min = 14\r\n";
+            recursive_Feature += "lag_min = recursive_step\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "s = 1\r\n";
             recursive_Feature += "e = lag_min*n\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "for ( k in 1:10000)\r\n";
             recursive_Feature += "{\r\n";
+            recursive_Feature += "	if ( e >= nn) e = nn\r\n";
             recursive_Feature += "	d <- c(s:e)\r\n";
             recursive_Feature += "	x <- test[d,]\r\n";
             recursive_Feature += "	x[is.na(x)] <- 0\r\n";
@@ -3073,8 +3089,9 @@ namespace tft
 
             if ( checkBox7.Checked)
             {
+                cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
-                cmd += "predict <- recursive_Feature_predict(test,model_xgb)\r\n";
+                cmd += "predict <- recursive_Feature_predict(test,model_xgb, recursive_step)\r\n";
             }else
             {
                 cmd += "predict <- prediction(test,model_xgb)\r\n";
