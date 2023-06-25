@@ -218,6 +218,17 @@ namespace tft
             {
                 File.Delete("TimeStart_End.txt");
             }
+            if (File.Exists("line.png"))
+            {
+                File.Delete("line.png");
+            }
+            if (File.Exists("hist.png"))
+            {
+                File.Delete("hist.png");
+            }
+
+
+            //string cmd1 = tft_header_ru();
 
             string cmd = "";
             cmd += "options(encoding=\"" + encoding + "\")\r\n";
@@ -230,6 +241,25 @@ namespace tft
             cmd += "x_<-ncol(df)\r\n";
             cmd += "print(x_)\r\n";
             cmd += "for ( i in 1:x_) print(names(df)[i])\r\n";
+
+            string plt = "";
+            if (checkBox8.Checked)
+            {
+                plt += "plot = TRUE\r\n";
+            }else
+            {
+                plt += "plot = FALSE\r\n";
+            }
+
+            plt += "if ( plot ){\r\n";
+            plt += "    source(\"../../script/util.r\")\r\n";
+            plt += "    plot_hist_df(df)\r\n";
+            if (comboBox5.Text != "")
+            {
+                plt += "    plot_line_df(df,'"+ comboBox5.Text +"')\r\n";
+            }
+            plt += "}\r\n";
+
             string file = "tmp_get_namse.R";
 
             try
@@ -244,7 +274,9 @@ namespace tft
                     {
                         sw.Write(GetTypes_cmd());
                     }
-                    sw.Write(GetTimeStart_End_cmd());                }
+                    sw.Write(GetTimeStart_End_cmd());
+                    sw.Write(plt);
+                }
             }
             catch
             {
@@ -256,6 +288,22 @@ namespace tft
             execute(file);
             ListBox list = new ListBox();
 
+            if ( File.Exists("hist.png"))
+            {
+                pictureBox2.Image = CreateImage("hist.png");
+            }
+            else
+            {
+
+            }
+            if (File.Exists("line.png"))
+            {
+                pictureBox4.Image = CreateImage("line.png");
+            }
+            else
+            {
+
+            }
             if (File.Exists("names.txt"))
             {
                 StreamReader sr = null;
@@ -667,7 +715,7 @@ namespace tft
                     sw.Write("checkBox5," + (checkBox5.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox6," + (checkBox6.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox7," + (checkBox7.Checked ? "TRUE" : "FALSE") + "\n");
-                    //sw.Write("checkBox8," + (checkBox8.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox8," + (checkBox8.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
 
@@ -1113,11 +1161,11 @@ namespace tft
                             checkBox7.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
                             continue;
                         }
-                        //if (ss[0].IndexOf("checkBox8") >= 0)
-                        //{
-                        //    checkBox8.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
-                        //    continue;
-                        //}
+                        if (ss[0].IndexOf("checkBox8") >= 0)
+                        {
+                            checkBox8.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
                         if (ss[0].IndexOf("checkBox9") >= 0)
                         {
                             checkBox9.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
