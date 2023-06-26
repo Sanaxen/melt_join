@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Text;
 using System.Runtime.InteropServices;
 using Microsoft.Web.WebView2.Core;
+using melt_join;
 
 namespace tft
 {
@@ -36,6 +37,12 @@ namespace tft
         public int output_idx = 0;
         public string with_current_df_cmd = "";
         public ListBox feature_cmd = new ListBox();
+
+        public string imagePictureBox2 = "";
+        public string imagePictureBox4 = "";
+        public string imagePictureBox5 = "";
+        public string imagePictureBox6 = "";
+        public string imagePictureBox7 = "";
 
         public int status = 0;
         public Form1()
@@ -290,7 +297,8 @@ namespace tft
 
             if ( File.Exists("hist.png"))
             {
-                pictureBox2.Image = CreateImage("hist.png");
+                imagePictureBox2 = "hist.png";
+                pictureBox2.Image = CreateImage(imagePictureBox2);
             }
             else
             {
@@ -298,7 +306,8 @@ namespace tft
             }
             if (File.Exists("line.png"))
             {
-                pictureBox4.Image = CreateImage("line.png");
+                imagePictureBox4 = "line.png";
+                pictureBox4.Image = CreateImage(imagePictureBox4);
             }
             else
             {
@@ -427,8 +436,8 @@ namespace tft
 
             string cmd = "";
             cmd += "sink(file = \"TimeStart_End.txt\")\r\n";
-            cmd += "bg = which.min(df$"+ comboBox5.Text+")\r\n";
-            cmd += "ed = which.max(df$"+ comboBox5.Text+")\r\n";
+            cmd += "bg = which.min(df$" + comboBox5.Text + ")\r\n";
+            cmd += "ed = which.max(df$" + comboBox5.Text + ")\r\n";
             cmd += "if ( bg > ed ){\r\n";
             cmd += "    df$index_number <- c(nrow(df):1)\r\n";
             cmd += "    df <- df[order(df$index_number), ]\r\n";
@@ -439,17 +448,17 @@ namespace tft
 
             cmd += "s = sprintf(\"%s,%d\\n\", df$" + comboBox5.Text + "[bg], bg)\r\n";
             cmd += "cat(s)\r\n";
-            cmd += "s = sprintf(\"%s,%d\\n\", df$"+ comboBox5.Text+"[ed], ed)\r\n";
+            cmd += "s = sprintf(\"%s,%d\\n\", df$" + comboBox5.Text + "[ed], ed)\r\n";
             cmd += "cat(s)\r\n";
 
-            if ( checkBox6.Checked)
+            if (checkBox6.Checked)
             {
-                if ( numericUpDown3.Value + numericUpDown4.Value + numericUpDown5.Value != 100 )
+                if (numericUpDown3.Value + numericUpDown4.Value + numericUpDown5.Value != 100)
                 {
                     MessageBox.Show("The sum of the data split ratios is not 100%", "warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-                cmd += "ds <- unique(df$"+ comboBox5.Text+")\r\n";
-                cmd += "train_n = " + numericUpDown3.Value.ToString()+"*0.01\r\n";
+                cmd += "ds <- unique(df$" + comboBox5.Text + ")\r\n";
+                cmd += "train_n = " + numericUpDown3.Value.ToString() + "*0.01\r\n";
                 cmd += "valid_n = " + numericUpDown4.Value.ToString() + "*0.01\r\n";
                 cmd += "test_n = " + numericUpDown5.Value.ToString() + "*0.01\r\n";
                 cmd += "train_st <- ds[1]\r\n";
@@ -471,7 +480,47 @@ namespace tft
                 cmd += "s = sprintf(\"%s,%d\\n\", test_ed, -1)\r\n";
                 cmd += "cat(s)\r\n";
 
+                if (comboBox4.Text != "")
+                {
+                    cmd += "IDs = unique(df$" + comboBox4.Text + ")\r\n";
+                    cmd += "tmp <- df %>% filter(" + comboBox4.Text + " == IDs[1])\r\n";
+                }else
+                {
+                    cmd += "tmp <- df\r\n";
+                }
+                cmd += "dt = abs(difftime(tmp$" + comboBox5.Text + "[2],tmp$" + comboBox5.Text + "[1],  units='secs'))\r\n";
+                cmd += "addnum = as.numeric(difftime(as.POSIXct(test_ed, tz='UTC'), as.POSIXct(test_st, tz='UTC'),  units='secs'))/as.numeric(dt)\r\n";
+                cmd += "num_step = as.integer(addnum)\r\n";
+                cmd += "s = sprintf(\"%s,%d\\n\", \"num_step\", num_step)\r\n";
+                cmd += "cat(s)\r\n";
+
             }
+            cmd += "sink()\r\n";
+
+            return (cmd);
+        }
+
+        public string GetTimeStep_cmd()
+        {
+            if (comboBox5.Text == "") return "";
+
+            string cmd = "";
+            cmd += "sink(file = \"TimeStep.txt\")\r\n";
+            cmd += "bg = which.min(df$"+ comboBox5.Text+")\r\n";
+            cmd += "\r\n";
+
+            cmd += "ds <- unique(df$"+ comboBox5.Text+")\r\n";
+            cmd += "test_st <-  '" + textBox16.Text + "'\r\n";
+            cmd += "test_ed <-  '" + textBox17.Text + "'\r\n";
+            cmd += "\r\n";
+
+            cmd += "IDs = unique(df$" + comboBox4.Text + ")\r\n";
+            cmd += "tmp <- df %>% filter(" + comboBox4.Text + " == IDs[1])\r\n";
+            cmd += "dt = abs(difftime(tmp$data[2],tmp$data[1],  units='secs'))\r\n";
+            cmd += "addnum = as.numeric(difftime(as.POSIXct(test_ed, tz='UTC'), as.POSIXct(test_st, tz='UTC'),  units='secs'))/as.numeric(dt)\r\n";
+            cmd += "num_step = as.integer(addnum)\r\n";
+            cmd += "s = sprintf(\"%s,%d\\n\", \"num_step\", num_step)\r\n";
+            cmd += "cat(s)\r\n";
             cmd += "sink()\r\n";
 
             return (cmd);
@@ -685,7 +734,7 @@ namespace tft
                     sw.Write("comboBox4," + comboBox4.Text + "\n");
                     sw.Write("comboBox5," + comboBox5.Text + "\n");
                     sw.Write("comboBox6," + comboBox6.Text + "\n");
-                    //sw.Write("comboBox7," + comboBox7.Text + "\n");
+                    sw.Write("comboBox7," + comboBox7.Text + "\n");
                     sw.Write("comboBox8," + comboBox8.Text + "\n");
                     sw.Write("comboBox9," + comboBox9.Text + "\n");
                     sw.Write("comboBox10," + comboBox10.Text + "\n");
@@ -718,6 +767,12 @@ namespace tft
                     sw.Write("checkBox8," + (checkBox8.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
+
+                    sw.Write("imagePictureBox2,", imagePictureBox2 + "\n");
+                    sw.Write("imagePictureBox4,", imagePictureBox4 + "\n");
+                    sw.Write("imagePictureBox5,", imagePictureBox5 + "\n");
+                    sw.Write("imagePictureBox6,", imagePictureBox6 + "\n");
+                    sw.Write("imagePictureBox7,", imagePictureBox7 + "\n");
 
                     sw.Write("r_path," + textBox1.Text + "\n");
                 }
@@ -1012,11 +1067,11 @@ namespace tft
                             comboBox6.Text = ss[1].Replace("\r\n", "");
                             continue;
                         }
-                        //if (ss[0].IndexOf("comboBox7") >= 0)
-                        //{
-                        //    comboBox7.Text = ss[1].Replace("\r\n", "");
-                        //    continue;
-                        //}
+                        if (ss[0].IndexOf("comboBox7") >= 0)
+                        {
+                            comboBox7.Text = ss[1].Replace("\r\n", "");
+                            continue;
+                        }
                         if (ss[0].IndexOf("comboBox8") >= 0)
                         {
                             comboBox8.Text = ss[1].Replace("\r\n", "");
@@ -1171,6 +1226,37 @@ namespace tft
                             checkBox9.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
                             continue;
                         }
+                        if (ss[0].IndexOf("imagePictureBox2") >= 0)
+                        {
+                            imagePictureBox2 = ss[1].Replace("\r\n", "");
+                            pictureBox2.Image = CreateImage(imagePictureBox2);
+                            continue;
+                        }
+                        if (ss[0].IndexOf("imagePictureBox4") >= 0)
+                        {
+                            imagePictureBox4 = ss[1].Replace("\r\n", "");
+                            pictureBox4.Image = CreateImage(imagePictureBox4);
+                            continue;
+                        }
+                        if (ss[0].IndexOf("imagePictureBox5") >= 0)
+                        {
+                            imagePictureBox5 = ss[1].Replace("\r\n", "");
+                            pictureBox5.Image = CreateImage(imagePictureBox5);
+                            continue;
+                        }
+                        if (ss[0].IndexOf("imagePictureBox6") >= 0)
+                        {
+                            imagePictureBox6 = ss[1].Replace("\r\n", "");
+                            pictureBox6.Image = CreateImage(imagePictureBox6);
+                            continue;
+                        }
+                        if (ss[0].IndexOf("imagePictureBox7") >= 0)
+                        {
+                            imagePictureBox7 = ss[1].Replace("\r\n", "");
+                            pictureBox7.Image = CreateImage(imagePictureBox7);
+                            continue;
+                        }
+
 
                         if (ss[0].IndexOf("r_path") >= 0)
                         {
@@ -1800,7 +1886,29 @@ namespace tft
                     }
                 }
             }
+            if (tabControl1.SelectedIndex == 7)
+            {
+                listBox4.Enabled = true;
+                listBox1.Enabled = true;
+                listBox2.Enabled = false;
+                listBox3.Enabled = false;
+                listBox4.SelectionMode = SelectionMode.One;
+                listBox2.SelectionMode = SelectionMode.MultiSimple;
+                listBox3.SelectionMode = SelectionMode.One;
+                label16.Text = "target";
+                label11.Text = "Feature";
+                label14.Text = "";
+                label3.Text = "";
 
+                listBox3.Items.Clear();
+                if (feature_cmd.Items.Count > 0)
+                {
+                    for (int i = 0; i < feature_cmd.Items.Count; i++)
+                    {
+                        listBox3.Items.Add(feature_cmd.Items[i]);
+                    }
+                }
+            }
         }
 
         private void button9_Click_1(object sender, EventArgs e)
@@ -2176,6 +2284,7 @@ namespace tft
 
                 if (comboBox5.Text != "")
                 {
+                    feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
                     if (comboBox4.Text != "")
                     {
                         feature_gen += "x <- df %>% filter(" + comboBox4.Text + "== df$" + comboBox4.Text + "[1])\r\n";
@@ -2187,7 +2296,7 @@ namespace tft
                     }
                     else
                     {
-                        feature_gen += "if (df$" + comboBox5.Text + "[1] > df$" + comboBox5.Text + "){\r\n";
+                        feature_gen += "if (df$" + comboBox5.Text + "[1] > df$" + comboBox5.Text + "[2]){\r\n";
                         feature_gen += "    df <- df %>% arrange(data)\r\n";
                         feature_gen += "}\r\n";
                     }
@@ -2663,7 +2772,11 @@ namespace tft
 
         private void button34_Click(object sender, EventArgs e)
         {
-            if (comboBox5.Text == "") return;
+            if (comboBox5.Text == "")
+            {
+                if (MessageBox.Show("Please specify the time column", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
             if (File.Exists("TimeStart_End.txt"))
             {
                 File.Delete("TimeStart_End.txt");
@@ -2739,6 +2852,10 @@ namespace tft
                             line = sr.ReadLine();
                             txts = line.Split(',');
                             textBox17.Text = txts[0].Replace("\r", "").Replace("\n", "");
+
+                            line = sr.ReadLine();
+                            txts = line.Split(',');
+                            label79.Text = txts[1].Replace("\r", "").Replace("\n", "");
                         }
                     }
                     sr.Close();
@@ -2897,6 +3014,11 @@ namespace tft
                 if (MessageBox.Show("No target selected", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
+            if (File.Exists("importance.png"))
+            {
+                File.Delete("importance.png");
+            }
+
             string cmd1 = tft_header_ru();
             string cmd = "";
 
@@ -2990,8 +3112,10 @@ namespace tft
             train += "\r\n";
             train += "saveRDS(model_xgb, file = \"model_xgb\")\r\n";
             train += "importance <- xgb.importance(feature_names = colnames(train_set_xgb), model = model_xgb)\r\n";
-            train += "importance_plt<-xgb.plot.importance(importance_matrix = importance)\r\n";
-            train += "#ggsave(file = \"importance.png\", plot = importance_plt, dpi = 100, width = 6.4, height = 4.8)\r\n";
+            train += "importance_plt <- xgb.plot.importance(importance_matrix = importance)\r\n";
+            train += "importance_plt <- xgb.ggplot.importance(importance, measure = NULL, rel_to_first = T, top_n = 25)\r\n";
+            train += "importance_plt + ggplot2::ylab(\"Importance\")\r\n";
+            train += "ggsave(file = \"importance.png\", plot = importance_plt, limitsize=F, width = 16, height = 9)\r\n";
             train += "return(model_xgb)}\r\n";
 
             cmd += "source('training_fnc.r')\r\n";
@@ -3030,6 +3154,11 @@ namespace tft
             cmd_save();
             execute(file);
 
+            if (File.Exists("importance.png"))
+            {
+                imagePictureBox5 = "importance.png";
+                pictureBox5.Image = CreateImage(imagePictureBox5);
+            }
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -3049,6 +3178,15 @@ namespace tft
             {
                 status = -1;
             }
+            if (File.Exists("prdict1.png"))
+            {
+                File.Delete("prdict1.png");
+            }
+            if (File.Exists("prdict2.png"))
+            {
+                File.Delete("prdict2.png");
+            }
+
             if (status < 0)
             {
                 if (MessageBox.Show("No data frame used for predictive testing", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
@@ -3057,6 +3195,8 @@ namespace tft
             string cmd1 = tft_header_ru();
             string cmd = "";
 
+            cmd += "train <- fread(\"" + base_name0 + "_train.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+            cmd += "valid <- fread(\"" + base_name0 + "_valid.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "test <- fread(\"" + base_name0 + "_test.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "use_features = c(\r\n";
             cmd += "    '" + listBox1.Items[listBox1.SelectedIndices[0]].ToString() + "'";
@@ -3093,8 +3233,8 @@ namespace tft
             recursive_Feature += "\r\n";
             recursive_Feature += "test_org <- test\r\n";
             recursive_Feature += "nn <- nrow(test)\r\n";
-            recursive_Feature += "obs <- test$volume_porcentagem\r\n";
-            recursive_Feature += "n = length(unique(df$sistema))\r\n";
+            recursive_Feature += "obs <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
+            recursive_Feature += "n = length(unique(df$" + comboBox4.Text + "))\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "lag_min = recursive_step\r\n";
             recursive_Feature += "\r\n";
@@ -3110,13 +3250,13 @@ namespace tft
             recursive_Feature += "\r\n";
             recursive_Feature += "	predict <- prediction(x,model_xgb)\r\n";
             recursive_Feature += "\r\n";
-            recursive_Feature += "	test$volume_porcentagem[d] <- predict$predict\r\n";
+            recursive_Feature += "	test$" + listBox4.SelectedItem.ToString() + "[d] <- predict$predict\r\n";
             recursive_Feature += "	\r\n";
             recursive_Feature += "	test <- feature_gen(test, clip = FALSE)\r\n";
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
-            recursive_Feature += "	#print(sum(test$volume_porcentagem - obs))\r\n";
+            recursive_Feature += "	#print(sum(test$" + listBox4.SelectedItem.ToString() + " - obs))\r\n";
             recursive_Feature += "	s = e + 1\r\n";
             recursive_Feature += "	e = s + lag_min*n-1\r\n";
             recursive_Feature += "	\r\n";
@@ -3125,8 +3265,8 @@ namespace tft
             recursive_Feature += "}\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "predict <- test_org\r\n";
-            recursive_Feature += "predict$predict <- test$volume_porcentagem\r\n";
-            recursive_Feature += "predict$volume_porcentagem <- obs\r\n";
+            recursive_Feature += "predict$predict <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
+            recursive_Feature += "predict$" + listBox4.SelectedItem.ToString() + " <- obs\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "return(predict)}\r\n";
             recursive_Feature += "\r\n";
@@ -3146,6 +3286,10 @@ namespace tft
             }
 
             cmd += "fwrite(predict,'" + base_name0 + "_predict.csv', row.names = FALSE)\r\n";
+
+            cmd += "source(\"../../script/util.r\")\r\n";
+            cmd += "plot_predict1('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+            cmd += "plot_predict2('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
 
             string src = string.Format("recursive_Feature_prediction_fnc.r", output_idx);
             try
@@ -3204,6 +3348,25 @@ namespace tft
                 if (MessageBox.Show("Error in running forecast.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
+            if (File.Exists("predict1.png"))
+            {
+                imagePictureBox6 = "predict1.png";
+                pictureBox6.Image = CreateImage(imagePictureBox6);
+            }
+            else
+            {
+
+            }
+
+            if (File.Exists("predict2.png"))
+            {
+                imagePictureBox7 = "predict2.png";
+                pictureBox7.Image = CreateImage(imagePictureBox7);
+            }
+            else
+            {
+
+            }
 
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
@@ -3215,6 +3378,112 @@ namespace tft
             listBox3.Items.Add(string.Format("quarter {0} 0", comboBox5.Text));
             listBox3.SetSelected(listBox3.Items.Count - 1, true);
             textBox7.Text += listBox3.Items[listBox3.Items.Count - 1] + "\r\n";
+        }
+
+        private void button40_Click(object sender, EventArgs e)
+        {
+            if (comboBox5.Text == "") return;
+            if (File.Exists("TimeStep.txt"))
+            {
+                File.Delete("TimeStep.txt");
+            }
+            string cmd1 = tft_header_ru();
+
+            string cmd = "";
+            cmd += "options(encoding=\"" + encoding + "\")\r\n";
+            cmd += ".libPaths(c('" + RlibPath + "',.libPaths()))\r\n";
+            cmd += "dir='" + work_dir.Replace("\\", "\\\\") + "'\r\n";
+            cmd += "library(data.table)\r\n";
+            cmd += "setwd(dir)\r\n";
+            cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+
+            string file = "tmp_get_timestep.R";
+
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write("options(width=1000)\r\n");
+                    sw.Write(cmd1);
+                    sw.Write(cmd);
+                    sw.Write(GetTimeStep_cmd());
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            execute(file);
+
+
+            if (File.Exists("TimeStep.txt"))
+            {
+                try
+                {
+                    StreamReader sr = new StreamReader("TimeStep.txt", Encoding.GetEncoding("SHIFT_JIS"));
+                    while (sr.EndOfStream == false)
+                    {
+                        string line = sr.ReadLine();
+                        var txts = line.Split(',');
+                        label79.Text = txts[1].Replace("\r", "").Replace("\n", "");
+                    }
+                    sr.Close();
+                    sr = null;
+                }
+                catch { }
+            }
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            if (imagePictureBox2 == "") return;
+            Form2 f = new Form2();
+
+            f.pictureBox1.Image = CreateImage(imagePictureBox2);
+
+            f.Show();
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            if (imagePictureBox4 == "") return;
+            Form2 f = new Form2();
+
+            f.pictureBox1.Image = CreateImage(imagePictureBox4);
+
+            f.Show();
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            if (imagePictureBox5 == "") return;
+            Form2 f = new Form2();
+
+            f.pictureBox1.Image = CreateImage(imagePictureBox5);
+
+            f.Show();
+        }
+
+        private void pictureBox6_Click(object sender, EventArgs e)
+        {
+            if (imagePictureBox6 == "") return;
+            Form2 f = new Form2();
+
+            f.pictureBox1.Image = CreateImage(imagePictureBox6);
+
+            f.Show();
+        }
+
+        private void pictureBox7_Click(object sender, EventArgs e)
+        {
+            if (imagePictureBox7 == "") return;
+            Form2 f = new Form2();
+
+            f.pictureBox1.Image = CreateImage(imagePictureBox7);
+
+            f.Show();
         }
     }
 }

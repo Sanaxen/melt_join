@@ -23,7 +23,11 @@ plot_line_df <- function(df, x)
 
 	library(cowplot)
 	
-	df <- sample_n(tbl = df, size = 10000)
+	if ( nrow(df) > 10000 )
+	{
+		df <- sample_n(tbl = df, size = 10000)
+	}
+	
 	numeric_columns <- select_if(df, is.numeric)
 	name <- colnames(numeric_columns)
 	if ( length(name) > 25 )
@@ -35,7 +39,7 @@ plot_line_df <- function(df, x)
 	for ( i in 1:length(name))
 	{
 		plt <- numeric_columns[,name[i]] %>% as.data.frame() %>% ggplot() +
-		geom_line(aes(x=df[,x], y = .),colour = "dodgerblue4", linewidth=0.1)+
+		geom_line(aes(x=df[,x], y = .),colour = "dodgerblue4", linewidth=1.1)+
 		labs(x = name[i])
 		
 		pltlist <- c(pltlist, list(plt))
@@ -77,8 +81,62 @@ plot_hist_df <- function(df)
 	return(plt)
 }
 
-plot_data <- function( x, y, id, train, valid, predict)
+plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 {
+	library(cowplot)
+	timestep=timeUnit
+	t <- train
+
+	if ( !is.null(valid) )
+	{
+		t <- bind_rows(train, valid)
+	}
+	if ( nrow(t) > 5*nrow(predict) )
+	{
+		t <- t[(nrow(t)-(5*nrow(predict))):nrow(t),]
+	}
+
+	#t <- df
+	predict_df <- t %>% full_join(predict) %>% as.data.frame()
+	
+	if ( id != "" )
+	{
+		tmp <- predict_df %>% rename("id" = id)
+	}else
+	{
+		tmp <- predict_df
+	}
+	tmp <- tmp %>% rename("date" = x)
+	tmp <- tmp %>% rename("target" = y)
+
+	if ( id != "" )
+	{
+		plt <- tmp %>% 
+		  ggplot(aes(x = date, y = target, color=id))+
+		  geom_line(linewidth =1.2)+
+		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
+		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+	}else
+	{
+		plt <- tmp %>% 
+		  ggplot(aes(x = date, y = target))+
+		  geom_line(linewidth =1.2)+
+		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
+		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+	}
+	
+	plt
+	ggsave(filename="predict1.png", plt, limitsize=F, width = 16, height = 9)
+	
+	rm(tmp)
+	return(plt)
+	  
+}
+
+plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
+{
+	library(cowplot)
+	timestep=timeUnit
 	t <- train
 
 	if ( !is.null(valid) )
@@ -93,48 +151,68 @@ plot_data <- function( x, y, id, train, valid, predict)
 	#t <- df
 	predict_df <- t %>% full_join(predict) %>% as.data.frame()
 
-	line_color_bule ="#00AFC5"
-	line_color_red ="#FF7042"
-	timestep="year"
-	plt <- predict_df %>% 
-	  ggplot(aes(x = predict_df[,x], y = predict_df[,y])) +
-	  geom_line(color = line_color_bule) +
-	  geom_line(aes(y = predict), color = line_color_red) +
-	  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
-	  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-	  facet_wrap(~predict_df[,id] )
-
-	plt
-
-	s = unique(predict_df[,id])
-	if ( length(s) > 25 )
+	if ( id != "" )
 	{
-		s <- sample(s, size = 25)
+		tmp <- predict_df %>% rename("id" = id)
+	}else
+	{
+		tmp <- predict_df
 	}
-	s <- as.vector(s)
-
-
+	tmp <- tmp %>% rename("date" = x)
+	tmp <- tmp %>% rename("target" = y)
 
 	line_color_bule ="#00AFC5"
 	line_color_red ="#FF7042"
-	timestep="year"
-	plt <- df %>% filter(!!sym(id) %in% !!sym(s)) %>%
-	  ggplot(aes(x = predict_df[,x], y = predict_df[,y])) +
-	  geom_line(color = line_color_bule) +
-	  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
-	  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-	  facet_wrap(~predict_df[,id] )
 
-	plt
+	IDs = NULL
+	if ( id != "" )
+	{
+		IDs = unique(tmp$id)
+		if ( length(IDs) > 25 )
+		{
+			IDs <- sample(IDs, size = 25)
+		}
+		IDs <- as.vector(IDs)
+	}
 	
-	plt <- df %>% group_by(id) %>%
-	  ggplot(aes(x = predict_df[,x], y = predict_df[,y])) +
-	  geom_line(color = line_color_bule) +
-	  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
-	  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-	  facet_wrap(~predict_df[,id] )
+	pltlist=NULL
+
+	if ( !is.null(IDs))
+	{
+		n <- length(IDs)
+	}else
+	{
+		n <- 1
+	}
+	for ( i in 1:n)
+	{
+		if ( is.null(IDs))
+		{
+			tmp2 <- tmp
+		}else
+		{
+			tmp2 <- tmp %>% filter(id == IDs[i])
+		}
+		plt <- tmp2 %>%
+		  ggplot() +
+		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =1.2) +
+		  geom_line( aes(x = date, y = target), color = line_color_bule, linewidth =1.2) +
+		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
+		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+		if ( !is.null(IDs))
+		{
+			plt <- plt  + labs(x = IDs[i])
+		}else
+		
+		pltlist <- c(pltlist, list(plt))
+	}
+	plt <- plot_grid(plotlist = pltlist)
 
 	plt
+	ggsave(filename="predict2.png", plt, limitsize=F, width = 16, height = 9)
+	
+	rm(tmp)
+	return(plt)
 	
 }
 
