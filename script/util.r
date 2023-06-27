@@ -83,6 +83,9 @@ plot_hist_df <- function(df)
 
 plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 {
+	line_color_bule ="#00AFC5"
+	line_color_red ="#FF7042"
+
 	library(cowplot)
 	timestep=timeUnit
 	t <- train
@@ -113,14 +116,16 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target, color=id))+
-		  geom_line(linewidth =1.2)+
+		  geom_line(linewidth =0.7,linetype = "longdash")+
+		  geom_line(aes(x = date, y = predict, color = id),linewidth =1.0)+
 		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 	}else
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target))+
-		  geom_line(linewidth =1.2)+
+		  geom_line(linewidth =1.2, color = line_color_bule, linetype = "longdash")+
+		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)+
 		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 	}
@@ -203,6 +208,9 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		{
 			plt <- plt  + labs(x = IDs[i])
 		}else
+		{
+			plt <- plt
+		}
 		
 		pltlist <- c(pltlist, list(plt))
 	}
@@ -243,29 +251,55 @@ vertically_to_horizontally <- function(df, ids_cols, key="key")
 }
 
 
-predict_measure <- function(pred, target)
+predict_measure <- function(predict, x="", y= "", id="")
 {
-	summary1 <- pred %>%  
-	summarise(count = n(),
-             MSE=sum(target-.pred)^2/count,
-             RMSE=sqrt(sum(target-.pred)^2/count),
-             MAE =sum(abs(target-.pred))/count,
-             MER =median(abs(target-.pred)/target),
-             MAPE=100*sum(abs(target-.pred)/target)/count,
-             MSEL=sum((log(1+target)-log(1+.pred))^2)/count,
-             RMSEL=sqrt(sum((log(1+target)-log(1+.pred))^2)/count))
+	if ( id != "" )
+	{
+		tmp <- predict %>% rename("id" = id)
+	}else
+	{
+		tmp <- predict
+	}
+	if ( x != "" )
+	{
+		tmp <- tmp %>% rename("date" = x)
+	}
+	
+	tmp <- tmp %>% rename("target" = y)
 
-	summary2 <- pred %>%  group_by(date,key) %>%
-	summarise(count = n(),
-             MSE=sum(target-.pred)^2/count,
-             RMSE=sqrt(sum(target-.pred)^2/count),
-             MAE =sum(abs(target-.pred))/count,
-             MER =median(abs(target-.pred)/target),
-             MAPE=100*sum(abs(target-.pred)/target)/count,
-             MSEL=sum((log(1+target)-log(1+.pred))^2)/count,
-             RMSEL=sqrt(sum((log(1+target)-log(1+.pred))^2)/count))
-             
-    print(summary1)
-    print(summary2)
-    return(list(summary1,summary2))
+	if (id == "" || x == "")
+	{
+		summary1 <- tmp %>%  
+		summarise(count = n(),
+	             MSE=sum(target-predict)^2/count,
+	             RMSE=sqrt(sum(target-predict)^2/count),
+	             MAE =sum(abs(target-predict))/count,
+	             MER =median(abs(target-predict)/target),
+	             MAPE=100*sum(abs(target-predict)/target)/count,
+	             MSEL=sum((log(1+target)-log(1+predict))^2)/count,
+	             RMSEL=sqrt(sum((log(1+target)-log(1+predict))^2)/count))
+	    print(summary1)
+		meas_plt <- gridExtra::tableGrob(summary1)
+		plot(meas_plt)
+    	ggsave(filename="predict_measure.png", meas_plt, limitsize=F, width = 16, height = 9)
+
+	    return(summary1)
+	}else
+	{
+		summary2 <- tmp %>%  group_by(id) %>%
+		summarise(count = n(),
+	             MSE=sum(target-predict)^2/count,
+	             RMSE=sqrt(sum(target-predict)^2/count),
+	             MAE =sum(abs(target-predict))/count,
+	             MER =median(abs(target-predict)/target),
+	             MAPE=100*sum(abs(target-predict)/target)/count,
+	             MSEL=sum((log(1+target)-log(1+predict))^2)/count,
+	             RMSEL=sqrt(sum((log(1+target)-log(1+predict))^2)/count))
+    	print(summary2)
+		meas_plt <- gridExtra::tableGrob(summary2)
+		plot(meas_plt)
+    	ggsave(filename="predict_measure.png", meas_plt, limitsize=F, width = 16, height = 0.7*length(unique(tmp$id)))
+	    return(summary2)
+	}
+    return(NULL)
 }

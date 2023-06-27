@@ -43,6 +43,7 @@ namespace tft
         public string imagePictureBox5 = "";
         public string imagePictureBox6 = "";
         public string imagePictureBox7 = "";
+        public string imagePictureBox8 = "";
 
         public int status = 0;
         public Form1()
@@ -131,12 +132,19 @@ namespace tft
         }
         public static System.Drawing.Image CreateImage(string filename)
         {
-            System.IO.FileStream fs = new System.IO.FileStream(
-                filename,
-                System.IO.FileMode.Open,
-                System.IO.FileAccess.Read);
-            System.Drawing.Image img = System.Drawing.Image.FromStream(fs);
-            fs.Close();
+            System.Drawing.Image img = null;
+            try
+            {
+                System.IO.FileStream fs = new System.IO.FileStream(
+                    filename,
+                    System.IO.FileMode.Open,
+                    System.IO.FileAccess.Read);
+                img = System.Drawing.Image.FromStream(fs);
+                fs.Close();
+            }catch
+            {
+                img = null;
+            }
             return img;
         }
         public string base_dir;
@@ -2704,6 +2712,7 @@ namespace tft
             cmd += "test  <- as.data.frame(split[[3]])\r\n";
             cmd += "\r\n";
             cmd += "\r\n";
+            cmd += "fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
             cmd += "fwrite(train,'" + base_name0 + "_train.csv" + "', row.names = FALSE)\r\n";
             cmd += "fwrite(valid,'" + base_name0 + "_valid.csv" + "', row.names = FALSE)\r\n";
             cmd += "fwrite(test,'" + base_name0 + "_test.csv" + "', row.names = FALSE)\r\n";
@@ -2766,6 +2775,8 @@ namespace tft
             }
             base_name = base_name0 + string.Format("{0}", output_idx);
             update_output_idx();
+
+            listBox_remake(false, true);
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
         }
@@ -3186,6 +3197,10 @@ namespace tft
             {
                 File.Delete("prdict2.png");
             }
+            if (File.Exists("predict_measure.png"))
+            {
+                File.Delete("predict_measure.png");
+            }
 
             if (status < 0)
             {
@@ -3234,7 +3249,7 @@ namespace tft
             recursive_Feature += "test_org <- test\r\n";
             recursive_Feature += "nn <- nrow(test)\r\n";
             recursive_Feature += "obs <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
-            recursive_Feature += "n = length(unique(df$" + comboBox4.Text + "))\r\n";
+            recursive_Feature += "n = length(unique(test$" + comboBox4.Text + "))\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "lag_min = recursive_step\r\n";
             recursive_Feature += "\r\n";
@@ -3277,6 +3292,7 @@ namespace tft
 
             if ( checkBox7.Checked)
             {
+                cmd += "source('feature_gen_fnc.r')\r\n";
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
                 cmd += "predict <- recursive_Feature_predict(test,model_xgb, recursive_step)\r\n";
@@ -3290,6 +3306,10 @@ namespace tft
             cmd += "source(\"../../script/util.r\")\r\n";
             cmd += "plot_predict1('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
             cmd += "plot_predict2('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+
+            cmd += "meas <- predict_measure(predict, x='"+ comboBox5.Text+"', y='"+ listBox4.SelectedItem.ToString() + "',id = '"+ comboBox4.Text+"' )\r\n";
+            //cmd += "meas_plt <- gridExtra::tableGrob(meas)\r\n";
+            //cmd += "plot(meas_plt)\r\n";
 
             string src = string.Format("recursive_Feature_prediction_fnc.r", output_idx);
             try
@@ -3367,6 +3387,16 @@ namespace tft
             {
 
             }
+            if (File.Exists("predict_measure.png"))
+            {
+                imagePictureBox8 = "predict_measure.png";
+                pictureBox8.Image = CreateImage(imagePictureBox8);
+            }
+            else
+            {
+
+            }
+
 
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
@@ -3441,6 +3471,7 @@ namespace tft
             if (imagePictureBox2 == "") return;
             Form2 f = new Form2();
 
+            f.SetFile(imagePictureBox2);
             f.pictureBox1.Image = CreateImage(imagePictureBox2);
 
             f.Show();
@@ -3451,6 +3482,7 @@ namespace tft
             if (imagePictureBox4 == "") return;
             Form2 f = new Form2();
 
+            f.SetFile(imagePictureBox4);
             f.pictureBox1.Image = CreateImage(imagePictureBox4);
 
             f.Show();
@@ -3461,6 +3493,7 @@ namespace tft
             if (imagePictureBox5 == "") return;
             Form2 f = new Form2();
 
+            f.SetFile(imagePictureBox5);
             f.pictureBox1.Image = CreateImage(imagePictureBox5);
 
             f.Show();
@@ -3471,6 +3504,7 @@ namespace tft
             if (imagePictureBox6 == "") return;
             Form2 f = new Form2();
 
+            f.SetFile(imagePictureBox6);
             f.pictureBox1.Image = CreateImage(imagePictureBox6);
 
             f.Show();
@@ -3481,7 +3515,19 @@ namespace tft
             if (imagePictureBox7 == "") return;
             Form2 f = new Form2();
 
+            f.SetFile(imagePictureBox7);
             f.pictureBox1.Image = CreateImage(imagePictureBox7);
+
+            f.Show();
+        }
+
+        private void pictureBox8_Click(object sender, EventArgs e)
+        {
+            if (imagePictureBox8 == "") return;
+            Form2 f = new Form2();
+
+            f.SetFile(imagePictureBox8);
+            f.pictureBox1.Image = CreateImage(imagePictureBox8);
 
             f.Show();
         }
