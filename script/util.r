@@ -16,6 +16,18 @@ library(timetk)
 library(magrittr)
 library(tidymodels)
 library(ggplot2)
+library(plotly)
+library(patchwork)
+library(htmlwidgets)
+
+find_closest_factors <- function(n) {
+  sqrt_n <- floor(sqrt(n))
+  for (i in sqrt_n:1) {
+    if (n %% i == 0) {
+      return(c(i, n/i))
+    }
+  }
+}
 
 plot_line_df <- function(df, x)
 {
@@ -39,7 +51,7 @@ plot_line_df <- function(df, x)
 	for ( i in 1:length(name))
 	{
 		plt <- numeric_columns[,name[i]] %>% as.data.frame() %>% ggplot() +
-		geom_line(aes(x=df[,x], y = .),colour = "dodgerblue4", linewidth=1.1)+
+		geom_line(aes(x=df[,x], y = .),colour = "dodgerblue4", linewidth=1.0)+
 		labs(x = name[i])
 		
 		pltlist <- c(pltlist, list(plt))
@@ -48,6 +60,19 @@ plot_line_df <- function(df, x)
 	plt <- plot_grid(plotlist = pltlist, ncol = n, nrow=n)
 	plt
 	ggsave(filename="line.png", plt, limitsize=F, width = 16, height = 9)
+	
+	ggpltlist=list()
+	for ( i in 1:length(pltlist))
+	{
+		ggpltlist[[i]] <- pltlist[[i]]
+	}
+	
+	n = find_closest_factors(length(ggpltlist))
+	if ( n[1] == 1 && length(ggpltlist) > 1) n = find_closest_factors(length(ggpltlist)+1)
+	gg_plotly <- plotly::subplot(ggpltlist, nrows = n[2])
+
+	print(gg_plotly)
+	htmlwidgets::saveWidget(as_widget(gg_plotly), "line.html", selfcontained = F)
 	
 	return(plt)
 }
@@ -78,6 +103,19 @@ plot_hist_df <- function(df)
 	plt
 	ggsave(filename="hist.png", plt, limitsize=F, width = 16, height = 9)
 	
+	ggpltlist=list()
+	for ( i in 1:length(pltlist))
+	{
+		ggpltlist[[i]] <- pltlist[[i]]
+	}
+	
+	n = find_closest_factors(length(ggpltlist))
+	if ( n[1] == 1 && length(ggpltlist) > 1) n = find_closest_factors(length(ggpltlist)+1)
+	gg_plotly <- plotly::subplot(ggpltlist, nrows = n[2])
+
+	print(gg_plotly)
+	htmlwidgets::saveWidget(as_widget(gg_plotly), "hist.html", selfcontained = F)
+
 	return(plt)
 }
 
@@ -111,20 +149,21 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	}
 	tmp <- tmp %>% rename("date" = x)
 	tmp <- tmp %>% rename("target" = y)
+	
 
 	if ( id != "" )
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target, color=id))+
-		  geom_line(linewidth =0.7,linetype = "longdash")+
-		  geom_line(aes(x = date, y = predict, color = id),linewidth =1.0)+
+		  geom_line(linewidth =0.5,linetype = "dotted")+
+		  geom_line(aes(x = date, y = predict, color = id),linewidth =0.6)+
 		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
 	}else
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target))+
-		  geom_line(linewidth =1.2, color = line_color_bule, linetype = "longdash")+
+		  geom_line(linewidth =0.5, color = line_color_bule, linetype = "dash")+
 		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)+
 		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -133,6 +172,10 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	plt
 	ggsave(filename="predict1.png", plt, limitsize=F, width = 16, height = 9)
 	
+	plt_plotly <- ggplotly(plt)
+	print(plt_plotly)
+	htmlwidgets::saveWidget(as_widget(plt_plotly), "predict1.html", selfcontained = F)
+
 	rm(tmp)
 	return(plt)
 	  
@@ -200,10 +243,19 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		}
 		plt <- tmp2 %>%
 		  ggplot() +
-		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =1.2) +
-		  geom_line( aes(x = date, y = target), color = line_color_bule, linewidth =1.2) +
+		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =0.6) +
+		  geom_line( aes(x = date, y = target), color = line_color_bule, linewidth =0.6) +
+		  labs(x = IDs[i])+
+		
+		if (F)
+		{
+		plt <- tmp2 %>%
+		  ggplot() +
+		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =0.6) +
+		  geom_line( aes(x = date, y = target), color = line_color_bule, linewidth =0.6) +
 		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+		}
 		if ( !is.null(IDs))
 		{
 			plt <- plt  + labs(x = IDs[i])
@@ -219,6 +271,19 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	plt
 	ggsave(filename="predict2.png", plt, limitsize=F, width = 16, height = 9)
 	
+	ggpltlist=list()
+	for ( i in 1:length(pltlist))
+	{
+		ggpltlist[[i]] <- pltlist[[i]]
+	}
+	
+	n = find_closest_factors(length(ggpltlist))
+	if ( n[1] == 1 && length(ggpltlist) > 1) n = find_closest_factors(length(ggpltlist)+1)
+	gg_plotly <- plotly::subplot(ggpltlist, nrows = n[2])
+
+	print(gg_plotly)
+	htmlwidgets::saveWidget(as_widget(gg_plotly), "predict2.html", selfcontained = F)
+
 	rm(tmp)
 	return(plt)
 	

@@ -581,6 +581,9 @@ namespace tft
             cmd += "    library(ggpubr)\r\n";
             cmd += "    library(timetk)\r\n";
             cmd += "    library(magrittr)\r\n";
+            cmd += "    library(plotly)\r\n";
+            cmd += "    library(patchwork)\r\n";
+            cmd += "    library(htmlwidgets)\r\n";
             cmd += "})\r\n";
             cmd += "set.seed(1)\r\n";
             cmd += "\r\n";
@@ -776,11 +779,12 @@ namespace tft
                     sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
 
-                    sw.Write("imagePictureBox2,", imagePictureBox2 + "\n");
-                    sw.Write("imagePictureBox4,", imagePictureBox4 + "\n");
-                    sw.Write("imagePictureBox5,", imagePictureBox5 + "\n");
-                    sw.Write("imagePictureBox6,", imagePictureBox6 + "\n");
-                    sw.Write("imagePictureBox7,", imagePictureBox7 + "\n");
+                    sw.Write("imagePictureBox2,"+ imagePictureBox2 + "\n");
+                    sw.Write("imagePictureBox4,"+ imagePictureBox4 + "\n");
+                    sw.Write("imagePictureBox5,"+ imagePictureBox5 + "\n");
+                    sw.Write("imagePictureBox6,"+ imagePictureBox6 + "\n");
+                    sw.Write("imagePictureBox7,"+ imagePictureBox7 + "\n");
+                    sw.Write("imagePictureBox8,"+ imagePictureBox8 + "\n");
 
                     sw.Write("r_path," + textBox1.Text + "\n");
                 }
@@ -1264,6 +1268,13 @@ namespace tft
                             pictureBox7.Image = CreateImage(imagePictureBox7);
                             continue;
                         }
+                        if (ss[0].IndexOf("imagePictureBox8") >= 0)
+                        {
+                            imagePictureBox8 = ss[1].Replace("\r\n", "");
+                            pictureBox8.Image = CreateImage(imagePictureBox7);
+                            continue;
+                        }
+
 
 
                         if (ss[0].IndexOf("r_path") >= 0)
@@ -1452,6 +1463,8 @@ namespace tft
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
 
+            clear();
+
             listBox_remake(false, true);
 
             comboBox4.Items.Clear();
@@ -1499,65 +1512,78 @@ namespace tft
 
         void clear()
         {
-            if (File.Exists("tft_train_errorLog_" + base_name + ".txt"))
+            if (File.Exists(base_name0 + "_train.csv"))
             {
-                File.Delete("tft_train_errorLog_" + base_name + ".txt");
+                File.Delete(base_name0 + "_train.csv");
             }
-            if (File.Exists("tft_predict_errorLog_" + base_name + ".txt"))
+            if (File.Exists(base_name0 + "_valid.csv"))
             {
-                File.Delete("tft_predict_errorLog_" + base_name + ".txt");
+                File.Delete(base_name0 + "_valid.csv");
             }
-            if (File.Exists("tft_predict_measure_" + base_name + ".png"))
+            if (File.Exists(base_name0 + "_test.csv"))
             {
-                File.Delete("tft_predict_measure_" + base_name + ".png");
+                File.Delete(base_name0 + "_test.csv");
             }
-            if (File.Exists(base_name + "_predict_measure.txt"))
+            if (File.Exists("names.txt"))
             {
-                File.Delete(base_name + "_predict_measure.txt");
+                File.Delete("names.txt");
             }
-            if (File.Exists("tft_" + base_name + ".RData"))
+            if (File.Exists("types.txt"))
             {
-                File.Delete("tft_" + base_name + ".RData");
+                File.Delete("types.txt");
             }
-            if (File.Exists(base_name + "_fitted.rd"))
+            if (File.Exists("TimeStart_End.txt"))
             {
-                File.Delete(base_name + "_fitted.rd");
+                File.Delete("TimeStart_End.txt");
             }
-            if (File.Exists(base_name + "_predict.png"))
+            if (File.Exists("TimeStep.txt"))
             {
-                File.Delete(base_name + "_predict.png");
+                File.Delete("TimeStep.txt");
             }
-            if (File.Exists(base_name + "_predict_real.png"))
+            if (File.Exists("line.png"))
             {
-                File.Delete(base_name + "_predict_real.png");
+                File.Delete("line.png");
             }
-            if (File.Exists(base_name + "_p_learn_rate_plot.png"))
+            if (File.Exists("hist.png"))
             {
-                File.Delete(base_name + "_p_learn_rate_plot.png");
+                File.Delete("hist.png");
             }
-            if (File.Exists(base_name + "_p_input_plot.png"))
+
+            if (File.Exists("importance.png"))
             {
-                File.Delete(base_name + "_p_input_plot.png");
+                File.Delete("importance.png");
             }
-            if (File.Exists(base_name + "_fitted_plot.png"))
+            if (File.Exists("predict1.png"))
             {
-                File.Delete(base_name + "_fitted_plot.png");
+                File.Delete("predict1.png");
             }
-            if (System.IO.File.Exists(work_dir + "\\tft_" + base_name + "_p.html"))
+            if (File.Exists("predict2.png"))
             {
-                File.Delete(work_dir + "\\tft_" + base_name + "_p.html");
+                File.Delete("predict2.png");
             }
-            if (System.IO.File.Exists(work_dir + "\\tft_" + base_name + "_p_learn_rate_plot.html"))
+            if (File.Exists("predict_measure.png"))
             {
-                File.Delete(work_dir + "\\tft_" + base_name + "_p_learn_rate_plot.html");
+                File.Delete("predict_measure.png");
             }
-            if (System.IO.File.Exists(work_dir + "\\tft_" + base_name + "_plt0.html"))
+            if (File.Exists("hist.html"))
             {
-                File.Delete(work_dir + "\\tft_" + base_name + "_plt0.html");
+                File.Delete("hist.html");
             }
-            if (System.IO.File.Exists(work_dir + "\\tft_" + base_name + "_p.html"))
+            if (File.Exists("line.html"))
             {
-                File.Delete(work_dir + "\\tft_" + base_name + "_p.html");
+                File.Delete("line.html");
+            }
+            if (File.Exists("importance.html"))
+            {
+                File.Delete("importance.html");
+            }
+            if (File.Exists("predict1.html"))
+            {
+                File.Delete("predict1.html");
+            }
+            if (File.Exists("predict2.html"))
+            {
+                File.Delete("predict2.html");
             }
         }
 
@@ -2225,6 +2251,7 @@ namespace tft
 
                     numericUpDown9.Value = lag_min;
                     numericUpDown9.Refresh();
+                    label80.Text = lag_min.ToString();
 
                     if (comboBox5.Text != "")
                     {
@@ -2867,6 +2894,17 @@ namespace tft
                             line = sr.ReadLine();
                             txts = line.Split(',');
                             label79.Text = txts[1].Replace("\r", "").Replace("\n", "");
+                            if (numericUpDown9.Value.ToString() != "")
+                            {
+                                if (int.Parse(label79.Text) > numericUpDown9.Value)
+                                {
+                                    label79.ForeColor = Color.FromArgb(255, 0, 0);
+                                }
+                                else
+                                {
+                                    label79.ForeColor = Color.FromArgb(0, 255, 0);
+                                }
+                            }
                         }
                     }
                     sr.Close();
@@ -3029,10 +3067,32 @@ namespace tft
             {
                 File.Delete("importance.png");
             }
+            if (File.Exists("predict1.png"))
+            {
+                File.Delete("predict1.png");
+            }
+            if (File.Exists("predict2.png"))
+            {
+                File.Delete("predict2.png");
+            }
+            if (File.Exists("importance.html"))
+            {
+                File.Delete("importance.html");
+            }
+            if (File.Exists("predict1.html"))
+            {
+                File.Delete("predict1.html");
+            }
+            if (File.Exists("predict2.html"))
+            {
+                File.Delete("predict2.html");
+            }
+
 
             string cmd1 = tft_header_ru();
             string cmd = "";
 
+            cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "train <- fread(\"" + base_name0 + "_train.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "valid <- fread(\"" + base_name0 + "_valid.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "test <- fread(\"" + base_name0 + "_test.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
@@ -3127,6 +3187,11 @@ namespace tft
             train += "importance_plt <- xgb.ggplot.importance(importance, measure = NULL, rel_to_first = T, top_n = 25)\r\n";
             train += "importance_plt + ggplot2::ylab(\"Importance\")\r\n";
             train += "ggsave(file = \"importance.png\", plot = importance_plt, limitsize=F, width = 16, height = 9)\r\n";
+            train += "plt_plotly <-ggplotly(importance_plt)\r\n";
+            train += "print(plt_plotly)\r\n";
+            train += "htmlwidgets::saveWidget(as_widget(plt_plotly), 'importance.html', selfcontained = F)\r\n";
+
+
             train += "return(model_xgb)}\r\n";
 
             cmd += "source('training_fnc.r')\r\n";
@@ -3202,6 +3267,15 @@ namespace tft
                 File.Delete("predict_measure.png");
             }
 
+            if (File.Exists("predict1.html"))
+            {
+                File.Delete("predict1.html");
+            }
+            if (File.Exists("predict2.html"))
+            {
+                File.Delete("predict2.html");
+            }
+
             if (status < 0)
             {
                 if (MessageBox.Show("No data frame used for predictive testing", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
@@ -3210,6 +3284,7 @@ namespace tft
             string cmd1 = tft_header_ru();
             string cmd = "";
 
+            cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "train <- fread(\"" + base_name0 + "_train.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "valid <- fread(\"" + base_name0 + "_valid.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "test <- fread(\"" + base_name0 + "_test.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
@@ -3243,9 +3318,14 @@ namespace tft
 
 
             string recursive_Feature = "";
-            recursive_Feature += "recursive_Feature_predict <- function(test, model_xgb, recursive_step){\r\n";
+            recursive_Feature += "recursive_Feature_predict <- function(df, test, model_xgb, recursive_step){\r\n";
             recursive_Feature += "test  <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
+            recursive_Feature += "df  <- as.data.frame(df)\r\n";
+            recursive_Feature += "test_n <- nrow(test)\r\n";
+            recursive_Feature += "lockback <- as.data.frame(df[1:(nrow(df)-test_n),])\r\n";
+            recursive_Feature += "\r\n";
+
             recursive_Feature += "test_org <- test\r\n";
             recursive_Feature += "nn <- nrow(test)\r\n";
             recursive_Feature += "obs <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
@@ -3267,7 +3347,12 @@ namespace tft
             recursive_Feature += "\r\n";
             recursive_Feature += "	test$" + listBox4.SelectedItem.ToString() + "[d] <- predict$predict\r\n";
             recursive_Feature += "	\r\n";
-            recursive_Feature += "	test <- feature_gen(test, clip = FALSE)\r\n";
+            recursive_Feature += "  xx <- bind_rows(lockback,test)\r\n";
+            recursive_Feature += "  xx <- feature_gen(xx, clip = T)\r\n";
+            recursive_Feature += "  xx <- xx %>% group_by(sistema) %>%\r\n";
+            recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
+            recursive_Feature += "  test <- xx[(nrow(lockback)-test_n+1):nrow(lockback),]\r\n";
+            recursive_Feature += "\r\n";
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
@@ -3295,7 +3380,7 @@ namespace tft
                 cmd += "source('feature_gen_fnc.r')\r\n";
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
-                cmd += "predict <- recursive_Feature_predict(test,model_xgb, recursive_step)\r\n";
+                cmd += "predict <- recursive_Feature_predict(df, test,model_xgb, recursive_step)\r\n";
             }else
             {
                 cmd += "predict <- prediction(test,model_xgb)\r\n";
@@ -3458,6 +3543,13 @@ namespace tft
                         string line = sr.ReadLine();
                         var txts = line.Split(',');
                         label79.Text = txts[1].Replace("\r", "").Replace("\n", "");
+                        if ( int.Parse(label80.Text) > int.Parse(label79.Text))
+                        {
+                            label79.ForeColor = Color.FromArgb(255, 0, 0);
+                        }else
+                        {
+                            label79.ForeColor = Color.FromArgb(0, 0, 0);
+                        }
                     }
                     sr.Close();
                     sr = null;
@@ -3471,8 +3563,8 @@ namespace tft
             if (imagePictureBox2 == "") return;
             Form2 f = new Form2();
 
-            f.SetFile(imagePictureBox2);
-            f.pictureBox1.Image = CreateImage(imagePictureBox2);
+            f.SetFile(work_dir, imagePictureBox2);
+            f.pictureBox1.Image = f.CreateImage(imagePictureBox2);
 
             f.Show();
         }
@@ -3482,8 +3574,8 @@ namespace tft
             if (imagePictureBox4 == "") return;
             Form2 f = new Form2();
 
-            f.SetFile(imagePictureBox4);
-            f.pictureBox1.Image = CreateImage(imagePictureBox4);
+            f.SetFile(work_dir, imagePictureBox4);
+            f.pictureBox1.Image = f.CreateImage(imagePictureBox4);
 
             f.Show();
         }
@@ -3493,8 +3585,8 @@ namespace tft
             if (imagePictureBox5 == "") return;
             Form2 f = new Form2();
 
-            f.SetFile(imagePictureBox5);
-            f.pictureBox1.Image = CreateImage(imagePictureBox5);
+            f.SetFile(work_dir, imagePictureBox5);
+            f.pictureBox1.Image = f.CreateImage(imagePictureBox5);
 
             f.Show();
         }
@@ -3504,8 +3596,8 @@ namespace tft
             if (imagePictureBox6 == "") return;
             Form2 f = new Form2();
 
-            f.SetFile(imagePictureBox6);
-            f.pictureBox1.Image = CreateImage(imagePictureBox6);
+            f.SetFile(work_dir, imagePictureBox6);
+            f.pictureBox1.Image = f.CreateImage(imagePictureBox6);
 
             f.Show();
         }
@@ -3515,8 +3607,8 @@ namespace tft
             if (imagePictureBox7 == "") return;
             Form2 f = new Form2();
 
-            f.SetFile(imagePictureBox7);
-            f.pictureBox1.Image = CreateImage(imagePictureBox7);
+            f.SetFile(work_dir, imagePictureBox7);
+            f.pictureBox1.Image = f.CreateImage(imagePictureBox7);
 
             f.Show();
         }
@@ -3526,8 +3618,8 @@ namespace tft
             if (imagePictureBox8 == "") return;
             Form2 f = new Form2();
 
-            f.SetFile(imagePictureBox8);
-            f.pictureBox1.Image = CreateImage(imagePictureBox8);
+            f.SetFile(work_dir, imagePictureBox8);
+            f.pictureBox1.Image = f.CreateImage(imagePictureBox8);
 
             f.Show();
         }
