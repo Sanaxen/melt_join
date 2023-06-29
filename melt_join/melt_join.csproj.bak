@@ -7,7 +7,7 @@
     <ProjectGuid>{C6572F7B-B844-4541-B185-C251B5209345}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>melt_join</RootNamespace>
-    <AssemblyName>melt_join_el</AssemblyName>
+    <AssemblyName>melt_join</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -76,7 +76,7 @@
       <HintPath>..\packages\Microsoft.Web.WebView2.1.0.1905-prerelease\lib\net45\Microsoft.Web.WebView2.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.1\System.dll</HintPath>
     </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

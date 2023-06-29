@@ -185,6 +185,42 @@ namespace tft
             }
         }
 
+        public string script_file_ = "";
+        public void execute_()
+        {
+            bool wait = true;
+            ProcessStartInfo pInfo = new ProcessStartInfo();
+            //pInfo.FileName = textBox1.Text + "\\R.exe";
+            //pInfo.Arguments = "CMD BATCH  --vanilla " + script_file;
+
+            //pInfo.FileName = textBox1.Text + "\\Rscript.exe";
+            //pInfo.Arguments = "" + script_file;
+
+            pInfo.FileName = textBox1.Text + "\\x64\\Rscript.exe";
+            pInfo.Arguments = "" + script_file_;
+
+            if (!File.Exists(pInfo.FileName))
+            {
+                MessageBox.Show(pInfo.FileName + " is not found.\nPlease confirm that " + textBox1.Text + " is specified as the file path, which is correct.");
+                return;
+            }
+            //Process p = Process.Start(pInfo);
+            Process p = new Process();
+            p.StartInfo = pInfo;
+
+            if (wait)
+            {
+                p.Start();
+                p.WaitForExit();
+            }
+            else
+            {
+                stopwatch.Start();
+                p.Exited += new EventHandler(Proc_Exited);
+                p.EnableRaisingEvents = true;
+                p.Start();
+            }
+        }
         public void execute(string script_file, bool wait = true)
         {
             ProcessStartInfo pInfo = new ProcessStartInfo();
@@ -779,6 +815,10 @@ namespace tft
                     sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
 
+                    sw.Write("radioButton1," + (radioButton1.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("radioButton2," + (radioButton2.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("radioButton3," + (radioButton3.Checked ? "TRUE" : "FALSE") + "\n");
+
                     sw.Write("imagePictureBox2,"+ imagePictureBox2 + "\n");
                     sw.Write("imagePictureBox4,"+ imagePictureBox4 + "\n");
                     sw.Write("imagePictureBox5,"+ imagePictureBox5 + "\n");
@@ -1238,6 +1278,23 @@ namespace tft
                             checkBox9.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
                             continue;
                         }
+
+                        if (ss[0].IndexOf("radioButton1") >= 0)
+                        {
+                            radioButton1.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("radioButton2") >= 0)
+                        {
+                            radioButton2.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("radioButton3") >= 0)
+                        {
+                            radioButton3.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
+
                         if (ss[0].IndexOf("imagePictureBox2") >= 0)
                         {
                             imagePictureBox2 = ss[1].Replace("\r\n", "");
@@ -1675,7 +1732,21 @@ namespace tft
             for (int i = 0; i < listBox4.Items.Count; i++)
             {
                 if (listBox4.GetSelected(i)) listBox1.SetSelected(i, false);
-                else listBox1.SetSelected(i, true);
+                else
+                {
+                    listBox1.SetSelected(i, true);
+
+                    if (comboBox4.Text != "")
+                    {
+                        if (listBox1.Items[i].ToString() == comboBox4.Text)
+                        { listBox1.SetSelected(i, false); }
+                    }
+                    if (comboBox5.Text != "")
+                    {
+                        if (listBox1.Items[i].ToString() == comboBox5.Text)
+                        { listBox1.SetSelected(i, false); }
+                    }
+                }
             }
         }
 
@@ -2607,6 +2678,13 @@ namespace tft
             if (textBox14.Text == "" || textBox15.Text == "") return;
             if (textBox16.Text == "" || textBox17.Text == "") return;
 
+            if (radioButton3.Checked)
+            {
+                cmd += "use_KDE = T\r\n";
+            }else
+            {
+                cmd += "use_KDE = F\r\n";
+            }
             cmd += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz ='UTC')\r\n";
             cmd += "if (as.POSIXct('" + textBox17.Text + "', tz ='UTC') > max(df$" + comboBox5.Text + "))\r\n";
             cmd += "{\r\n";
@@ -2676,7 +2754,7 @@ namespace tft
             }
             cmd += "            }\r\n";
             cmd += "\r\n";
-            cmd += "			if ( random_sampling ){\r\n";
+            cmd += "			if ( random_sampling || use_KDE){\r\n";
             if (comboBox4.Text == "")
             {
                 cmd += "			   wrk2 <- wrk[,-c('" + comboBox5.Text + "')]\r\n";
@@ -2688,7 +2766,17 @@ namespace tft
             cmd += "			   names <- colnames(wrk2)\r\n";
             cmd += "               for ( j in 1:length(names)){\r\n";
             cmd += "                   d <- data.frame(df)[,names[j]]\r\n";
-            cmd += "                   wrk2[1,j] <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            cmd += "                   if ( use_KDE )\r\n";
+            cmd += "                   {\r\n";
+            cmd += "                       # Kernel Density Estimation\r\n";
+            cmd += "                       kde <- density(d)\r\n";
+            cmd += "                       #plot(kde, main = 'Kernel Density Estimation')\r\n";
+            cmd += "                       next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+            cmd += "                   }else\r\n";
+            cmd += "                   {\r\n";
+            cmd += "                       next_sample <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            cmd += "                   }\r\n";
+            cmd += "                   wrk2[1,j] <- next_sample\r\n";
             cmd += "			   }\r\n";
             cmd += "			}\r\n";
             if (comboBox4.Text == "")
@@ -3275,6 +3363,10 @@ namespace tft
             {
                 File.Delete("predict2.html");
             }
+            if (File.Exists("progress.txt"))
+            {
+                File.Delete("progress.txt");
+            }
 
             if (status < 0)
             {
@@ -3319,6 +3411,8 @@ namespace tft
 
             string recursive_Feature = "";
             recursive_Feature += "recursive_Feature_predict <- function(df, test, model_xgb, recursive_step){\r\n";
+            recursive_Feature += "if ( file.exists(\"progress.txt\")) file.remove(\"progress.txt\")\r\n";
+
             recursive_Feature += "test  <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "df  <- as.data.frame(df)\r\n";
@@ -3329,7 +3423,14 @@ namespace tft
             recursive_Feature += "test_org <- test\r\n";
             recursive_Feature += "nn <- nrow(test)\r\n";
             recursive_Feature += "obs <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
-            recursive_Feature += "n = length(unique(test$" + comboBox4.Text + "))\r\n";
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "n = length(unique(test$" + comboBox4.Text + "))\r\n";
+            }
+            else
+            {
+                recursive_Feature += "n = 1\r\n";
+            }
             recursive_Feature += "\r\n";
             recursive_Feature += "lag_min = recursive_step\r\n";
             recursive_Feature += "\r\n";
@@ -3353,6 +3454,62 @@ namespace tft
             recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
             recursive_Feature += "  test <- xx[(nrow(lockback)-test_n+1):nrow(lockback),]\r\n";
             recursive_Feature += "\r\n";
+
+            //sampline 
+            recursive_Feature += "\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "### Sampling probable values ​​of explanatory variables from the past\r\n";
+            recursive_Feature += "  random_sampling = F\r\n";
+            recursive_Feature += "  use_KDE = F\r\n";
+            recursive_Feature += "	if ( random_sampling ){\r\n";
+            if (comboBox4.Text != "" && comboBox5.Text != "")
+            {
+                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'"+comboBox5.Text+ "',-'" + comboBox4.Text + "' )\r\n";
+            }
+            if (comboBox4.Text == "" && comboBox5.Text != "")
+            {
+                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "')\r\n";
+            }
+            if (comboBox4.Text != "" && comboBox5.Text == "")
+            {
+                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox4.Text + "')\r\n";
+            }
+            if (comboBox4.Text == "" && comboBox5.Text == "")
+            {
+                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame()\r\n";
+            }
+
+
+            recursive_Feature += "	   wrk2 <- wrk2[d,]\r\n";
+            recursive_Feature += "	   \r\n";
+            recursive_Feature += "	   names <- colnames(wrk2)\r\n";
+            recursive_Feature += "	   for ( ii in 1:length(d))\r\n";
+            recursive_Feature += "	   {\r\n";
+            recursive_Feature += "	       for ( j in 1:length(names)){\r\n";
+            recursive_Feature += "	           df_tmp <- data.frame(df)[,names[j]]\r\n";
+            recursive_Feature += "	           if ( use_KDE )\r\n";
+            recursive_Feature += "	           {\r\n";
+            recursive_Feature += "	               # Kernel Density Estimation\r\n";
+            recursive_Feature += "	               kde <- density(df_tmp)\r\n";
+            recursive_Feature += "	               #plot(kde, main = 'Kernel Density Estimation')\r\n";
+            recursive_Feature += "	               next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+            recursive_Feature += "	           }else\r\n";
+            recursive_Feature += "	           {\r\n";
+            recursive_Feature += "	               next_sample <- rnorm(1, mean=mean(df_tmp,na.rm=T), sd=sd(df_tmp,na.rm=T))\r\n";
+            recursive_Feature += "	           }\r\n";
+            recursive_Feature += "	           wrk2[ii,names[j]] <- next_sample\r\n";
+            recursive_Feature += "		   }\r\n";
+            recursive_Feature += "	    }\r\n";
+            recursive_Feature += "	    \r\n";
+            recursive_Feature += "	    test=as.data.frame(test)\r\n";
+            recursive_Feature += "	    wrk2=as.data.frame(wrk2)\r\n";
+            recursive_Feature += "	    test[d, names] <- wrk2[,names]\r\n";
+            recursive_Feature += "	}\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "\r\n";
+            //
+
+
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
@@ -3362,6 +3519,26 @@ namespace tft
             recursive_Feature += "	\r\n";
             recursive_Feature += "	if ( s >= nn) break\r\n";
             recursive_Feature += "	if ( e >= nn) e = nn\r\n";
+            recursive_Feature += "\r\n";
+
+            //progress
+            recursive_Feature += "## progress\r\n";
+            recursive_Feature += "        tryCatch({\r\n";
+            recursive_Feature += "            sink(\"progress.txt\")\r\n";
+            recursive_Feature += "            cat(e)\r\n";
+            recursive_Feature += "            cat (\"/\")\r\n";
+            recursive_Feature += "            cat(nn)\r\n";
+            recursive_Feature += "            cat(\"\\r\\n\")\r\n";
+            recursive_Feature += "            flush.console()\r\n";
+            recursive_Feature += "            sink()\r\n";
+            recursive_Feature += "        },\r\n";
+            recursive_Feature += "        error = function(e) {\r\n";
+            recursive_Feature += "            sink()\r\n";
+            recursive_Feature += "        },\r\n";
+            recursive_Feature += "        finally   = {\r\n";
+            recursive_Feature += "        },silent = TRUE )\r\n";
+            recursive_Feature += "\r\n";
+
             recursive_Feature += "}\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "predict <- test_org\r\n";
@@ -3375,8 +3552,20 @@ namespace tft
             cmd += "source('prediction_fnc.r')\r\n";
             cmd += "model_xgb <- readRDS(\"model_xgb\")\r\n";
 
+            timer1.Stop();
+            timer1.Enabled = false;
+            progressBar1.Value = 0;
+
             if ( checkBox7.Checked)
             {
+                if (numericUpDown6.Value < 1)
+                {
+                    if (MessageBox.Show("recursive_step=0" ,"", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                        return;
+                }
+                timer1.Enabled = true;
+                timer1.Start();
+
                 cmd += "source('feature_gen_fnc.r')\r\n";
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
@@ -3443,7 +3632,23 @@ namespace tft
 
             cmd_all += cmd;
             cmd_save();
-            execute(file);
+
+            if (checkBox7.Checked)
+            {
+                script_file_ = file;
+                System.Threading.ThreadStart ts = new System.Threading.ThreadStart(execute_);
+                System.Threading.Thread thread = new System.Threading.Thread(ts);
+                thread.Start();
+
+                while (thread.IsAlive)
+                {
+                    Application.DoEvents();
+                }
+            }else
+            {
+                execute(file);
+            }
+
             if (!File.Exists(base_name0 + "_predict.csv"))
             {
                 status = -1;
@@ -3622,6 +3827,49 @@ namespace tft
             f.pictureBox1.Image = f.CreateImage(imagePictureBox8);
 
             f.Show();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            string line = "";
+            System.IO.StreamReader sr = null;
+            try
+            {
+                if (System.IO.File.Exists("progress.txt"))
+                {
+                    sr = new System.IO.StreamReader("progress.txt");
+                    line = sr.ReadLine();
+                }
+            }
+            catch { }
+            finally
+            {
+                if (sr != null)
+                {
+                    sr.Close();
+                }
+            }
+
+            if (line != "")
+            {
+                line = line.Replace("\r\n", "");
+                var count = line.Split('/')[0];
+                var tot = line.Split('/')[1];
+                float x = float.Parse(count);
+                float y = float.Parse(tot);
+                float p = 1000.0f*(x / y);
+                if (p > 1000.0f) p = 1000.0f;
+                //progressBar1.Maximum = int.Parse(tot);
+                //progressBar1.Value = int.Parse(count);
+                progressBar1.Value = (int)p;
+
+                if (progressBar1.Maximum == progressBar1.Value)
+                {
+                    timer1.Stop();
+                    timer1.Enabled = false;
+                }
+                progressBar1.Refresh();
+            }
         }
     }
 }
