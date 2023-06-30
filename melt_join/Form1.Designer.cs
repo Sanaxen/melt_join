@@ -515,12 +515,22 @@ namespace tft
             0,
             0,
             0});
+            this.numericUpDown6.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpDown6.Name = "numericUpDown6";
             this.numericUpDown6.Size = new System.Drawing.Size(51, 19);
             this.numericUpDown6.TabIndex = 74;
             this.toolTip1.SetToolTip(this.numericUpDown6, "Specifying an edit number\r\nSpecifies the number of edits to start from.\r\n0 is the" +
         " file selected at the starting point without editing.\r\nIf it is 1, it will be a " +
         "file created by the first editing.");
+            this.numericUpDown6.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // button9
             // 
@@ -3416,7 +3426,7 @@ namespace tft
             // 
             this.numericUpDown9.Location = new System.Drawing.Point(234, 19);
             this.numericUpDown9.Maximum = new decimal(new int[] {
-            100000,
+            100000000,
             0,
             0,
             0});

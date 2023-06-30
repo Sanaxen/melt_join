@@ -34,7 +34,7 @@ namespace tft
         public string encoding = "sjis";
 
         public string cmd_all = "";
-        public int output_idx = 0;
+        public int output_idx = 1;
         public string with_current_df_cmd = "";
         public ListBox feature_cmd = new ListBox();
 
@@ -1497,7 +1497,6 @@ namespace tft
             System.IO.Directory.SetCurrentDirectory(work_dir);
 
             int id = (int)numericUpDown6.Value;
-            id = id - 1;
 
             string tmp = Path.GetDirectoryName(work_dir + "\\" + base_name + ".csv");
             if (csv_dir != Path.GetDirectoryName(work_dir + "\\"+base_name + ".csv"))
@@ -1506,15 +1505,16 @@ namespace tft
             }
             base_name0 = base_name;
 
-            if (id >= 0)
+            if (id > 1)
             {
                 if (!File.Exists(work_dir + string.Format("\\{0}{1}", base_name0, id) + ".csv"))
                 {
                     return;
                 }
                 base_name = string.Format("{0}{1}", base_name0, id);
-                update_output_idx(id);
+                output_idx = id;
             }
+            numericUpDown6.Value = output_idx;
 
             this.Text = "[" + base_name + "]";
             with_current_df_cmd = "";
@@ -2242,7 +2242,8 @@ namespace tft
 
             textBox7.Text = "";
             int skip_row_max = 0;
-            int lag_min = 100000000;
+            const int LAG_MAX = 100000000;
+            int lag_min = LAG_MAX;
             if (listBox3.SelectedItems.Count >= 1)
             {
                 for (int i = 0; i < listBox3.SelectedItems.Count; i++)
@@ -2320,55 +2321,57 @@ namespace tft
                         }
                     }
 
-                    numericUpDown9.Value = lag_min;
-                    numericUpDown9.Refresh();
-                    label80.Text = lag_min.ToString();
-
+                    if (lag_min < LAG_MAX)
+                    {
+                        numericUpDown9.Value = lag_min;
+                        numericUpDown9.Refresh();
+                        label80.Text = lag_min.ToString();
+                    }
                     if (comboBox5.Text != "")
                     {
                         if (args[0] == "year")
                         {
-                            addfeature_cmd.Items.Add(string.Format("year_{0} = as.factor(lubridate::year(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("year_{0} = as.integer(lubridate::year(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "quarter")
                         {
-                            addfeature_cmd.Items.Add(string.Format("quarter_{0} = as.factor(lubridate::quarter(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("quarter_{0} = as.integer(lubridate::quarter(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "month")
                         {
-                            addfeature_cmd.Items.Add(string.Format("month_{0} = as.factor(lubridate::month(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("month_{0} = as.integer(lubridate::month(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "wday")
                         {
-                            addfeature_cmd.Items.Add(string.Format("wday_{0} = as.factor(lubridate::wday(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("wday_{0} = as.integer(lubridate::wday(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "yday")
                         {
-                            addfeature_cmd.Items.Add(string.Format("yday_{0} = as.factor(lubridate::yday(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("yday_{0} = as.integer(lubridate::yday(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "day")
                         {
-                            addfeature_cmd.Items.Add(string.Format("day_{0} = as.factor(lubridate::day(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("day_{0} = as.integer(lubridate::day(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "hour")
                         {
-                            addfeature_cmd.Items.Add(string.Format("hour_{0} = as.factor(lubridate::hour(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("hour_{0} = as.integer(lubridate::hour(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "am")
                         {
-                            addfeature_cmd.Items.Add(string.Format("am_{0} = as.factor(lubridate::am(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("am_{0} = as.integer(lubridate::am(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "pm")
                         {
-                            addfeature_cmd.Items.Add(string.Format("pm_{0} = as.factor(lubridate::pm(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("pm_{0} = as.integer(lubridate::pm(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "minute")
                         {
-                            addfeature_cmd.Items.Add(string.Format("minute_{0} = as.factor(lubridate::minute(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("minute_{0} = as.integer(lubridate::minute(" + comboBox5.Text + "))", args[1]));
                         }
                         if (args[0] == "second")
                         {
-                            addfeature_cmd.Items.Add(string.Format("second_{0} = as.factor(lubridate::second(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("second_{0} = as.integer(lubridate::second(" + comboBox5.Text + "))", args[1]));
                         }
                     }
                     textBox7.Text += addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString() + "\r\n";
@@ -3450,9 +3453,14 @@ namespace tft
             recursive_Feature += "	\r\n";
             recursive_Feature += "  xx <- bind_rows(lockback,test)\r\n";
             recursive_Feature += "  xx <- feature_gen(xx, clip = T)\r\n";
-            recursive_Feature += "  xx <- xx %>% group_by(sistema) %>%\r\n";
-            recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
-            recursive_Feature += "  test <- xx[(nrow(lockback)-test_n+1):nrow(lockback),]\r\n";
+            //recursive_Feature += "  xx <- xx %>% \r\n";
+
+            //if (comboBox4.Text != "")
+            //{
+            //    recursive_Feature += "   group_by('"+ comboBox4.Text+"') %>%\r\n";
+            //}
+            //recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
+            recursive_Feature += "  test <- xx[(nrow(xx)-test_n+1):nrow(xx),]\r\n";
             recursive_Feature += "\r\n";
 
             //sampline 
@@ -3523,6 +3531,7 @@ namespace tft
 
             //progress
             recursive_Feature += "## progress\r\n";
+            recursive_Feature += "        print(sprintf(\"%d/%d %.3f%%\", e, nn, 100*as.integer(1000*e/nn)/1000.0))\r\n";
             recursive_Feature += "        tryCatch({\r\n";
             recursive_Feature += "            sink(\"progress.txt\")\r\n";
             recursive_Feature += "            cat(e)\r\n";

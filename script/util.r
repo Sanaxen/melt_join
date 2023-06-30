@@ -128,7 +128,7 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	timestep=timeUnit
 	t <- train
 
-	if ( !is.null(valid) )
+	if ( !is.null(valid) && nrow(valid)> 0 )
 	{
 		t <- bind_rows(train, valid)
 	}
@@ -149,7 +149,7 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	}
 	tmp <- tmp %>% rename("date" = x)
 	tmp <- tmp %>% rename("target" = y)
-	
+	tmp$date <- as.POSIXct(tmp$date, tz='UTC')
 
 	if ( id != "" )
 	{
@@ -163,7 +163,7 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target))+
-		  geom_line(linewidth =0.5, color = line_color_bule, linetype = "dash")+
+		  geom_line(linewidth =0.5, color = line_color_bule, linetype = "dotted")+
 		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)+
 		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -187,7 +187,7 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	timestep=timeUnit
 	t <- train
 
-	if ( !is.null(valid) )
+	if ( !is.null(valid)  && nrow(valid)> 0)
 	{
 		t <- bind_rows(train, valid)
 	}
