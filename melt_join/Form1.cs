@@ -814,6 +814,7 @@ namespace tft
                     sw.Write("checkBox8," + (checkBox8.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox9," + (checkBox9.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("checkBox10," + (checkBox10.Checked ? "TRUE" : "FALSE") + "\n");
+                    sw.Write("checkBox11," + (checkBox11.Checked ? "TRUE" : "FALSE") + "\n");
 
                     sw.Write("radioButton1," + (radioButton1.Checked ? "TRUE" : "FALSE") + "\n");
                     sw.Write("radioButton2," + (radioButton2.Checked ? "TRUE" : "FALSE") + "\n");
@@ -1233,6 +1234,11 @@ namespace tft
                             continue;
                         }
 
+                        if (ss[0].IndexOf("checkBox11") >= 0)
+                        {
+                            checkBox11.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
+                            continue;
+                        }
                         if (ss[0].IndexOf("checkBox10") >= 0)
                         {
                             checkBox10.Checked = (ss[1].Replace("\r\n", "")=="TRUE")?true:false;
@@ -2441,6 +2447,49 @@ namespace tft
                 feature_gen += "group_by(" + comboBox4.Text + ") %>%\r\n";
             }
             feature_gen += "            mutate(sequence_index = row_number())\r\n";
+
+            if (checkBox11.Checked && comboBox5.Text != "")
+            {
+                if (comboBox4.Text != "")
+                {
+                    feature_gen += "IDs = unique(df$" + comboBox4.Text + ")\r\n";
+                    feature_gen += "for ( k in 1:length(IDs))\r\n";
+                    feature_gen += "{\r\n";
+                    feature_gen += "    tmp <- df %>% filter("+comboBox4.Text+" == IDs[k])\r\n";
+                }
+                else
+                {
+                    feature_gen += "    tmp <- df\r\n";
+
+                }
+                feature_gen += "    dt = as.numeric(abs(difftime(tmp$" + comboBox5.Text + "[2],tmp$" + comboBox5.Text + "[1],  units='secs')))\r\n";
+                feature_gen += "    \r\n";
+                feature_gen += "    if ( 31540000/dt > 1 )\r\n";
+                feature_gen += "    {\r\n";
+                feature_gen += "    	df$sin_Y = sin(2*pi*df$sequence_index/(31540000/dt))\r\n";
+                feature_gen += "    	df$cos_Y = cos(2*pi*df$sequence_index/(31540000/dt))\r\n";
+                feature_gen += "    }\r\n";
+                feature_gen += "    if ( 2628000/dt  > 1 )\r\n";
+                feature_gen += "    {\r\n";
+                feature_gen += "	    df$sin_M = sin(2*pi*df$sequence_index/(2628000/dt))\r\n";
+                feature_gen += "	    df$cos_M = cos(2*pi*df$sequence_index/(2628000/dt))\r\n";
+                feature_gen += "	}\r\n";
+                feature_gen += "	if ( 604876.71/dt > 1 )\r\n";
+                feature_gen += "	{\r\n";
+                feature_gen += "	    df$sin_W = sin(2*pi*df$sequence_index/(604876.71/dt))\r\n";
+                feature_gen += "	    df$cos_W = cos(2*pi*df$sequence_index/(604876.71/dt))\r\n";
+                feature_gen += "    }\r\n";
+                feature_gen += "    \r\n";
+                feature_gen += "    if ( 86410.96/dt > 1)\r\n";
+                feature_gen += "    {\r\n";
+                feature_gen += "    	df$sin_D = sin(2*pi*df$sequence_index/(86410.96/dt))\r\n";
+                feature_gen += "    	df$cos_D = cos(2*pi*df$sequence_index/(86410.96/dt))\r\n";
+                feature_gen += "    }\r\n";
+                if (comboBox4.Text != "")
+                {
+                    feature_gen += "}\r\n";
+                }
+            }
             if (skip_row_max > 0)
             {
                 feature_gen += "if ( clip ){\r\n";
@@ -3413,14 +3462,15 @@ namespace tft
 
 
             string recursive_Feature = "";
-            recursive_Feature += "recursive_Feature_predict <- function(df, test, model_xgb, recursive_step){\r\n";
+            recursive_Feature += "recursive_Feature_predict <- function(df, train, valid, test, model_xgb, recursive_step){\r\n";
             recursive_Feature += "if ( file.exists(\"progress.txt\")) file.remove(\"progress.txt\")\r\n";
 
             recursive_Feature += "test  <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "df  <- as.data.frame(df)\r\n";
             recursive_Feature += "test_n <- nrow(test)\r\n";
-            recursive_Feature += "lockback <- as.data.frame(df[1:(nrow(df)-test_n),])\r\n";
+            recursive_Feature += "#lockback <- as.data.frame(df[1:(nrow(df)-test_n),])\r\n";
+            recursive_Feature += "lockback <- bind_rows(train, valid)\r\n";
             recursive_Feature += "\r\n";
 
             recursive_Feature += "test_org <- test\r\n";
@@ -3578,7 +3628,7 @@ namespace tft
                 cmd += "source('feature_gen_fnc.r')\r\n";
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
-                cmd += "predict <- recursive_Feature_predict(df, test,model_xgb, recursive_step)\r\n";
+                cmd += "predict <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step)\r\n";
             }else
             {
                 cmd += "predict <- prediction(test,model_xgb)\r\n";
