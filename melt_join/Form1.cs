@@ -1031,7 +1031,7 @@ namespace tft
                         }
                         if (ss[0].IndexOf("textBox24") >= 0)
                         {
-                            textBox18.Text = ss[1].Replace("\r\n", "");
+                            textBox24.Text = ss[1].Replace("\r\n", "");
                             continue;
                         }
                         if (ss[0].IndexOf("textBox25") >= 0)
@@ -1242,6 +1242,11 @@ namespace tft
                         if (ss[0].IndexOf("checkBox10") >= 0)
                         {
                             checkBox10.Checked = (ss[1].Replace("\r\n", "")=="TRUE")?true:false;
+                            continue;
+                        }
+                        if (ss[0].IndexOf("checkBox1") >= 0)
+                        {
+                            checkBox1.Checked = (ss[1].Replace("\r\n", "") == "TRUE") ? true : false;
                             continue;
                         }
                         if (ss[0].IndexOf("checkBox2") >= 0)
