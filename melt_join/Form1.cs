@@ -1921,6 +1921,20 @@ namespace tft
             if (tabControl1.SelectedIndex == 2)
             {
                 listBox4.Enabled = true;
+                listBox1.Enabled = true;
+                listBox2.Enabled = false;
+                listBox3.Enabled = false;
+
+                listBox4.SelectionMode = SelectionMode.MultiSimple;
+                listBox2.SelectionMode = SelectionMode.MultiSimple;
+                label16.Text = "select vars";
+                label11.Text = "";
+                label14.Text = "";
+                label3.Text = "";
+            }
+            if (tabControl1.SelectedIndex == 3)
+            {
+                listBox4.Enabled = true;
                 listBox1.Enabled = false;
                 listBox2.Enabled = true;
                 listBox3.Enabled = true;
@@ -1932,7 +1946,7 @@ namespace tft
                 label14.Text = "right column";
                 label3.Text = "left column = right  column";
             }
-            if (tabControl1.SelectedIndex == 3)
+            if (tabControl1.SelectedIndex == 4)
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = false;
@@ -1945,7 +1959,7 @@ namespace tft
                 label14.Text = "";
                 label3.Text = "";
             }
-            if (tabControl1.SelectedIndex == 4)
+            if (tabControl1.SelectedIndex == 5)
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = false;
@@ -1968,7 +1982,7 @@ namespace tft
                     }
                 }
             }
-            if (tabControl1.SelectedIndex == 5)
+            if (tabControl1.SelectedIndex == 6)
             {
                 listBox4.Enabled = false;
                 listBox1.Enabled = false;
@@ -1979,7 +1993,7 @@ namespace tft
                 label14.Text = "Feature value";
                 label3.Text = "";
             }
-            if(tabControl1.SelectedIndex == 6)
+            if(tabControl1.SelectedIndex == 7)
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = true;
@@ -2002,7 +2016,7 @@ namespace tft
                     }
                 }
             }
-            if (tabControl1.SelectedIndex == 7)
+            if (tabControl1.SelectedIndex == 8)
             {
                 listBox4.Enabled = true;
                 listBox1.Enabled = true;
@@ -3934,6 +3948,84 @@ namespace tft
                 }
                 progressBar1.Refresh();
             }
+        }
+
+        private void button41_Click(object sender, EventArgs e)
+        {
+            status = 0;
+            if (listBox4.SelectedItems.Count == 0)
+            {
+                if (MessageBox.Show("No columns selected to ID.", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            string cmd = "";
+
+            string cmd1 = tft_header_ru();
+
+            cmd += "#df <- read.csv(\"" + base_name + ".csv\", header=T, stringsAsFactors = TRUE, na.strings = c(\"\", \"NA\"))\r\n";
+            cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
+            cmd += "df <- as.data.frame(df)\r\n";
+            cmd += "names <- c(";
+            if (listBox4.SelectedItems.Count >= 1)
+            {
+                cmd += "\"" + listBox4.SelectedItems[0].ToString() + "\"";
+                for (int i = 1; i < listBox4.SelectedItems.Count; i++)
+                {
+                    cmd += ",\"" + listBox4.SelectedItems[i].ToString() + "\"";
+                }
+            }
+            cmd += ")\r\n";
+
+            cmd += "df$Key_Id <- df[,1]\r\n";
+            cmd += "x <- df %>% select(names[1])\r\n";
+            cmd += "Key_Id <- as.character(x[,1])\r\n";
+            cmd += "for ( k in 2:length(names))\r\n";
+            cmd += "{\r\n";
+            cmd += "    x <- df %>% select(names[k])\r\n";
+            cmd += "	y <- as.character(x[,1])\r\n";
+            cmd += "	Key_Id <- paste(Key_Id, y,sep='_')\r\n";
+            cmd += "}\r\n";
+            cmd += "df$Key_Id <- Key_Id\r\n";
+
+            cmd += "#write.csv(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
+            cmd += "fwrite(df,'" + base_name0 + string.Format("{0}.csv", output_idx) + "', row.names = FALSE)\r\n";
+            cmd += "\r\n";
+            cmd += "\r\n";
+
+            string file = string.Format("make_keyID{0}.r", output_idx);
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    sw.Write("options(width=1000)\r\n");
+                    sw.Write(cmd1);
+                    sw.Write(cmd);
+                }
+            }
+            catch
+            {
+                if (MessageBox.Show("Cannot write in " + file, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
+            cmd_all += cmd;
+            cmd_save();
+            execute(file);
+
+            base_name = base_name0 + string.Format("{0}", output_idx);
+            update_output_idx();
+
+            listBox_remake(false, true);
+            if (status != 0)
+            {
+                update_output_error();
+                base_name = base_name0 + string.Format("{0}", output_idx);
+                return;
+            }
+            comboBox4.Text = "Key_Id";
+            with_current_df_cmd = "";
+            textBox6.Text = with_current_df_cmd;
         }
     }
 }
