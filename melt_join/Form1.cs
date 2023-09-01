@@ -3318,6 +3318,7 @@ namespace tft
             train += "num_iterations = " + numericUpDown17.Value.ToString() + "\r\n";
             if ( checkBox10.Checked)
             {
+                train += "nrounds = " + numericUpDown17.Value.ToString() + "\r\n";
                 train += "\r\n";
                 train += "xgb_cv <- xgb.cv(data = train_set_xgb\r\n";
                 train += "                  , param = params\r\n";
