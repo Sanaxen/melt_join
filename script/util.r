@@ -212,10 +212,12 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	line_color_bule ="#00AFC5"
 	line_color_red ="#FF7042"
 
+	nn <- 1
 	IDs = NULL
 	if ( id != "" )
 	{
 		IDs = unique(tmp$id)
+		nn <- length(IDs)
 		if ( length(IDs) > 25 )
 		{
 			IDs <- sample(IDs, size = 25)
@@ -241,6 +243,11 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		{
 			tmp2 <- tmp %>% filter(id == IDs[i])
 		}
+		if ( nrow(tmp2) > 5*nrow(predict)/nn )
+		{
+			tmp2 <- tmp2[(nrow(tmp2)-(5*nrow(predict)/nn)):nrow(tmp2),]
+		}
+		
 		plt <- tmp2 %>%
 		  ggplot() +
 		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =0.6) +
@@ -360,10 +367,33 @@ predict_measure <- function(predict, x="", y= "", id="")
 	             MAPE=100*sum(abs(target-predict)/target)/count,
 	             MSEL=sum((log(1+target)-log(1+predict))^2)/count,
 	             RMSEL=sqrt(sum((log(1+target)-log(1+predict))^2)/count))
-    	print(summary2)
+	    sink(file = "summary2.txt")
+    	print(summary2, n=unique(id))
+    	sink()
+
+		IDs = NULL
+		if ( id != "" )
+		{
+			IDs = unique(tmp$id)
+			if ( length(IDs) > 25 )
+			{
+				IDs <- sample(IDs, size = 25)
+			}
+			IDs <- as.vector(IDs)
+		}
+		summary2 <- tmp %>% filter(id==IDs) %>% group_by(id) %>%
+		summarise(count = n(),
+	             MSE=sum(target-predict)^2/count,
+	             RMSE=sqrt(sum(target-predict)^2/count),
+	             MAE =sum(abs(target-predict))/count,
+	             MER =median(abs(target-predict)/target),
+	             MAPE=100*sum(abs(target-predict)/target)/count,
+	             MSEL=sum((log(1+target)-log(1+predict))^2)/count,
+	             RMSEL=sqrt(sum((log(1+target)-log(1+predict))^2)/count))
+
 		meas_plt <- gridExtra::tableGrob(summary2)
 		plot(meas_plt)
-    	ggsave(filename="predict_measure.png", meas_plt, limitsize=F, width = 16, height = 0.7*length(unique(tmp$id)))
+    	ggsave(filename="predict_measure.png", meas_plt, limitsize=F, width = 16, height = 0.7*length(unique(IDs)))
 	    return(summary2)
 	}
     return(NULL)
