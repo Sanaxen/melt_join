@@ -643,11 +643,27 @@ namespace tft
             if (listBox4.SelectedItems.Count >= 1)
             {
                 cmd += "id.vars=c(\r\n";
-                cmd += "              '" + listBox4.SelectedItems[0].ToString() + "'";
+                if (listBox4.SelectedItems[0].ToString().Substring(0, 1) == "'")
+                {
+                    cmd += "              " + listBox4.SelectedItems[0].ToString() + "";
+                }
+                else
+                {
+                    cmd += "              '" + listBox4.SelectedItems[0].ToString() + "'";
+                }
+
                 for (int i = 1; i < listBox4.SelectedItems.Count; i++)
                 {
                     cmd += ", ";
-                    cmd += "'" + listBox4.SelectedItems[i].ToString() + "'";
+                    if (listBox4.SelectedItems[i].ToString().Substring(0, 1) == "'")
+                    {
+                        cmd += "" + listBox4.SelectedItems[i].ToString() + "";
+                    }
+                    else
+                    {
+                        cmd += "'" + listBox4.SelectedItems[i].ToString() + "'";
+                    }
+
                     if (i % 10 == 0)
                     {
                         cmd += "\r\n              ";
@@ -663,11 +679,25 @@ namespace tft
             {
                 cmd += "\r\n";
                 cmd += "measure.vars=c(\r\n";
-                cmd += "              '" + listBox1.SelectedItems[0].ToString() + "'";
+                if (listBox1.SelectedItems[0].ToString().Substring(0, 1) == "'")
+                {
+                    cmd += "              " + listBox1.SelectedItems[0].ToString() + "";
+                }else
+                {
+                    cmd += "              '" + listBox1.SelectedItems[0].ToString() + "'";
+                }
                 for (int i = 1; i < listBox1.SelectedItems.Count; i++)
                 {
                     cmd += ", ";
-                    cmd += "'" + listBox1.SelectedItems[i].ToString() + "'";
+                    if (listBox1.SelectedItems[i].ToString().Substring(0, 1) == "'")
+                    {
+                        cmd += "" + listBox1.SelectedItems[i].ToString() + "";
+                    }
+                    else
+                    {
+                        cmd += "'" + listBox1.SelectedItems[i].ToString() + "'";
+                    }
+
                     if (i % 10 == 0)
                     {
                         cmd += "\r\n              ";
@@ -2039,6 +2069,7 @@ namespace tft
                     }
                 }
             }
+
         }
 
         private void button9_Click_1(object sender, EventArgs e)
@@ -3318,8 +3349,8 @@ namespace tft
             train += "num_iterations = " + numericUpDown17.Value.ToString() + "\r\n";
             if ( checkBox10.Checked)
             {
-                train += "nrounds = " + numericUpDown17.Value.ToString() + "\r\n";
                 train += "\r\n";
+                train += "nrounds = num_iterations\r\n";
                 train += "xgb_cv <- xgb.cv(data = train_set_xgb\r\n";
                 train += "                  , param = params\r\n";
                 train += "                  , maximize = FALSE\r\n";
