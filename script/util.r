@@ -151,22 +151,47 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	tmp <- tmp %>% rename("target" = y)
 	tmp$date <- as.POSIXct(tmp$date, tz='UTC')
 
+
+	tmp2 <- tmp
+	nn <- 1
+	IDs = NULL
+	if ( id != "" )
+	{
+		IDs = unique(tmp$id)
+		nn <- length(IDs)
+		if ( length(IDs) > 25 )
+		{
+			IDs <- sample(IDs, size = 25)
+		}
+		IDs <- as.vector(IDs)
+		tmp2 <- tmp %>% filter(id == IDs)	
+	}
+
+	tmp <- tmp2
+	
 	if ( id != "" )
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target, color=id))+
 		  geom_line(linewidth =0.5,linetype = "dotted")+
-		  geom_line(aes(x = date, y = predict, color = id),linewidth =0.6)+
-		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
-		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+		  geom_line(aes(x = date, y = predict, color = id),linewidth =0.6)
+		  #+
+		  #scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
+		  #theme(axis.text.x = element_text(angle = 90, hjust = 1))
 	}else
 	{
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target))+
 		  geom_line(linewidth =0.5, color = line_color_bule, linetype = "dotted")+
-		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)+
-		  scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
-		  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)
+		  #+
+		  #scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
+		  #theme(axis.text.x = element_text(angle = 90, hjust = 1))
+	}
+	n <- length(unique(tmp$id))
+	if ( n > 25 )
+	{
+		plt <- plt +  theme(legend.position = 'none')
 	}
 	
 	plt
@@ -193,7 +218,7 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	}
 	if ( nrow(t) > 5*nrow(predict) )
 	{
-		t <- t[(nrow(t)-(5*nrow(predict))):nrow(t),]
+		#t <- t[(nrow(t)-(5*nrow(predict))):nrow(t),]
 	}
 
 	#t <- df
@@ -325,6 +350,9 @@ vertically_to_horizontally <- function(df, ids_cols, key="key")
 
 predict_measure <- function(predict, x="", y= "", id="")
 {
+ #x='date'
+ #y='sales'
+ #id = 'Key_Id'
 	if ( id != "" )
 	{
 		tmp <- predict %>% rename("id" = id)

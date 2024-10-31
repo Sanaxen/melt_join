@@ -1,0 +1,47 @@
+library(reshape2)
+dir="C:\\Users\\neutral\\Desktop\\DDS2\\DDS2\\Test\\tabular-playground-series-jul-2021"
+setwd(dir)
+
+#Convert horizontally aligned to vertically aligned
+horizontally_to_vertically <- function(df, ids_cols, key_cols)
+{
+	df2 <- reshape2::melt(df, id.vars=ids_cols, measure.vars=key_cols, 
+				variable.name="key",value.name="target")
+	
+	return (df2)
+}
+vertically_to_horizontally <- function(df, ids_cols)
+{
+	fomuler = ids_cols[1]
+	for ( i in 2:length(ids_cols) )
+	{
+		fomuler = paste(fomuler, "+", ids_cols[i],sep="")
+	}
+	fomuler = paste(fomuler, "~ key",sep="")
+	df3<-reshape2::dcast(df2, eval(parse(text =fomuler)) , value.var="target")
+	
+	return (df3)
+}
+
+df <- read.csv( "train_test_concat.csv", header=T, stringsAsFactors = F, na.strings = c("", "NA"))
+
+df2 <- reshape2::melt(df, 
+	id.vars=c(	"date_time", "deg_C", "relative_humidity", "absolute_humidity",
+				"sensor_1", "sensor_2", "sensor_3", "sensor_4", "sensor_5"),
+	measure.vars=c("target_carbon_monoxide", "target_benzene","target_nitrogen_oxides"),
+	variable.name="key",
+	value.name="target")
+
+df3<-reshape2::dcast(df2, 
+	date_time + deg_C + relative_humidity +absolute_humidity +
+	sensor_1+ sensor_2+sensor_3+sensor_4+sensor_5 ~ key, value.var="target")
+
+
+ids_cols=c("date_time", "deg_C", "relative_humidity", "absolute_humidity",
+	"sensor_1", "sensor_2", "sensor_3", "sensor_4", "sensor_5")
+	
+df2 <- horizontally_to_vertically(df, ids_cols=ids_cols)
+df3 <- vertically_to_horizontally(df2,ids_cols=ids_cols)
+
+
+

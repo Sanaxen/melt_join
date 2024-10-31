@@ -1585,6 +1585,7 @@ namespace tft
                     comboBox5.Text = TimeCol;
                 }
             }
+
             try
             {
                 //load("");
@@ -2069,7 +2070,6 @@ namespace tft
                     }
                 }
             }
-
         }
 
         private void button9_Click_1(object sender, EventArgs e)
@@ -2385,6 +2385,9 @@ namespace tft
                     }
                     if (comboBox5.Text != "")
                     {
+                        args[1] = args[1].Replace(" ", "_");
+                        args[1] = args[1].Replace("'", "");
+
                         if (args[0] == "year")
                         {
                             addfeature_cmd.Items.Add(string.Format("year_{0} = as.integer(lubridate::year(" + comboBox5.Text + "))", args[1]));
@@ -2449,7 +2452,16 @@ namespace tft
 
                 if (comboBox5.Text != "")
                 {
-                    feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
+                    if (comboBox5.Text.Length > 1 && comboBox5.Text.Substring(0, 1) == "'")
+                    {
+                        feature_gen += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz='UTC')\r\n";
+                    }
+                    else
+                    {
+                        feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
+
+                    }
+
                     if (comboBox4.Text != "")
                     {
                         feature_gen += "x <- df %>% filter(" + comboBox4.Text + "== df$" + comboBox4.Text + "[1])\r\n";
@@ -2848,22 +2860,22 @@ namespace tft
             cmd += "            if ( zero_padding ){\r\n";
             if (comboBox4.Text == "")
             {
-                cmd += "		       wrk2 <- wrk[,-c('" + comboBox5.Text + "')]*0\r\n";
+                cmd += "		       wrk2 <- wrk[,-c(" + comboBox5.Text + ")]*0\r\n";
             }
             else
             {
-                cmd += "		       wrk2 <- wrk[,-c('" + comboBox5.Text + "','" + comboBox4.Text + "')]*0\r\n";
+                cmd += "		       wrk2 <- wrk[,-c(" + comboBox5.Text + ",'" + comboBox4.Text + "')]*0\r\n";
             }
             cmd += "            }\r\n";
             cmd += "\r\n";
             cmd += "			if ( random_sampling || use_KDE){\r\n";
             if (comboBox4.Text == "")
             {
-                cmd += "			   wrk2 <- wrk[,-c('" + comboBox5.Text + "')]\r\n";
+                cmd += "			   wrk2 <- wrk[,-c(" + comboBox5.Text + ")]\r\n";
             }
             else
             {
-                cmd += "			   wrk2 <- wrk[,-c('" + comboBox5.Text + "','" + comboBox4.Text + "')]\r\n";
+                cmd += "			   wrk2 <- wrk[,-c(" + comboBox5.Text + ",'" + comboBox4.Text + "')]\r\n";
             }
             cmd += "			   names <- colnames(wrk2)\r\n";
             cmd += "               for ( j in 1:length(names)){\r\n";
@@ -2890,7 +2902,7 @@ namespace tft
             {
                 cmd += "		    wrk2$" + comboBox5.Text + " <- wrk$" + comboBox5.Text + "\r\n";
                 cmd += "		    wrk2$" + comboBox4.Text + " <- tmp$" + comboBox4.Text + "[1]\r\n";
-                cmd += "		    wrk <- wrk2 %>% dplyr::select(c('" + comboBox5.Text + "','" + comboBox4.Text + "') , everything())\r\n";
+                cmd += "		    wrk <- wrk2 %>% dplyr::select(c(" + comboBox5.Text + ",'" + comboBox4.Text + "') , everything())\r\n";
             }
             cmd += "\r\n";
             cmd += "\r\n";
@@ -2916,11 +2928,11 @@ namespace tft
             split += "df <- as.data.frame(df)\r\n";
             split += "df <- df[unique(colnames(df))]\r\n";
 
-            split += "train <- df %>% filter(" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "', tz ='UTC'))\r\n";
-            split += "valid <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox14.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "', tz ='UTC'))\r\n";
-            split += "test  <- df %>% filter(" + comboBox5.Text + "> as.POSIXct('" + textBox16.Text + "', tz ='UTC') & " + comboBox5.Text + " <= as.POSIXct('" + textBox17.Text + "', tz ='UTC'))\r\n";
+            split += "train <- df %>% filter(df$" + comboBox5.Text + ">= as.POSIXct('" + textBox12.Text + "', tz ='UTC') & df$" + comboBox5.Text + " <= as.POSIXct('" + textBox13.Text + "', tz ='UTC'))\r\n";
+            split += "valid <- df %>% filter(df$" + comboBox5.Text + "> as.POSIXct('" + textBox14.Text + "', tz ='UTC') & df$" + comboBox5.Text + " <= as.POSIXct('" + textBox15.Text + "', tz ='UTC'))\r\n";
+            split += "test  <- df %>% filter(df$" + comboBox5.Text + "> as.POSIXct('" + textBox16.Text + "', tz ='UTC') & df$" + comboBox5.Text + " <= as.POSIXct('" + textBox17.Text + "', tz ='UTC'))\r\n";
 
-            split += "return( list(train, valid, test))}\r\n";
+            split += "return( list(train, valid, test))\r\n}\r\n";
 
             cmd += "source('split_func.r')\r\n";
             cmd += "split <- split_data(df)\r\n";
@@ -3688,10 +3700,10 @@ namespace tft
             cmd += "fwrite(predict,'" + base_name0 + "_predict.csv', row.names = FALSE)\r\n";
 
             cmd += "source(\"../../script/util.r\")\r\n";
-            cmd += "plot_predict1('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
-            cmd += "plot_predict2('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+            cmd += "plot_predict1(" + comboBox5.Text + ",'" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+            cmd += "plot_predict2(" + comboBox5.Text + ",'" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
 
-            cmd += "meas <- predict_measure(predict, x='"+ comboBox5.Text+"', y='"+ listBox4.SelectedItem.ToString() + "',id = '"+ comboBox4.Text+"' )\r\n";
+            cmd += "meas <- predict_measure(predict, x="+ comboBox5.Text+", y='"+ listBox4.SelectedItem.ToString() + "',id = '"+ comboBox4.Text+"' )\r\n";
             //cmd += "meas_plt <- gridExtra::tableGrob(meas)\r\n";
             //cmd += "plot(meas_plt)\r\n";
 
@@ -4012,7 +4024,7 @@ namespace tft
             cmd += "df$Key_Id <- df[,1]\r\n";
             cmd += "x <- df %>% select(names[1])\r\n";
             cmd += "Key_Id <- as.character(x[,1])\r\n";
-            cmd += "for ( k in 2:length(names))\r\n";
+            cmd += "for ( k in 1:length(names))\r\n";
             cmd += "{\r\n";
             cmd += "    x <- df %>% select(names[k])\r\n";
             cmd += "	y <- as.character(x[,1])\r\n";
