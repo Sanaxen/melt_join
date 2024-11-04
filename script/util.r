@@ -121,6 +121,7 @@ plot_hist_df <- function(df)
 
 plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 {
+
 	line_color_bule ="#00AFC5"
 	line_color_red ="#FF7042"
 
@@ -159,12 +160,16 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	{
 		IDs = unique(tmp$id)
 		nn <- length(IDs)
-		if ( length(IDs) > 25 )
+		if ( length(IDs) > 12 )
 		{
-			IDs <- sample(IDs, size = 25)
+			IDs <- sample(IDs, size = 12)
 		}
 		IDs <- as.vector(IDs)
-		tmp2 <- tmp %>% filter(id == IDs)	
+		tmp2 <- tmp %>% filter(IDs[1] == id)
+		for ( i in 2:length(IDs))
+		{
+			tmp2 <- dplyr::bind_rows(tmp2, tmp %>% filter(IDs[i] == id))
+		}	
 	}
 
 	tmp <- tmp2
@@ -174,7 +179,8 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target, color=id))+
 		  geom_line(linewidth =0.5,linetype = "dotted")+
-		  geom_line(aes(x = date, y = predict, color = id),linewidth =0.6)
+		  geom_line(aes(x = date, y = predict, color = id),linewidth =0.6)+
+		  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .3)
 		  #+
 		  #scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  #theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -183,7 +189,8 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		plt <- tmp %>% 
 		  ggplot(aes(x = date, y = target))+
 		  geom_line(linewidth =0.5, color = line_color_bule, linetype = "dotted")+
-		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)
+		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)+
+		  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .3)
 		  #+
 		  #scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  #theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -191,7 +198,7 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 	n <- length(unique(tmp$id))
 	if ( n > 25 )
 	{
-		plt <- plt +  theme(legend.position = 'none')
+		#plt <- plt +  theme(legend.position = 'none')
 	}
 	
 	plt
@@ -208,6 +215,7 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 
 plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 {
+
 	library(cowplot)
 	timestep=timeUnit
 	t <- train
@@ -221,6 +229,11 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		#t <- t[(nrow(t)-(5*nrow(predict))):nrow(t),]
 	}
 
+	t2 <- t %>% rename("target" = y)
+	t$upper <- t2$target
+	t$lower <- t2$target
+	t$predict <- t2$target
+	
 	#t <- df
 	predict_df <- t %>% full_join(predict) %>% as.data.frame()
 
@@ -277,7 +290,8 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		  ggplot() +
 		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =0.6) +
 		  geom_line( aes(x = date, y = target), color = line_color_bule, linewidth =0.6) +
-		  labs(x = IDs[i])+
+  		  geom_ribbon(aes(x = date, y = predict, ymin = lower, ymax = upper), alpha = .3)
+
 		
 		if (F)
 		{
@@ -350,9 +364,10 @@ vertically_to_horizontally <- function(df, ids_cols, key="key")
 
 predict_measure <- function(predict, x="", y= "", id="")
 {
- #x='date'
- #y='sales'
- #id = 'Key_Id'
+#x='date'
+#y='sale'
+#id ='id'
+#timeUnit='day'
 	if ( id != "" )
 	{
 		tmp <- predict %>% rename("id" = id)
@@ -403,12 +418,20 @@ predict_measure <- function(predict, x="", y= "", id="")
 		if ( id != "" )
 		{
 			IDs = unique(tmp$id)
-			if ( length(IDs) > 25 )
+			if ( length(IDs) > 12 )
 			{
-				IDs <- sample(IDs, size = 25)
+				IDs <- sample(IDs, size = 12)
 			}
+		
 			IDs <- as.vector(IDs)
+			tmp2 <- tmp %>% filter(IDs[1] == id)
+			for ( i in 2:length(IDs))
+			{
+				tmp2 <- dplyr::bind_rows(tmp2, tmp %>% filter(IDs[i] == id))
+			}	
+			tmp <- tmp2
 		}
+		
 		summary2 <- tmp %>% filter(id==IDs) %>% group_by(id) %>%
 		summarise(count = n(),
 	             MSE=sum(target-predict)^2/count,

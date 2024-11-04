@@ -129,6 +129,9 @@ namespace tft
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.splitter2 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.label83 = new System.Windows.Forms.Label();
+            this.label82 = new System.Windows.Forms.Label();
+            this.label81 = new System.Windows.Forms.Label();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.label53 = new System.Windows.Forms.Label();
             this.textBox18 = new System.Windows.Forms.TextBox();
@@ -138,6 +141,8 @@ namespace tft
             this.numericUpDown7 = new System.Windows.Forms.NumericUpDown();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.button35 = new System.Windows.Forms.Button();
+            this.tabPage9 = new System.Windows.Forms.TabPage();
+            this.button41 = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.splitter1 = new System.Windows.Forms.Splitter();
@@ -295,8 +300,6 @@ namespace tft
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.tabPage9 = new System.Windows.Forms.TabPage();
-            this.button41 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -325,6 +328,7 @@ namespace tft
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).BeginInit();
             this.tabPage6.SuspendLayout();
+            this.tabPage9.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.panel2.SuspendLayout();
@@ -362,7 +366,6 @@ namespace tft
             this.groupBox10.SuspendLayout();
             this.groupBox9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).BeginInit();
-            this.tabPage9.SuspendLayout();
             this.SuspendLayout();
             // 
             // textBox1
@@ -1419,7 +1422,7 @@ namespace tft
             this.button2.BackColor = System.Drawing.Color.RoyalBlue;
             this.button2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(11, 235);
+            this.button2.Location = new System.Drawing.Point(11, 276);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(255, 66);
@@ -1433,7 +1436,7 @@ namespace tft
             this.button3.BackColor = System.Drawing.Color.RoyalBlue;
             this.button3.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(4, 84);
+            this.button3.Location = new System.Drawing.Point(4, 112);
             this.button3.Margin = new System.Windows.Forms.Padding(4);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(172, 71);
@@ -1510,10 +1513,10 @@ namespace tft
             // 
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(4, 313);
+            this.pictureBox1.Location = new System.Drawing.Point(4, 352);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(646, 403);
+            this.pictureBox1.Size = new System.Drawing.Size(646, 364);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 88;
             this.pictureBox1.TabStop = false;
@@ -1521,7 +1524,7 @@ namespace tft
             // splitter2
             // 
             this.splitter2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter2.Location = new System.Drawing.Point(4, 309);
+            this.splitter2.Location = new System.Drawing.Point(4, 348);
             this.splitter2.Margin = new System.Windows.Forms.Padding(4);
             this.splitter2.Name = "splitter2";
             this.splitter2.Size = new System.Drawing.Size(646, 4);
@@ -1530,6 +1533,9 @@ namespace tft
             // 
             // panel3
             // 
+            this.panel3.Controls.Add(this.label83);
+            this.panel3.Controls.Add(this.label82);
+            this.panel3.Controls.Add(this.label81);
             this.panel3.Controls.Add(this.groupBox7);
             this.panel3.Controls.Add(this.button2);
             this.panel3.Controls.Add(this.textBox2);
@@ -1540,8 +1546,40 @@ namespace tft
             this.panel3.Location = new System.Drawing.Point(4, 4);
             this.panel3.Margin = new System.Windows.Forms.Padding(4);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(646, 305);
+            this.panel3.Size = new System.Drawing.Size(646, 344);
             this.panel3.TabIndex = 86;
+            // 
+            // label83
+            // 
+            this.label83.AutoSize = true;
+            this.label83.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label83.Location = new System.Drawing.Point(290, 190);
+            this.label83.Name = "label83";
+            this.label83.Size = new System.Drawing.Size(203, 26);
+            this.label83.TabIndex = 86;
+            this.label83.Text = "Variable name for the value of the \r\nvariable expanded vertically";
+            // 
+            // label82
+            // 
+            this.label82.AutoSize = true;
+            this.label82.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label82.Location = new System.Drawing.Point(290, 161);
+            this.label82.Name = "label82";
+            this.label82.Size = new System.Drawing.Size(209, 13);
+            this.label82.TabIndex = 85;
+            this.label82.Text = "Name of variable expanded vertically";
+            // 
+            // label81
+            // 
+            this.label81.AutoSize = true;
+            this.label81.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label81.Location = new System.Drawing.Point(9, 230);
+            this.label81.Name = "label81";
+            this.label81.Size = new System.Drawing.Size(370, 39);
+            this.label81.TabIndex = 84;
+            this.label81.Text = "id.vars: Select the variable you want to fix\r\nmeasure.vars: Select the variables " +
+    "you want to expand vertically.\r\nIf not selected, it will be a variable other tha" +
+    "n id.vars";
             // 
             // groupBox7
             // 
@@ -1646,6 +1684,27 @@ namespace tft
             this.button35.Text = "execute";
             this.button35.UseVisualStyleBackColor = true;
             this.button35.Click += new System.EventHandler(this.button35_Click);
+            // 
+            // tabPage9
+            // 
+            this.tabPage9.Controls.Add(this.button41);
+            this.tabPage9.Location = new System.Drawing.Point(4, 25);
+            this.tabPage9.Name = "tabPage9";
+            this.tabPage9.Size = new System.Drawing.Size(654, 720);
+            this.tabPage9.TabIndex = 8;
+            this.tabPage9.Text = "make Key(ID) column";
+            this.tabPage9.UseVisualStyleBackColor = true;
+            // 
+            // button41
+            // 
+            this.button41.Location = new System.Drawing.Point(20, 22);
+            this.button41.Margin = new System.Windows.Forms.Padding(4);
+            this.button41.Name = "button41";
+            this.button41.Size = new System.Drawing.Size(155, 62);
+            this.button41.TabIndex = 1;
+            this.button41.Text = "execute";
+            this.button41.UseVisualStyleBackColor = true;
+            this.button41.Click += new System.EventHandler(this.button41_Click);
             // 
             // tabPage2
             // 
@@ -2481,7 +2540,8 @@ namespace tft
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
-            this.radioButton3.Location = new System.Drawing.Point(250, 21);
+            this.radioButton3.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.radioButton3.Location = new System.Drawing.Point(232, 24);
             this.radioButton3.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(217, 19);
@@ -2492,7 +2552,8 @@ namespace tft
             // radioButton2
             // 
             this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(148, 22);
+            this.radioButton2.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.radioButton2.Location = new System.Drawing.Point(135, 24);
             this.radioButton2.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(89, 19);
@@ -2504,7 +2565,8 @@ namespace tft
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(9, 22);
+            this.radioButton1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.radioButton1.Location = new System.Drawing.Point(12, 23);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(119, 19);
@@ -3615,27 +3677,6 @@ namespace tft
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // tabPage9
-            // 
-            this.tabPage9.Controls.Add(this.button41);
-            this.tabPage9.Location = new System.Drawing.Point(4, 25);
-            this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(654, 720);
-            this.tabPage9.TabIndex = 8;
-            this.tabPage9.Text = "make Key(ID) column";
-            this.tabPage9.UseVisualStyleBackColor = true;
-            // 
-            // button41
-            // 
-            this.button41.Location = new System.Drawing.Point(20, 22);
-            this.button41.Margin = new System.Windows.Forms.Padding(4);
-            this.button41.Name = "button41";
-            this.button41.Size = new System.Drawing.Size(155, 62);
-            this.button41.TabIndex = 1;
-            this.button41.Text = "execute";
-            this.button41.UseVisualStyleBackColor = true;
-            this.button41.Click += new System.EventHandler(this.button41_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -3684,6 +3725,7 @@ namespace tft
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown7)).EndInit();
             this.tabPage6.ResumeLayout(false);
+            this.tabPage9.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -3731,7 +3773,6 @@ namespace tft
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown9)).EndInit();
-            this.tabPage9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -4004,6 +4045,9 @@ namespace tft
         private System.Windows.Forms.CheckBox checkBox11;
         private System.Windows.Forms.TabPage tabPage9;
         private System.Windows.Forms.Button button41;
+        private System.Windows.Forms.Label label83;
+        private System.Windows.Forms.Label label82;
+        private System.Windows.Forms.Label label81;
     }
 }
 

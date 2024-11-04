@@ -44,6 +44,8 @@ namespace tft
         public string imagePictureBox6 = "";
         public string imagePictureBox7 = "";
         public string imagePictureBox8 = "";
+        public int sampling_num_max = 4;
+        public int sampling_count = 0;
 
         public int status = 0;
         public Form1()
@@ -479,6 +481,13 @@ namespace tft
             if (comboBox5.Text == "") return "";
 
             string cmd = "";
+            cmd += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz ='UTC')\r\n";
+            cmd += "if( df$" + comboBox5.Text + "[1] > df$" + comboBox5.Text + "[nrow(df)])\r\n";
+            cmd += "{\r\n";
+            cmd += "    df <- df[order(df$" + comboBox5.Text + ",decreasing=F),]\r\n";
+            cmd += "}\r\n";
+            cmd += "\r\n";
+
             cmd += "sink(file = \"TimeStart_End.txt\")\r\n";
             cmd += "bg = which.min(df$" + comboBox5.Text + ")\r\n";
             cmd += "ed = which.max(df$" + comboBox5.Text + ")\r\n";
@@ -2015,7 +2024,7 @@ namespace tft
             }
             if (tabControl1.SelectedIndex == 6)
             {
-                listBox4.Enabled = false;
+                listBox4.Enabled = true;
                 listBox1.Enabled = false;
                 listBox2.Enabled = false;
                 listBox3.Enabled = false;
@@ -2454,11 +2463,14 @@ namespace tft
                 {
                     if (comboBox5.Text.Length > 1 && comboBox5.Text.Substring(0, 1) == "'")
                     {
-                        feature_gen += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz='UTC')\r\n";
+                        //feature_gen += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz='UTC')\r\n";
+                        feature_gen += "df$" + comboBox5.Text + " <- lubridate::as_datetime(df$" + comboBox5.Text + ", tz='UTC')\r\n";
+                        //
                     }
                     else
                     {
-                        feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
+                        //feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
+                        feature_gen += "df$'" + comboBox5.Text + "' <- lubridate::as_datetime(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
 
                     }
 
@@ -2779,6 +2791,12 @@ namespace tft
             string cmd = "";
             string cmd1 = tft_header_ru();
 
+			string date_col = comboBox5.Text;
+			if (date_col.Substring(0, 1) != "'")
+			{
+				date_col = "'"+date_col+"'";
+			}
+			
             cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
 
             cmd += with_current_df_cmd;
@@ -2800,6 +2818,12 @@ namespace tft
                 cmd += "use_KDE = F\r\n";
             }
             cmd += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz ='UTC')\r\n";
+            cmd += "if( df$" + comboBox5.Text + "[1] > df$" + comboBox5.Text + "[nrow(df)])\r\n";
+            cmd += "{\r\n";
+            cmd += "    df <- df[order(df$" + comboBox5.Text + ",decreasing=F),]\r\n";
+            cmd += "}\r\n";
+            cmd += "\r\n";
+
             cmd += "if (as.POSIXct('" + textBox17.Text + "', tz ='UTC') > max(df$" + comboBox5.Text + "))\r\n";
             cmd += "{\r\n";
             cmd += "\r\n";
@@ -2810,10 +2834,15 @@ namespace tft
                 cmd += "    zero_padding = T\r\n";
                 cmd += "    random_sampling = F\r\n";
             }
-            else
+            if (radioButton2.Checked)
             {
                 cmd += "    zero_padding = F\r\n";
                 cmd += "    random_sampling = T\r\n";
+            }
+            if (radioButton3.Checked)
+            {
+                cmd += "    zero_padding = F\r\n";
+                cmd += "    random_sampling = F\r\n";
             }
 
             if (comboBox4.Text == "")
@@ -2860,35 +2889,69 @@ namespace tft
             cmd += "            if ( zero_padding ){\r\n";
             if (comboBox4.Text == "")
             {
-                cmd += "		       wrk2 <- wrk[,-c(" + comboBox5.Text + ")]*0\r\n";
+                cmd += "		       wrk2 <- wrk[,-c(" + date_col + ")]*0\r\n";
             }
             else
             {
-                cmd += "		       wrk2 <- wrk[,-c(" + comboBox5.Text + ",'" + comboBox4.Text + "')]*0\r\n";
+                cmd += "		       wrk2 <- wrk[,-c(" + date_col + ",'" + comboBox4.Text + "')]*0\r\n";
             }
             cmd += "            }\r\n";
             cmd += "\r\n";
             cmd += "			if ( random_sampling || use_KDE){\r\n";
             if (comboBox4.Text == "")
             {
-                cmd += "			   wrk2 <- wrk[,-c(" + comboBox5.Text + ")]\r\n";
+                cmd += "			   wrk2 <- wrk[,-c(" + date_col + ")]\r\n";
             }
             else
             {
-                cmd += "			   wrk2 <- wrk[,-c(" + comboBox5.Text + ",'" + comboBox4.Text + "')]\r\n";
+                cmd += "			   wrk2 <- wrk[,-c(" + date_col + ",'" + comboBox4.Text + "')]\r\n";
             }
             cmd += "			   names <- colnames(wrk2)\r\n";
             cmd += "               for ( j in 1:length(names)){\r\n";
-            cmd += "                   d <- data.frame(df)[,names[j]]\r\n";
+            //cmd += "                   if( length(grep(\"year_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"quarter_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"month_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"wday_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"yday_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"day_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"hour_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"am_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"pm_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"minute_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"second_\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"sin_Y\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"cos_Y\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"sin_M\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"cos_M\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"sin_D\", names[j]))) next\r\n";
+            //cmd += "                   if( length(grep(\"cos_D\", names[j]))) next\r\n";
+            cmd += "                   d <- data.frame(tmp)[,names[j]]\r\n";
+            cmd += "                   d <- d[(length(d)*0.8):length(d)]\r\n";
             cmd += "                   if ( use_KDE )\r\n";
             cmd += "                   {\r\n";
             cmd += "                       # Kernel Density Estimation\r\n";
             cmd += "                       kde <- density(d)\r\n";
             cmd += "                       #plot(kde, main = 'Kernel Density Estimation')\r\n";
-            cmd += "                       next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+            cmd += "                       #CDF\r\n";
+            cmd += "                       kde_cdf <- cumsum(kde$y) / sum(kde$y)\r\n\r\n";
+            cmd += "                       # Interpolate cumulative distribution for KDE evaluation points\r\n";
+            cmd += "                       kde_cdf_func <- approxfun(kde$x, kde_cdf)\r\n";
+            cmd += "                       while(T)\r\n";
+            cmd += "                       {\r\n";
+            cmd += "                           next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+            cmd += "                           p1 <- kde_cdf_func(next_sample)\r\n";
+            cmd += "                           if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
+            cmd += "                        }\r\n";
             cmd += "                   }else\r\n";
             cmd += "                   {\r\n";
-            cmd += "                       next_sample <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            cmd += "                       mean_=mean(d,na.rm=T)\r\n";
+            cmd += "                       sd_=sd(d,na.rm=T)\r\n";
+            cmd += "                       while(T)\r\n";
+            cmd += "                       {\r\n";
+            cmd += "                           next_sample <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            cmd += "                           p1 <- pnorm(next_sample, mean = mean_, sd = sd_)\r\n";
+            cmd += "                           if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
+            cmd += "                        }\r\n";
             cmd += "                   }\r\n";
             cmd += "                   wrk2[1,j] <- next_sample\r\n";
             cmd += "			   }\r\n";
@@ -2902,7 +2965,7 @@ namespace tft
             {
                 cmd += "		    wrk2$" + comboBox5.Text + " <- wrk$" + comboBox5.Text + "\r\n";
                 cmd += "		    wrk2$" + comboBox4.Text + " <- tmp$" + comboBox4.Text + "[1]\r\n";
-                cmd += "		    wrk <- wrk2 %>% dplyr::select(c(" + comboBox5.Text + ",'" + comboBox4.Text + "') , everything())\r\n";
+                cmd += "		    wrk <- wrk2 %>% dplyr::select(c(" + date_col + ",'" + comboBox4.Text + "') , everything())\r\n";
             }
             cmd += "\r\n";
             cmd += "\r\n";
@@ -2934,7 +2997,9 @@ namespace tft
 
             split += "return( list(train, valid, test))\r\n}\r\n";
 
+            cmd += "source('feature_gen_fnc.r')\r\n";
             cmd += "source('split_func.r')\r\n";
+            cmd += "df <- feature_gen(df, clip = T)\r\n";
             cmd += "split <- split_data(df)\r\n";
             cmd += "train <- as.data.frame(split[[1]])\r\n";
             cmd += "valid <- as.data.frame(split[[2]])\r\n";
@@ -3560,12 +3625,12 @@ namespace tft
             recursive_Feature += "	x <- test[d,]\r\n";
             recursive_Feature += "	x[is.na(x)] <- 0\r\n";
             recursive_Feature += "\r\n";
-            recursive_Feature += "	predict <- prediction(x,model_xgb)\r\n";
+            recursive_Feature += "	#predict <- prediction(x,model_xgb)\r\n";
             recursive_Feature += "\r\n";
-            recursive_Feature += "	test$" + listBox4.SelectedItem.ToString() + "[d] <- predict$predict\r\n";
+            recursive_Feature += "	#test$" + listBox4.SelectedItem.ToString() + "[d] <- predict$predict\r\n";
             recursive_Feature += "	\r\n";
-            recursive_Feature += "  xx <- bind_rows(lockback,test)\r\n";
-            recursive_Feature += "  xx <- feature_gen(xx, clip = T)\r\n";
+            recursive_Feature += "	xx <- bind_rows(lockback,test)\r\n";
+            recursive_Feature += "	xx <- feature_gen(xx, clip = T)\r\n";
             //recursive_Feature += "  xx <- xx %>% \r\n";
 
             //if (comboBox4.Text != "")
@@ -3573,32 +3638,61 @@ namespace tft
             //    recursive_Feature += "   group_by('"+ comboBox4.Text+"') %>%\r\n";
             //}
             //recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
-            recursive_Feature += "  test <- xx[(nrow(xx)-test_n+1):nrow(xx),]\r\n";
+            recursive_Feature += "	test <- xx[(nrow(xx)-test_n+1):nrow(xx),]\r\n";
             recursive_Feature += "\r\n";
 
             //sampline 
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "### Sampling probable values ​​of explanatory variables from the past\r\n";
-            recursive_Feature += "  random_sampling = F\r\n";
-            recursive_Feature += "  use_KDE = F\r\n";
+
+            if (radioButton1.Checked)
+            {
+                recursive_Feature += "  random_sampling = F\r\n";
+                recursive_Feature += "  use_KDE = F\r\n";
+            }
+            if (radioButton2.Checked)
+            {
+                recursive_Feature += "  random_sampling = T\r\n";
+                recursive_Feature += "  use_KDE = F\r\n";
+            }
+            if (radioButton3.Checked)
+            {
+                recursive_Feature += "  random_sampling = T\r\n";
+                recursive_Feature += "  use_KDE = T\r\n";
+            }
+            recursive_Feature += "#  random_sampling = F\r\n";
+            recursive_Feature += "#  use_KDE = F\r\n";
+
             recursive_Feature += "	if ( random_sampling ){\r\n";
-            if (comboBox4.Text != "" && comboBox5.Text != "")
+            if (comboBox5.Text == "")
             {
-                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'"+comboBox5.Text+ "',-'" + comboBox4.Text + "' )\r\n";
+                if (MessageBox.Show("Specify the column name indicating the time", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
             }
-            if (comboBox4.Text == "" && comboBox5.Text != "")
+            if (listBox4.SelectedIndex < 0)
             {
-                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "')\r\n";
+                if (MessageBox.Show("Specify the objective variable", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
             }
-            if (comboBox4.Text != "" && comboBox5.Text == "")
-            {
-                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox4.Text + "')\r\n";
-            }
-            if (comboBox4.Text == "" && comboBox5.Text == "")
-            {
-                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame()\r\n";
-            }
+            recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "',-'" + listBox4.SelectedItem.ToString() + "' )\r\n";
+
+            //if (comboBox4.Text != "" && comboBox5.Text != "")
+            //{
+            //    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'"+comboBox5.Text+ "',-'" + comboBox4.Text + "' )\r\n";
+            //}
+            //if (comboBox4.Text == "" && comboBox5.Text != "")
+            //{
+            //    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "')\r\n";
+            //}
+            //if (comboBox4.Text != "" && comboBox5.Text == "")
+            //{
+            //    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox4.Text + "')\r\n";
+            //}
+            //if (comboBox4.Text == "" && comboBox5.Text == "")
+            //{
+            //    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame()\r\n";
+            //}
 
 
             recursive_Feature += "	   wrk2 <- wrk2[d,]\r\n";
@@ -3607,16 +3701,73 @@ namespace tft
             recursive_Feature += "	   for ( ii in 1:length(d))\r\n";
             recursive_Feature += "	   {\r\n";
             recursive_Feature += "	       for ( j in 1:length(names)){\r\n";
-            recursive_Feature += "	           df_tmp <- data.frame(df)[,names[j]]\r\n";
-            recursive_Feature += "	           if ( use_KDE )\r\n";
-            recursive_Feature += "	           {\r\n";
-            recursive_Feature += "	               # Kernel Density Estimation\r\n";
-            recursive_Feature += "	               kde <- density(df_tmp)\r\n";
-            recursive_Feature += "	               #plot(kde, main = 'Kernel Density Estimation')\r\n";
-            recursive_Feature += "	               next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "             if( length(grep(\"" + comboBox4.Text + "\", names[j]))) next\r\n";
+            }
+            recursive_Feature += "             if( length(grep(\"year_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"quarter_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"month_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"wday_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"yday_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"day_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"hour_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"am_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"pm_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"minute_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"second_\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"sin_Y\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"cos_Y\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"sin_M\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"cos_M\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"sin_D\", names[j]))) next\r\n";
+            recursive_Feature += "             if( length(grep(\"cos_D\", names[j]))) next\r\n";
+            recursive_Feature += "\r\n";
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "             df_tmp <- data.frame(df)[,c('" + comboBox4.Text+"',names[j])]\r\n";
+                recursive_Feature += "             IDs <- wrk2$" + comboBox4.Text + "[ii]\r\n";
+                recursive_Feature += "             x <- df_tmp %>% dplyr::filter(IDs==" + comboBox4.Text + ")\r\n";
+            }
+            else
+            {
+                recursive_Feature += "             df_tmp <- data.frame(df)[,c(names[j])]\r\n";
+                recursive_Feature += "             x <- df_tmp\r\n";
+            }
+            recursive_Feature += "             x <- x[(nrow(x)*0.8):nrow(x),]\r\n";
+            recursive_Feature += "             if ( use_KDE )\r\n";
+            recursive_Feature += "             {\r\n";
+            recursive_Feature += "                 # Kernel Density Estimation\r\n";
+            recursive_Feature += "                 kde <- density(x[,names[j]])\r\n";
+            recursive_Feature += "                 #plot(kde, main = 'Kernel Density Estimation')\r\n";
+            recursive_Feature += "                 #next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+
+            recursive_Feature += "                 #CDF\r\n";
+            recursive_Feature += "                 kde_cdf <- cumsum(kde$y) / sum(kde$y)\r\n\r\n";
+            recursive_Feature += "                 # Interpolate cumulative distribution for KDE evaluation points\r\n";
+            recursive_Feature += "                 kde_cdf_func <- approxfun(kde$x, kde_cdf)\r\n";
+            recursive_Feature += "                 while(T)\r\n";
+            recursive_Feature += "                 {\r\n";
+            recursive_Feature += "                     next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
+            recursive_Feature += "                     p1 <- kde_cdf_func(next_sample)\r\n";
+            recursive_Feature += "                     if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
+            recursive_Feature += "                 }\r\n";
+            
             recursive_Feature += "	           }else\r\n";
             recursive_Feature += "	           {\r\n";
-            recursive_Feature += "	               next_sample <- rnorm(1, mean=mean(df_tmp,na.rm=T), sd=sd(df_tmp,na.rm=T))\r\n";
+            recursive_Feature += "                 #next_sample <- rnorm(1, mean=mean(x[,names[j]],na.rm=T), sd=sd(x[,names[j]],na.rm=T))\r\n";
+ 
+ 
+            recursive_Feature += "                 mean_=mean(d,na.rm=T)\r\n";
+            recursive_Feature += "                 sd_=sd(d,na.rm=T)\r\n";
+            recursive_Feature += "                 while(T)\r\n";
+            recursive_Feature += "                 {\r\n";
+            recursive_Feature += "                     next_sample <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            recursive_Feature += "                     p1 <- pnorm(next_sample, mean = mean_, sd = sd_)\r\n";
+            recursive_Feature += "                     if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
+            recursive_Feature += "                 }\r\n";
+
+ 
             recursive_Feature += "	           }\r\n";
             recursive_Feature += "	           wrk2[ii,names[j]] <- next_sample\r\n";
             recursive_Feature += "		   }\r\n";
@@ -3632,6 +3783,8 @@ namespace tft
 
 
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
+            recursive_Feature += "  predict <- prediction(test,model_xgb)\r\n";
+            recursive_Feature += "  test$volume_porcentagem <- predict$predict\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "	#print(sum(test$" + listBox4.SelectedItem.ToString() + " - obs))\r\n";
@@ -3664,6 +3817,8 @@ namespace tft
             recursive_Feature += "}\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "predict <- test_org\r\n";
+            recursive_Feature += "#predict <- test\r\n";
+
             recursive_Feature += "predict$predict <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
             recursive_Feature += "predict$" + listBox4.SelectedItem.ToString() + " <- obs\r\n";
             recursive_Feature += "\r\n";
@@ -3678,11 +3833,11 @@ namespace tft
             timer1.Enabled = false;
             progressBar1.Value = 0;
 
-            if ( checkBox7.Checked)
+            if (checkBox7.Checked)
             {
                 if (numericUpDown6.Value < 1)
                 {
-                    if (MessageBox.Show("recursive_step=0" ,"", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    if (MessageBox.Show("recursive_step=0", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                         return;
                 }
                 timer1.Enabled = true;
@@ -3692,18 +3847,42 @@ namespace tft
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
                 cmd += "predict <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step)\r\n";
-            }else
+                cmd += "predict$upper <- predict$predict\r\n";
+                cmd += "predict$lower <- predict$predict\r\n";
+                cmd += "num_sampels <- "+ sampling_num_max.ToString()+"\r\n";
+                cmd += "for ( i in 1:num_sampels ){\r\n";
+                cmd += "    predict_ <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step)\r\n";
+                cmd += "    predict$predict <-  predict$predict + predict_$predict\r\n";
+                cmd += "    for ( j in 1:length(predict$predict)){\r\n";
+                cmd += "        predict$upper[j] <- max(predict$upper[j], predict_$predict[j])\r\n";
+                cmd += "        predict$lower[j] <- min(predict$lower[j], predict_$predict[j])\r\n";
+                cmd += "    }\r\n";
+                cmd += "}\r\n";
+                cmd += "predict$predict <- predict$predict/(num_sampels+1)\r\n";
+            }
+            else
             {
                 cmd += "predict <- prediction(test,model_xgb)\r\n";
+                cmd += "predict$upper <- predict$predict\r\n";
+                cmd += "predict$lower <- predict$predict\r\n";
             }
 
             cmd += "fwrite(predict,'" + base_name0 + "_predict.csv', row.names = FALSE)\r\n";
 
             cmd += "source(\"../../script/util.r\")\r\n";
-            cmd += "plot_predict1(" + comboBox5.Text + ",'" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
-            cmd += "plot_predict2(" + comboBox5.Text + ",'" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+            if (comboBox5.Text.Substring(0, 1) == "'")
+            {
+                cmd += "plot_predict1(" + comboBox5.Text + ",'" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+                cmd += "plot_predict2(" + comboBox5.Text + ",'" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
 
-            cmd += "meas <- predict_measure(predict, x="+ comboBox5.Text+", y='"+ listBox4.SelectedItem.ToString() + "',id = '"+ comboBox4.Text+"' )\r\n";
+                cmd += "meas <- predict_measure(predict, x=" + comboBox5.Text + ", y='" + listBox4.SelectedItem.ToString() + "',id = '" + comboBox4.Text + "' )\r\n";
+            }else
+            {
+                cmd += "plot_predict1('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+                cmd += "plot_predict2('" + comboBox5.Text + "','" + listBox4.SelectedItem.ToString() + "','" + comboBox4.Text + "',train, valid, predict, timeUnit='" + comboBox7.Text + "')\r\n";
+
+                cmd += "meas <- predict_measure(predict, x='" + comboBox5.Text + "', y='" + listBox4.SelectedItem.ToString() + "',id = '" + comboBox4.Text + "' )\r\n";
+            }
             //cmd += "meas_plt <- gridExtra::tableGrob(meas)\r\n";
             //cmd += "plot(meas_plt)\r\n";
 
@@ -3755,6 +3934,7 @@ namespace tft
             cmd_all += cmd;
             cmd_save();
 
+            sampling_count = 0;
             if (checkBox7.Checked)
             {
                 script_file_ = file;
@@ -3987,8 +4167,13 @@ namespace tft
 
                 if (progressBar1.Maximum == progressBar1.Value)
                 {
-                    timer1.Stop();
-                    timer1.Enabled = false;
+                    sampling_count++;
+                    if (sampling_num_max == sampling_count)
+                    {
+                        sampling_count = 0;
+                        timer1.Stop();
+                        timer1.Enabled = false;
+                    }
                 }
                 progressBar1.Refresh();
             }
