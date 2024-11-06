@@ -1555,7 +1555,7 @@ namespace tft
             this.label83.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label83.Location = new System.Drawing.Point(290, 190);
             this.label83.Name = "label83";
-            this.label83.Size = new System.Drawing.Size(203, 26);
+            this.label83.Size = new System.Drawing.Size(210, 28);
             this.label83.TabIndex = 86;
             this.label83.Text = "Variable name for the value of the \r\nvariable expanded vertically";
             // 
@@ -1565,7 +1565,7 @@ namespace tft
             this.label82.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label82.Location = new System.Drawing.Point(290, 161);
             this.label82.Name = "label82";
-            this.label82.Size = new System.Drawing.Size(209, 13);
+            this.label82.Size = new System.Drawing.Size(222, 14);
             this.label82.TabIndex = 85;
             this.label82.Text = "Name of variable expanded vertically";
             // 
@@ -1575,7 +1575,7 @@ namespace tft
             this.label81.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label81.Location = new System.Drawing.Point(9, 230);
             this.label81.Name = "label81";
-            this.label81.Size = new System.Drawing.Size(370, 39);
+            this.label81.Size = new System.Drawing.Size(386, 42);
             this.label81.TabIndex = 84;
             this.label81.Text = "id.vars: Select the variable you want to fix\r\nmeasure.vars: Select the variables " +
     "you want to expand vertically.\r\nIf not selected, it will be a variable other tha" +

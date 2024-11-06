@@ -27,3 +27,6 @@ install.packages("dplyr", repo="http://cran.r-project.org", lib=install_libpath)
 install.packages("ggplot2", repo="http://cran.r-project.org", lib=install_libpath) 
 install.packages("plotly", repo="http://cran.r-project.org", lib=install_libpath) 
 install.packages("htmlwidgets", repo="http://cran.r-project.org", lib=install_libpath) 
+
+if(!require(devtools)) install.packages("devtools",repo="http://cran.r-project.org", lib=install_libpath)
+devtools::install_github("kassambara/ggpubr", lib=install_libpath)

@@ -2527,7 +2527,8 @@ namespace tft
                 if (comboBox4.Text != "")
                 {
                     feature_gen += "IDs = unique(df$" + comboBox4.Text + ")\r\n";
-                    feature_gen += "for ( k in 1:length(IDs))\r\n";
+                    feature_gen += "#for ( k in 1:length(IDs))\r\n";
+                    feature_gen += "for ( k in 1:1)\r\n";
                     feature_gen += "{\r\n";
                     feature_gen += "    tmp <- df %>% filter("+comboBox4.Text+" == IDs[k])\r\n";
                 }
@@ -3590,8 +3591,8 @@ namespace tft
 
 
             string recursive_Feature = "";
-            recursive_Feature += "recursive_Feature_predict <- function(df, train, valid, test, model_xgb, recursive_step){\r\n";
-            recursive_Feature += "if ( file.exists(\"progress.txt\")) file.remove(\"progress.txt\")\r\n";
+            recursive_Feature += "recursive_Feature_predict <- function(df, train, valid, test, model_xgb, recursive_step, sampling_max=1, sampling_count=1){\r\n";
+            recursive_Feature += "if ( file.exists(\"progress.txt\") && sampling_count==1) file.remove(\"progress.txt\")\r\n";
 
             recursive_Feature += "test  <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
@@ -3618,6 +3619,32 @@ namespace tft
             recursive_Feature += "s = 1\r\n";
             recursive_Feature += "e = lag_min*n\r\n";
             recursive_Feature += "\r\n";
+
+            recursive_Feature += "exclude_patterns <- c(\r\n";
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "	                        \"" + comboBox4.Text + "\",\r\n";
+            }
+            recursive_Feature += "	                        \"year_\",\r\n";
+            recursive_Feature += "	                        \"quarter_\",\r\n";
+            recursive_Feature += "	                        \"month_\",\r\n";
+            recursive_Feature += "	                        \"wday_\",\r\n";
+            recursive_Feature += "	                        \"yday_\",\r\n";
+            recursive_Feature += "	                        \"day_\",\r\n";
+            recursive_Feature += "	                        \"hour_\",\r\n";
+            recursive_Feature += "	                        \"am_\",\r\n";
+            recursive_Feature += "	                        \"pm_\",\r\n";
+            recursive_Feature += "	                        \"minute_\",\r\n";
+            recursive_Feature += "	                        \"second_\",\r\n";
+            recursive_Feature += "	                        \"sin_Y\",\r\n";
+            recursive_Feature += "	                        \"cos_Y\",\r\n";
+            recursive_Feature += "	                        \"sin_M\",\r\n";
+            recursive_Feature += "	                        \"cos_M\",\r\n";
+            recursive_Feature += "	                        \"sin_D\",\r\n";
+            recursive_Feature += "	                        \"cos_D\")\r\n";
+            recursive_Feature += "\r\n";
+
+
             recursive_Feature += "for ( k in 1:10000)\r\n";
             recursive_Feature += "{\r\n";
             recursive_Feature += "	if ( e >= nn) e = nn\r\n";
@@ -3698,47 +3725,33 @@ namespace tft
             recursive_Feature += "	   wrk2 <- wrk2[d,]\r\n";
             recursive_Feature += "	   \r\n";
             recursive_Feature += "	   names <- colnames(wrk2)\r\n";
+            recursive_Feature += "	   valid_names <- names[!sapply(names, function(name) any(grepl(paste(exclude_patterns, collapse = \"|\"), name)))]\r\n";
+
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "	   df_tmp <- data.frame(df)[,c('" + comboBox4.Text + "',valid_names), drop = FALSE]\r\n";
+            }
+
             recursive_Feature += "	   for ( ii in 1:length(d))\r\n";
             recursive_Feature += "	   {\r\n";
-            recursive_Feature += "	       for ( j in 1:length(names)){\r\n";
             if (comboBox4.Text != "")
             {
-                recursive_Feature += "             if( length(grep(\"" + comboBox4.Text + "\", names[j]))) next\r\n";
+                recursive_Feature += "	       IDs <- wrk2$" + comboBox4.Text + "[ii]\r\n";
+                recursive_Feature += "	       x <- df_tmp %>% dplyr::filter(" + comboBox4.Text + " == IDs)\r\n";
             }
-            recursive_Feature += "             if( length(grep(\"year_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"quarter_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"month_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"wday_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"yday_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"day_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"hour_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"am_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"pm_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"minute_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"second_\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"sin_Y\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"cos_Y\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"sin_M\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"cos_M\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"sin_D\", names[j]))) next\r\n";
-            recursive_Feature += "             if( length(grep(\"cos_D\", names[j]))) next\r\n";
-            recursive_Feature += "\r\n";
-            if (comboBox4.Text != "")
+            recursive_Feature += "	       for ( name in valid_names){\r\n";
+            if (comboBox4.Text == "")
             {
-                recursive_Feature += "             df_tmp <- data.frame(df)[,c('" + comboBox4.Text+"',names[j])]\r\n";
-                recursive_Feature += "             IDs <- wrk2$" + comboBox4.Text + "[ii]\r\n";
-                recursive_Feature += "             x <- df_tmp %>% dplyr::filter(IDs==" + comboBox4.Text + ")\r\n";
-            }
-            else
-            {
-                recursive_Feature += "             df_tmp <- data.frame(df)[,c(names[j])]\r\n";
+                recursive_Feature += "             df_tmp <- data.frame(name = df[,c(name)])\r\n";
                 recursive_Feature += "             x <- df_tmp\r\n";
             }
-            recursive_Feature += "             x <- x[(nrow(x)*0.8):nrow(x),]\r\n";
+            recursive_Feature += "             x <- x[(nrow(x)*0.2):nrow(x), , drop = FALSE]\r\n";
+
+            recursive_Feature += "\r\n";
             recursive_Feature += "             if ( use_KDE )\r\n";
             recursive_Feature += "             {\r\n";
             recursive_Feature += "                 # Kernel Density Estimation\r\n";
-            recursive_Feature += "                 kde <- density(x[,names[j]])\r\n";
+            recursive_Feature += "                 kde <- density(x[[name]])\r\n";
             recursive_Feature += "                 #plot(kde, main = 'Kernel Density Estimation')\r\n";
             recursive_Feature += "                 #next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
 
@@ -3746,30 +3759,27 @@ namespace tft
             recursive_Feature += "                 kde_cdf <- cumsum(kde$y) / sum(kde$y)\r\n\r\n";
             recursive_Feature += "                 # Interpolate cumulative distribution for KDE evaluation points\r\n";
             recursive_Feature += "                 kde_cdf_func <- approxfun(kde$x, kde_cdf)\r\n";
-            recursive_Feature += "                 while(T)\r\n";
-            recursive_Feature += "                 {\r\n";
+            recursive_Feature += "                 #repeat\r\n";
+            recursive_Feature += "                 #{\r\n";
             recursive_Feature += "                     next_sample <- sample(kde$x, size = 1, prob = kde$y)\r\n";
-            recursive_Feature += "                     p1 <- kde_cdf_func(next_sample)\r\n";
-            recursive_Feature += "                     if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
-            recursive_Feature += "                 }\r\n";
+            recursive_Feature += "                     #p1 <- kde_cdf_func(next_sample)\r\n";
+            recursive_Feature += "                     #if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
+            recursive_Feature += "                 #}\r\n";
             
             recursive_Feature += "	           }else\r\n";
             recursive_Feature += "	           {\r\n";
-            recursive_Feature += "                 #next_sample <- rnorm(1, mean=mean(x[,names[j]],na.rm=T), sd=sd(x[,names[j]],na.rm=T))\r\n";
- 
- 
             recursive_Feature += "                 mean_=mean(d,na.rm=T)\r\n";
             recursive_Feature += "                 sd_=sd(d,na.rm=T)\r\n";
-            recursive_Feature += "                 while(T)\r\n";
-            recursive_Feature += "                 {\r\n";
+            recursive_Feature += "                 #repeat\r\n";
+            recursive_Feature += "                 #{\r\n";
             recursive_Feature += "                     next_sample <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
-            recursive_Feature += "                     p1 <- pnorm(next_sample, mean = mean_, sd = sd_)\r\n";
-            recursive_Feature += "                     if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
-            recursive_Feature += "                 }\r\n";
+            recursive_Feature += "                     #p1 <- pnorm(next_sample, mean = mean_, sd = sd_)\r\n";
+            recursive_Feature += "                     #if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
+            recursive_Feature += "                 #}\r\n";
 
  
             recursive_Feature += "	           }\r\n";
-            recursive_Feature += "	           wrk2[ii,names[j]] <- next_sample\r\n";
+            recursive_Feature += "	           wrk2[,name][ii] <- next_sample\r\n";
             recursive_Feature += "		   }\r\n";
             recursive_Feature += "	    }\r\n";
             recursive_Feature += "	    \r\n";
@@ -3783,8 +3793,8 @@ namespace tft
 
 
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
-            recursive_Feature += "  predict <- prediction(test,model_xgb)\r\n";
-            recursive_Feature += "  test$volume_porcentagem <- predict$predict\r\n";
+            recursive_Feature += "	predict <- prediction(test,model_xgb)\r\n";
+            recursive_Feature += "	test$" + listBox4.SelectedItem.ToString() + " <- predict$predict\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "	#print(sum(test$" + listBox4.SelectedItem.ToString() + " - obs))\r\n";
@@ -3797,10 +3807,10 @@ namespace tft
 
             //progress
             recursive_Feature += "## progress\r\n";
-            recursive_Feature += "        print(sprintf(\"%d/%d %.3f%%\", e, nn, 100*as.integer(1000*e/nn)/1000.0))\r\n";
+            recursive_Feature += "        print(sprintf(\"%d/%d %.3f%%\", as.integer(e*sampling_count/sampling_max), nn, 100*as.integer(1000*e*(sampling_count/sampling_max)/nn)/1000.0))\r\n";
             recursive_Feature += "        tryCatch({\r\n";
             recursive_Feature += "            sink(\"progress.txt\")\r\n";
-            recursive_Feature += "            cat(e)\r\n";
+            recursive_Feature += "            cat(as.integer(e*sampling_count/sampling_max))\r\n";
             recursive_Feature += "            cat (\"/\")\r\n";
             recursive_Feature += "            cat(nn)\r\n";
             recursive_Feature += "            cat(\"\\r\\n\")\r\n";
@@ -3844,21 +3854,21 @@ namespace tft
                 timer1.Start();
 
                 cmd += "source('feature_gen_fnc.r')\r\n";
+                cmd += "sampling_num_max <- " + sampling_num_max.ToString() + "\r\n";
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
-                cmd += "predict <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step)\r\n";
+                cmd += "predict <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, 1)\r\n";
                 cmd += "predict$upper <- predict$predict\r\n";
                 cmd += "predict$lower <- predict$predict\r\n";
-                cmd += "num_sampels <- "+ sampling_num_max.ToString()+"\r\n";
-                cmd += "for ( i in 1:num_sampels ){\r\n";
-                cmd += "    predict_ <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step)\r\n";
+                cmd += "for ( i in 2:sampling_num_max ){\r\n";
+                cmd += "    predict_ <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, i)\r\n";
                 cmd += "    predict$predict <-  predict$predict + predict_$predict\r\n";
                 cmd += "    for ( j in 1:length(predict$predict)){\r\n";
                 cmd += "        predict$upper[j] <- max(predict$upper[j], predict_$predict[j])\r\n";
                 cmd += "        predict$lower[j] <- min(predict$lower[j], predict_$predict[j])\r\n";
                 cmd += "    }\r\n";
                 cmd += "}\r\n";
-                cmd += "predict$predict <- predict$predict/(num_sampels+1)\r\n";
+                cmd += "predict$predict <- predict$predict/(sampling_num_max)\r\n";
             }
             else
             {
@@ -4167,13 +4177,8 @@ namespace tft
 
                 if (progressBar1.Maximum == progressBar1.Value)
                 {
-                    sampling_count++;
-                    if (sampling_num_max == sampling_count)
-                    {
-                        sampling_count = 0;
-                        timer1.Stop();
-                        timer1.Enabled = false;
-                    }
+                    timer1.Stop();
+                    timer1.Enabled = false;
                 }
                 progressBar1.Refresh();
             }
