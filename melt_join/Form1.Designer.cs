@@ -255,6 +255,7 @@ namespace tft
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.label55 = new System.Windows.Forms.Label();
             this.comboBox6 = new System.Windows.Forms.ComboBox();
             this.textBox19 = new System.Windows.Forms.TextBox();
@@ -845,7 +846,7 @@ namespace tft
             // label69
             // 
             this.label69.AutoSize = true;
-            this.label69.Location = new System.Drawing.Point(4, 186);
+            this.label69.Location = new System.Drawing.Point(4, 183);
             this.label69.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label69.Name = "label69";
             this.label69.Size = new System.Drawing.Size(88, 15);
@@ -1554,6 +1555,7 @@ namespace tft
             this.label83.AutoSize = true;
             this.label83.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label83.Location = new System.Drawing.Point(290, 190);
+            this.label83.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label83.Name = "label83";
             this.label83.Size = new System.Drawing.Size(210, 28);
             this.label83.TabIndex = 86;
@@ -1564,6 +1566,7 @@ namespace tft
             this.label82.AutoSize = true;
             this.label82.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label82.Location = new System.Drawing.Point(290, 161);
+            this.label82.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label82.Name = "label82";
             this.label82.Size = new System.Drawing.Size(222, 14);
             this.label82.TabIndex = 85;
@@ -1574,6 +1577,7 @@ namespace tft
             this.label81.AutoSize = true;
             this.label81.Font = new System.Drawing.Font("MS UI Gothic", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.label81.Location = new System.Drawing.Point(9, 230);
+            this.label81.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label81.Name = "label81";
             this.label81.Size = new System.Drawing.Size(386, 42);
             this.label81.TabIndex = 84;
@@ -1689,6 +1693,7 @@ namespace tft
             // 
             this.tabPage9.Controls.Add(this.button41);
             this.tabPage9.Location = new System.Drawing.Point(4, 25);
+            this.tabPage9.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage9.Name = "tabPage9";
             this.tabPage9.Size = new System.Drawing.Size(654, 720);
             this.tabPage9.TabIndex = 8;
@@ -1908,6 +1913,7 @@ namespace tft
             // 
             this.checkBox11.AutoSize = true;
             this.checkBox11.Location = new System.Drawing.Point(14, 389);
+            this.checkBox11.Margin = new System.Windows.Forms.Padding(2);
             this.checkBox11.Name = "checkBox11";
             this.checkBox11.Size = new System.Drawing.Size(224, 19);
             this.checkBox11.TabIndex = 130;
@@ -2566,7 +2572,7 @@ namespace tft
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
             this.radioButton1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.radioButton1.Location = new System.Drawing.Point(12, 23);
+            this.radioButton1.Location = new System.Drawing.Point(12, 22);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(119, 19);
@@ -3047,6 +3053,7 @@ namespace tft
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.checkBox12);
             this.groupBox8.Controls.Add(this.label55);
             this.groupBox8.Controls.Add(this.comboBox6);
             this.groupBox8.Controls.Add(this.button36);
@@ -3094,6 +3101,18 @@ namespace tft
             this.groupBox8.TabIndex = 0;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "hyper parameter";
+            // 
+            // checkBox12
+            // 
+            this.checkBox12.AutoSize = true;
+            this.checkBox12.Location = new System.Drawing.Point(399, 9);
+            this.checkBox12.Margin = new System.Windows.Forms.Padding(4);
+            this.checkBox12.Name = "checkBox12";
+            this.checkBox12.Size = new System.Drawing.Size(120, 19);
+            this.checkBox12.TabIndex = 215;
+            this.checkBox12.Text = "use_lightgbm";
+            this.checkBox12.UseVisualStyleBackColor = true;
+            this.checkBox12.CheckedChanged += new System.EventHandler(this.checkBox12_CheckedChanged);
             // 
             // label55
             // 
@@ -3250,7 +3269,7 @@ namespace tft
             1,
             0,
             0,
-            0});
+            -2147483648});
             this.numericUpDown14.Name = "numericUpDown14";
             this.numericUpDown14.Size = new System.Drawing.Size(78, 22);
             this.numericUpDown14.TabIndex = 190;
@@ -3417,7 +3436,7 @@ namespace tft
             this.numericUpDown17.Size = new System.Drawing.Size(95, 22);
             this.numericUpDown17.TabIndex = 171;
             this.numericUpDown17.Value = new decimal(new int[] {
-            50000,
+            5000,
             0,
             0,
             0});
@@ -4048,6 +4067,7 @@ namespace tft
         private System.Windows.Forms.Label label83;
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.Label label81;
+        private System.Windows.Forms.CheckBox checkBox12;
     }
 }
 

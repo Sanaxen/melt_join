@@ -47,6 +47,7 @@ namespace tft
         public int sampling_num_max = 4;
         public int sampling_count = 0;
 
+        public bool use_lightgbm = false;
         public int status = 0;
         public Form1()
         {
@@ -610,7 +611,6 @@ namespace tft
             cmd += "suppressMessages({\r\n";
             cmd += "    library(data.table)\r\n";
             cmd += "    library(RcppRoll)\r\n";
-            cmd += "#    library(lightgbm)\r\n";
             cmd += "    library(dplyr)\r\n";
             cmd += "    library(lubridate)\r\n";
             cmd += "    library(reshape2)\r\n";
@@ -629,6 +629,10 @@ namespace tft
             cmd += "    library(plotly)\r\n";
             cmd += "    library(patchwork)\r\n";
             cmd += "    library(htmlwidgets)\r\n";
+            if ( use_lightgbm )
+            {
+	            cmd += "    library(lightgbm)\r\n";
+            }
             cmd += "})\r\n";
             cmd += "set.seed(1)\r\n";
             cmd += "\r\n";
@@ -2399,47 +2403,51 @@ namespace tft
 
                         if (args[0] == "year")
                         {
-                            addfeature_cmd.Items.Add(string.Format("year_{0} = as.integer(lubridate::year(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("year_{0} = as.integer(lubridate::year(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "quarter")
                         {
-                            addfeature_cmd.Items.Add(string.Format("quarter_{0} = as.integer(lubridate::quarter(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("quarter_{0} = as.integer(lubridate::quarter(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "month")
                         {
-                            addfeature_cmd.Items.Add(string.Format("month_{0} = as.integer(lubridate::month(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("month_{0} = as.integer(lubridate::month(datetime_tmp_))", args[1]));
+                        }
+                        if (args[0] == "week")
+                        {
+                            addfeature_cmd.Items.Add(string.Format("week_{0} = as.integer(lubridate::week(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "wday")
                         {
-                            addfeature_cmd.Items.Add(string.Format("wday_{0} = as.integer(lubridate::wday(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("wday_{0} = as.integer(lubridate::wday(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "yday")
                         {
-                            addfeature_cmd.Items.Add(string.Format("yday_{0} = as.integer(lubridate::yday(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("yday_{0} = as.integer(lubridate::yday(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "day")
                         {
-                            addfeature_cmd.Items.Add(string.Format("day_{0} = as.integer(lubridate::day(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("day_{0} = as.integer(lubridate::day(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "hour")
                         {
-                            addfeature_cmd.Items.Add(string.Format("hour_{0} = as.integer(lubridate::hour(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("hour_{0} = as.integer(lubridate::hour(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "am")
                         {
-                            addfeature_cmd.Items.Add(string.Format("am_{0} = as.integer(lubridate::am(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("am_{0} = as.integer(lubridate::am(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "pm")
                         {
-                            addfeature_cmd.Items.Add(string.Format("pm_{0} = as.integer(lubridate::pm(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("pm_{0} = as.integer(lubridate::pm(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "minute")
                         {
-                            addfeature_cmd.Items.Add(string.Format("minute_{0} = as.integer(lubridate::minute(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("minute_{0} = as.integer(lubridate::minute(datetime_tmp_))", args[1]));
                         }
                         if (args[0] == "second")
                         {
-                            addfeature_cmd.Items.Add(string.Format("second_{0} = as.integer(lubridate::second(" + comboBox5.Text + "))", args[1]));
+                            addfeature_cmd.Items.Add(string.Format("second_{0} = as.integer(lubridate::second(datetime_tmp_))", args[1]));
                         }
                     }
                     textBox7.Text += addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString() + "\r\n";
@@ -2461,17 +2469,20 @@ namespace tft
 
                 if (comboBox5.Text != "")
                 {
-                    if (comboBox5.Text.Length > 1 && comboBox5.Text.Substring(0, 1) == "'")
+                    if (comboBox5.Text.Length > 1)
                     {
-                        //feature_gen += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz='UTC')\r\n";
-                        feature_gen += "df$" + comboBox5.Text + " <- lubridate::as_datetime(df$" + comboBox5.Text + ", tz='UTC')\r\n";
-                        //
-                    }
-                    else
-                    {
-                        //feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
-                        feature_gen += "df$'" + comboBox5.Text + "' <- lubridate::as_datetime(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
+                        if (comboBox5.Text.Substring(0, 1) == "'")
+                        {
+                            //feature_gen += "df$" + comboBox5.Text + " <- as.POSIXct(df$" + comboBox5.Text + ", tz='UTC')\r\n";
+                            feature_gen += "df$" + comboBox5.Text + " <- lubridate::as_datetime(df$" + comboBox5.Text + ", tz='UTC')\r\n";
+                            //
+                        }
+                        else
+                        {
+                            //feature_gen += "df$'" + comboBox5.Text + "' <- as.POSIXct(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
+                            feature_gen += "df$'" + comboBox5.Text + "' <- lubridate::as_datetime(df$'" + comboBox5.Text + "', tz='UTC')\r\n";
 
+                        }
                     }
 
                     if (comboBox4.Text != "")
@@ -2490,6 +2501,18 @@ namespace tft
                         feature_gen += "}\r\n";
                     }
                 }
+                if (comboBox5.Text.Length > 1)
+                {
+                    if (comboBox5.Text.Substring(0, 1) == "'")
+                    {
+                        feature_gen += "df$datetime_tmp_ <- df$" + comboBox5.Text + "\r\n";
+                    }
+                    else
+                    {
+                        feature_gen += "df$datetime_tmp_ <- df$'" + comboBox5.Text + "'\r\n";
+                    }
+                }
+
 
                 feature_gen += "df <- df %>% \r\n";
                 if (comboBox4.Text != "")
@@ -2537,7 +2560,7 @@ namespace tft
                     feature_gen += "    tmp <- df\r\n";
 
                 }
-                feature_gen += "    dt = as.numeric(abs(difftime(tmp$" + comboBox5.Text + "[2],tmp$" + comboBox5.Text + "[1],  units='secs')))\r\n";
+                feature_gen += "    dt = as.numeric(abs(difftime(tmp$datetime_tmp_[2],tmp$datetime_tmp_[1],  units='secs')))\r\n";
                 feature_gen += "    \r\n";
                 feature_gen += "    if ( 31540000/dt > 1 )\r\n";
                 feature_gen += "    {\r\n";
@@ -2565,6 +2588,8 @@ namespace tft
                     feature_gen += "}\r\n";
                 }
             }
+            feature_gen += "df$datetime_tmp_ <- NULL\r\n";
+
             if (skip_row_max > 0)
             {
                 feature_gen += "if ( clip ){\r\n";
@@ -3299,6 +3324,8 @@ namespace tft
             textBox21.Text = "0.0";     //colsample_bytree
             numericUpDown13.Value = 0;  //num_class
             numericUpDown12.Value = 3;  //num_thread
+
+            checkBox12_CheckedChanged(sender, e);
         }
 
         private void button37_Click(object sender, EventArgs e)
@@ -3360,6 +3387,10 @@ namespace tft
             string cmd1 = tft_header_ru();
             string cmd = "";
 
+            if ( checkBox12.Checked)
+            {
+                cmd += "use_lightgbm <- TRUE\r\n";
+            }
             cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "train <- fread(\"" + base_name0 + "_train.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "valid <- fread(\"" + base_name0 + "_valid.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
@@ -3394,8 +3425,15 @@ namespace tft
             train += "test_labels <- as.data.frame(test_labels)\r\n";
 
 
-            train += "train_set_xgb = xgb.DMatrix(data = data.matrix(train_data[, use_features]), label = data.matrix(train_labels))\r\n";
-            train += "valid_set_xgb = xgb.DMatrix(data = data.matrix(valid_data[, use_features]), label = data.matrix(valid_labels))\r\n";
+			if( use_lightgbm )
+			{
+	            train += "train_set_xgb = lgb.Dataset(data = data.matrix(train_data[, use_features]), label = data.matrix(train_labels))\r\n";
+	            train += "valid_set_xgb = lgb.Dataset(data = data.matrix(valid_data[, use_features]), label = data.matrix(valid_labels))\r\n";
+			}else
+			{
+	            train += "train_set_xgb = xgb.DMatrix(data = data.matrix(train_data[, use_features]), label = data.matrix(train_labels))\r\n";
+	            train += "valid_set_xgb = xgb.DMatrix(data = data.matrix(valid_data[, use_features]), label = data.matrix(valid_labels))\r\n";
+			}
             train += "\r\n";
             train += "\r\n";
             train += "use_GPU = ";
@@ -3404,57 +3442,146 @@ namespace tft
             train += "min_child_weight = "+ textBox19.Text+"\r\n";
             train += "gamma = "+textBox24.Text +"\r\n";
             train += "max_depth= " + numericUpDown14.Value.ToString() + "\r\n";
-            train += "if ( use_GPU )\r\n";
-            train += "{\r\n";
-            train += "	params <- list(booster =  " + comboBox10.Text + "\r\n";
-            train += "                   ,min_child_weight = min_child_weight\r\n";
-            train += "	               ,tree_method= " + comboBox6.Text + ", gpu_id=0,task_type = \"GPU\"\r\n";
-            train += "	               ,objective = " + comboBox9.Text + "\r\n";
-            train += "	               ,eta=eta\r\n";
-            train += "                   ,gamma=gamma\r\n";
-            train += "                   ,max_depth=max_depth)\r\n";
-            train += "}else\r\n";
-            train += "{\r\n";
-            train += "	params <- list(booster = " + comboBox10.Text + "\r\n";
-            train += "                   ,min_child_weight = min_child_weight\r\n";
-            train += "	               ,tree_method=" + comboBox6.Text + "\r\n";
-            train += "	               ,objective = " + comboBox9.Text + "\r\n";
-            train += "	               ,eta=eta\r\n";
-            train += "                   ,gamma=gamma\r\n";
-            train += "                   ,max_depth=max_depth)\r\n";
-            train += "}\r\n";
+            train += "subsample=" + textBox20.Text + "\r\n";
+            train += "colsample_bytree=" + textBox21.Text + "\r\n";
+            train += "lambda=" + textBox22.Text + "\r\n";
+            train += "alpha=" + textBox23.Text + "\r\n";
+
+            if ( use_lightgbm )
+            {
+	            train += "if ( use_GPU )\r\n";
+	            train += "{\r\n";
+	            train += "	params <- list(boosting =  " + comboBox10.Text + "\r\n";
+	            train += "                   ,min_child_weight = min_child_weight\r\n";
+	            train += "	               ,device_type=  \"gpu\"\r\n";
+	            train += "	               ,objective = " + comboBox9.Text + "\r\n";
+	            train += "	               ,metric = " + comboBox8.Text + "\r\n";
+	            train += "	               ,learning_rate=eta\r\n";
+	            train += "                   ,min_split_gain=gamma\r\n";
+                train += "                   ,bagging_fraction=subsample\r\n";
+                train += "                   ,feature_fraction=colsample_bytree\r\n";
+                train += "                   ,lambda_l2=lambda\r\n";
+                train += "                   ,lambda_l1=alpha\r\n";
+                train += "                   ,max_depth=max_depth)\r\n";
+	            train += "}else\r\n";
+	            train += "{\r\n";
+	            train += "	params <- list(boosting = " + comboBox10.Text + "\r\n";
+	            train += "                   ,min_child_weight = min_child_weight\r\n";
+	            train += "	               ,objective = " + comboBox9.Text + "\r\n";
+	            train += "	               ,metric = " + comboBox8.Text + "\r\n";
+	            train += "	               ,learning_rate=eta\r\n";
+	            train += "                   ,min_split_gain=gamma\r\n";
+                train += "                   ,bagging_fraction=subsample\r\n";
+                train += "                   ,feature_fraction=colsample_bytree\r\n";
+                train += "                   ,lambda_l2=lambda\r\n";
+                train += "                   ,lambda_l1=alpha\r\n";
+                train += "                   ,max_depth=max_depth)\r\n";
+	            train += "}\r\n";
+	        }else
+            {
+	            train += "if ( use_GPU )\r\n";
+	            train += "{\r\n";
+	            train += "	params <- list(booster =  " + comboBox10.Text + "\r\n";
+	            train += "                   ,min_child_weight = min_child_weight\r\n";
+	            train += "	               ,tree_method= gpu_hist, gpu_id=0,task_type = \"GPU\"\r\n";
+	            train += "	               ,objective = " + comboBox9.Text + "\r\n";
+	            train += "	               ,eval_metric = " + comboBox8.Text + "\r\n";
+	            train += "	               ,eta=eta\r\n";
+	            train += "                   ,gamma=gamma\r\n";
+                train += "                   ,subsample=subsample\r\n";
+                train += "                   ,colsample_bytree=colsample_bytree\r\n";
+                train += "                   ,lambda=lambda\r\n";
+                train += "                   ,alpha=alpha\r\n";
+                train += "                   ,max_depth=max_depth)\r\n";
+	            train += "}else\r\n";
+	            train += "{\r\n";
+	            train += "	params <- list(booster = " + comboBox10.Text + "\r\n";
+	            train += "                   ,min_child_weight = min_child_weight\r\n";
+	            train += "	               ,tree_method=" + comboBox6.Text + "\r\n";
+	            train += "	               ,objective = " + comboBox9.Text + "\r\n";
+	            train += "	               ,eval_metric = " + comboBox8.Text + "\r\n";
+	            train += "	               ,eta=eta\r\n";
+                train += "                   ,gamma=gamma\r\n";
+                train += "                   ,subsample=subsample\r\n";
+                train += "                   ,colsample_bytree=colsample_bytree\r\n";
+                train += "                   ,lambda=lambda\r\n";
+                train += "                   ,alpha=alpha\r\n";
+                train += "                   ,max_depth=max_depth)\r\n";
+	            train += "}\r\n";
+             }
+
 
             train += "num_iterations = " + numericUpDown17.Value.ToString() + "\r\n";
             if ( checkBox10.Checked)
             {
-                train += "\r\n";
                 train += "nrounds = num_iterations\r\n";
-                train += "xgb_cv <- xgb.cv(data = train_set_xgb\r\n";
-                train += "                  , param = params\r\n";
-                train += "                  , maximize = FALSE\r\n";
-                train += "                  , evaluation = " + comboBox9.Text + "\r\n"; 
-                train += "                  , nrounds = nrounds\r\n";
-                train += "                  , nthreads = " + numericUpDown12.Value.ToString() + "\r\n";
-                train += "                  , nfold = " + numericUpDown16.Value.ToString() + "\r\n";
-                train += "                  , early_stopping_round =" + numericUpDown15.Value.ToString() + "\r\n";
-                train += ")\r\n";
-                train += "num_iterations = xgb_cv$best_iteration\r\n";
+                if ( use_lightgbm )
+	            {
+	                train += "\r\n";
+	                train += "num_boosting_rounds  = num_iterations\r\n";
+	                train += "xgb_cv <- lgb.cv(data = train_set_xgb\r\n";
+	                train += "                  , param = params\r\n";
+	                train += "                  , nrounds = nrounds\r\n";
+	                train += "                  , nfold = " + numericUpDown16.Value.ToString() + "\r\n";
+	                train += "                  , early_stopping_round =" + numericUpDown15.Value.ToString() + "\r\n";
+	                train += ")\r\n";
+	                train += "num_iterations = xgb_cv$best_iter\r\n";
+	            }else
+	            {
+	                train += "\r\n";
+	                train += "xgb_cv <- xgb.cv(data = train_set_xgb\r\n";
+	                train += "                  , param = params\r\n";
+	                train += "                  , maximize = FALSE\r\n";
+	                train += "                  , evaluation = " + comboBox9.Text + "\r\n"; 
+	                train += "                  , nrounds = nrounds\r\n";
+	                train += "                  , nthreads = " + numericUpDown12.Value.ToString() + "\r\n";
+	                train += "                  , nfold = " + numericUpDown16.Value.ToString() + "\r\n";
+	                train += "                  , early_stopping_round =" + numericUpDown15.Value.ToString() + "\r\n";
+	                train += ")\r\n";
+	                train += "num_iterations = xgb_cv$best_iteration\r\n";
+	            }
             }
-            train += "model_xgb <- xgb.train(data = train_set_xgb,\r\n";
-            train += "                              , param = params\r\n";
-            train += "                              , maximize = FALSE\r\n";
-            train += "                              , eval.metric = " + comboBox8.Text + "\r\n";
-            train += "                              , nrounds = num_iterations\r\n";
-            train += "                              , watchlist = list(train = train_set_xgb, eval = valid_set_xgb)\r\n";
-            train += "                              , early_stopping_round = " + numericUpDown15.Value.ToString() + "\r\n";
-            train += "                              , nthread=" + numericUpDown12.Value.ToString() + "\r\n";
-            train += ")\r\n";
+            if( use_lightgbm )
+            {
+	            train += "model_xgb <- lgb.train(data = train_set_xgb,\r\n";
+	            train += "                              , param = params\r\n";
+	            train += "                              , nrounds = num_iterations\r\n";
+	            train += "                              , valids = list(train = train_set_xgb, eval = valid_set_xgb)\r\n";
+	            train += "                              , early_stopping_round = " + numericUpDown15.Value.ToString() + "\r\n";
+	            train += ")\r\n";
+            }else
+            {
+	            train += "model_xgb <- xgb.train(data = train_set_xgb,\r\n";
+	            train += "                              , param = params\r\n";
+	            train += "                              , maximize = FALSE\r\n";
+	            train += "                              , nrounds = num_iterations\r\n";
+	            train += "                              , watchlist = list(train = train_set_xgb, eval = valid_set_xgb)\r\n";
+	            train += "                              , early_stopping_round = " + numericUpDown15.Value.ToString() + "\r\n";
+	            train += "                              , nthread=" + numericUpDown12.Value.ToString() + "\r\n";
+	            train += ")\r\n";
+            }
             train += "\r\n";
             train += "saveRDS(model_xgb, file = \"model_xgb\")\r\n";
-            train += "importance <- xgb.importance(feature_names = colnames(train_set_xgb), model = model_xgb)\r\n";
-            train += "importance_plt <- xgb.plot.importance(importance_matrix = importance)\r\n";
-            train += "importance_plt <- xgb.ggplot.importance(importance, measure = NULL, rel_to_first = T, top_n = 25)\r\n";
-            train += "importance_plt + ggplot2::ylab(\"Importance\")\r\n";
+
+            if( use_lightgbm )
+            {
+	            train += "importance_matrix <- lgb.importance(model = model_xgb, percentage = TRUE)\r\n";
+	            train += "importance_matrix <- importance_matrix[order(importance_matrix$Gain, decreasing = TRUE), ]\r\n";
+	            train += "importance_matrix$Feature <- factor(importance_matrix$Feature, levels = importance_matrix$Feature[order(importance_matrix$Gain, decreasing = TRUE)])\r\n";
+	            train += "importance_plt <- ggplot(importance_matrix, aes(x = Feature, y = Gain)) +\r\n";
+	            train += "    geom_bar(stat = \"identity\", fill = \"skyblue\") +\r\n";
+	            train += "    coord_flip() +\r\n";
+	            train += "    labs(title = \"Feature Importance\",\r\n";
+	            train += "        x = \"Features\",\r\n";
+	            train += "        y = \"Importance (Gain)\") + theme_minimal()\r\n";
+	            train += "importance_plt + ggplot2::ylab(\"Importance\")\r\n";
+            }else
+            {
+	            train += "importance <- xgb.importance(feature_names = colnames(train_set_xgb), model = model_xgb)\r\n";
+	            train += "importance_plt <- xgb.plot.importance(importance_matrix = importance)\r\n";
+	            train += "importance_plt <- xgb.ggplot.importance(importance, measure = NULL, rel_to_first = T, top_n = 25)\r\n";
+	            train += "importance_plt + ggplot2::ylab(\"Importance\")\r\n";
+            }
             train += "ggsave(file = \"importance.png\", plot = importance_plt, limitsize=F, width = 16, height = 9)\r\n";
             train += "plt_plotly <-ggplotly(importance_plt)\r\n";
             train += "print(plt_plotly)\r\n";
@@ -3557,6 +3684,10 @@ namespace tft
             string cmd1 = tft_header_ru();
             string cmd = "";
 
+            if (checkBox12.Checked)
+            {
+                cmd += "use_lightgbm <- TRUE\r\n";
+            }
             cmd += "df <- fread(\"" + base_name + ".csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "train <- fread(\"" + base_name0 + "_train.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
             cmd += "valid <- fread(\"" + base_name0 + "_valid.csv\", na.strings=c(\"\", \"NULL\"), header = TRUE, stringsAsFactors = TRUE)\r\n";
@@ -3580,10 +3711,23 @@ namespace tft
             prediction += "test_labels <- as.data.frame(test_labels)\r\n";
             prediction += "\r\n";
 
-            prediction += "test_set_xgb = xgb.DMatrix(data = data.matrix(test_data[, use_features]), label = data.matrix(test_labels))\r\n";
+			if( use_lightgbm )
+			{
+	            prediction += "test_set_xgb = lgb.Dataset(data = data.matrix(test_data[, use_features]), label = data.matrix(test_labels))\r\n";
+            }else
+            {
+	            prediction += "test_set_xgb = xgb.DMatrix(data = data.matrix(test_data[, use_features]), label = data.matrix(test_labels))\r\n";
+            }
+            
             prediction += "\r\n";
             prediction += "\r\n";
-            prediction += "pred = predict(model_xgb, test_set_xgb)\r\n";
+            if( use_lightgbm )
+            {
+	            prediction += "pred = predict(model_xgb, as.matrix(test_data[, use_features]))\r\n";
+            }else
+            {
+	            prediction += "pred = predict(model_xgb, test_set_xgb)\r\n";
+            }
             prediction += "\r\n";
             prediction += "predict <- test\r\n";
             prediction += "predict$predict <- pred\r\n";
@@ -3628,6 +3772,7 @@ namespace tft
             recursive_Feature += "	                        \"year_\",\r\n";
             recursive_Feature += "	                        \"quarter_\",\r\n";
             recursive_Feature += "	                        \"month_\",\r\n";
+            recursive_Feature += "	                        \"week_\",\r\n";
             recursive_Feature += "	                        \"wday_\",\r\n";
             recursive_Feature += "	                        \"yday_\",\r\n";
             recursive_Feature += "	                        \"day_\",\r\n";
@@ -3702,7 +3847,38 @@ namespace tft
                 if (MessageBox.Show("Specify the objective variable", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
-            recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "',-'" + listBox4.SelectedItem.ToString() + "' )\r\n";
+
+            if (comboBox4.Text != "" && comboBox5.Text != "")
+            {
+                if (comboBox5.Text.Substring(0, 1) == "'")
+                {
+                    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-" + comboBox5.Text + ",-'" + listBox4.SelectedItem.ToString() + "' )\r\n";
+                }
+                else
+                {
+                    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "',-'" + listBox4.SelectedItem.ToString() + "' )\r\n";
+                }
+            }
+            if (comboBox4.Text == "" && comboBox5.Text != "")
+            {
+                if (comboBox5.Text.Substring(0, 1) == "'")
+                {
+                    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-" + comboBox5.Text+")\r\n";
+                }
+                else
+                {
+                    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "')\r\n";
+                }
+            }
+            if (comboBox4.Text != "" && comboBox5.Text == "")
+            {
+                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox4.Text + "')\r\n";
+            }
+            if (comboBox4.Text == "" && comboBox5.Text == "")
+            {
+                recursive_Feature += "   	   wrk2 <- test %>% as.data.frame()\r\n";
+            }
+
 
             //if (comboBox4.Text != "" && comboBox5.Text != "")
             //{
@@ -4260,6 +4436,122 @@ namespace tft
             comboBox4.Text = "Key_Id";
             with_current_df_cmd = "";
             textBox6.Text = with_current_df_cmd;
+        }
+
+        private void checkBox12_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox12.Checked)
+            {
+                numericUpDown14.Value = -1;
+
+                label55.Visible = false;
+                comboBox6.Visible = false;
+
+                label65.Text = "bagging_fraction";
+                label68.Text = "learning_rate";
+
+                label66.Text = "min_data_in_leaf";
+                textBox19.Text = "20.0";
+
+                label67.Text = "min_split_gain";
+                label63.Text = "lambda_l1";
+                textBox22.Text = "0.0";
+
+                label62.Text = "lambda_l2";
+                label61.Text = "feature_fraction";
+
+            }
+            else
+            {
+                numericUpDown14.Value = 6;
+                label55.Text = "tree_method";
+                label55.Visible = true;
+                comboBox6.Visible = true;
+
+                label65.Text = "subsample";
+                label68.Text = "eta";
+
+                label66.Text = "min_child_weight";
+                textBox19.Text = "1.0";
+
+                label67.Text = "gamma";
+                label63.Text = "alpha";
+                
+                label62.Text = "lambda";
+                textBox22.Text = "1.0";
+
+                label61.Text = "colsample_bytree";
+
+            }
+
+            if (checkBox12.Checked)
+            {
+                use_lightgbm = true;
+                comboBox8.Items.Clear();
+                comboBox8.Items.Add("\"rmse\"");
+                comboBox8.Items.Add("\"mse\"");
+                comboBox8.Items.Add("\"mae\"");
+                comboBox8.Text = "\"rmse\"";
+                label69.Text = "metric";
+            }
+            else
+            {
+                use_lightgbm = false;
+                comboBox8.Items.Clear();
+                comboBox8.Items.Add("\"rmse\"");
+                comboBox8.Items.Add("\"mse\"");
+                comboBox8.Items.Add("\"mae\"");
+                comboBox8.Text = "\"rmse\"";
+                label69.Text = "eval_metric";
+            }
+            if ( checkBox12.Checked)
+            {
+                comboBox9.Items.Clear();
+                comboBox9.Items.Add("\"regression\"");
+                comboBox9.Items.Add("\"regression_l1\"");
+                comboBox9.Items.Add("\"huber\"");
+                comboBox9.Items.Add("\"fair\"");
+                comboBox9.Items.Add("\"poisson\"");
+                comboBox9.Items.Add("\"quantile\"");
+                comboBox9.Items.Add("\"poisson\"");
+                comboBox9.Items.Add("\"mape\"");
+                comboBox9.Items.Add("\"gamma\"");
+                comboBox9.Items.Add("\"tweedie\"");
+                comboBox9.Text = "\"regression\"";
+            }
+            else
+            {
+                comboBox9.Items.Clear();
+                comboBox9.Items.Add("\"reg:squarederror\"");
+                comboBox9.Items.Add("\"binary:logstic\"");
+                comboBox9.Items.Add("\"binary:logsticraw\"");
+                comboBox9.Items.Add("\"multi:softmax\"");
+                comboBox9.Items.Add("\"multi:softprob\"");
+                comboBox9.Items.Add("\"rank:pairwise\"");
+                comboBox9.Items.Add("\"count:poisson\"");
+                comboBox9.Items.Add("\"survival:cox\"");
+                comboBox9.Items.Add("\"reg:linear\"");
+                comboBox9.Items.Add("\"reg:tweedie\"");
+                comboBox9.Text = "\"reg:squarederror\"";
+            }
+            if (checkBox12.Checked)
+            {
+                comboBox10.Items.Clear();
+                comboBox10.Items.Add("\"gbdt\"");
+                comboBox10.Items.Add("\"dart\"");
+                comboBox10.Items.Add("\"goss\"");
+                comboBox10.Text = "\"gbdt\"";
+                label71.Text = "boosting";
+            }
+            else
+            {
+                comboBox10.Items.Clear();
+                comboBox10.Items.Add("\"gbtree\"");
+                comboBox10.Items.Add("\"gblinear\"");
+                comboBox10.Items.Add("\"dart\"");
+                comboBox10.Text = "\"gbtree\"";
+                label71.Text = "booster";
+            }
         }
     }
 }
