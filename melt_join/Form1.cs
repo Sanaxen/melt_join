@@ -629,6 +629,7 @@ namespace tft
             cmd += "    library(plotly)\r\n";
             cmd += "    library(patchwork)\r\n";
             cmd += "    library(htmlwidgets)\r\n";
+            cmd += "    library(forecast)\r\n";
             if ( use_lightgbm )
             {
 	            cmd += "    library(lightgbm)\r\n";
@@ -3588,6 +3589,42 @@ namespace tft
             train += "htmlwidgets::saveWidget(as_widget(plt_plotly), 'importance.html', selfcontained = F)\r\n";
 
 
+            train += "\r\n";
+            train += "frequency_value_i = "+ textBox27.Text +"\r\n";
+            train += "df_tmp <- rbind(train, valid)\r\n";
+            train += "\r\n";
+            if (comboBox4.Text != "")
+            {
+                train += "IDs = unique(df$" + comboBox4.Text + ")\r\n";
+            }else
+            {
+                train += "IDs <- c(\"__dummy__\")\r\n";
+            }
+            train += "for ( i in 1:length(IDs))\r\n";
+            train += "{\r\n";
+            if (comboBox4.Text != "")
+            {
+                train += "	df_tmp1 <- df_tmp %>% filter(" + comboBox4.Text + " == IDs[i])\r\n";
+            }
+            else
+            {
+                train += "	df_tmp1 <- df_tmp\r\n";
+            }
+            train += "	df_tt1 <- ts(df_tmp1[,"+ listBox4.SelectedItem.ToString()+"],start=c(2015,1),frequency=frequency_value_i)\r\n";
+            train += "	arima_model <- try(auto.arima(df_tt1, ic=\"aic\", seasonal = T, trace=T), silent = F)\r\n";
+            train += "	#plot(arima_model)\r\n";
+            train += "	model_name <- sprintf(\"arima_model%d\", i)\r\n";
+            train += "	if ( !is.null(model_name))\r\n";
+            train += "	{\r\n";
+            train += "		saveRDS(arima_model, file = model_name)\r\n";
+            train += "	}else\r\n";
+            train += "	{\r\n";
+            train += "		if ( file.exist(model_name)) file.remove(model_name)\r\n";
+            train += "	}\r\n";
+            train += "	\r\n";
+            train += "}\r\n";
+
+
             train += "return(model_xgb)}\r\n";
 
             cmd += "source('training_fnc.r')\r\n";
@@ -3703,7 +3740,7 @@ namespace tft
 
             string prediction = "";
 
-            prediction += "prediction <- function(test, model_xgb){\r\n";
+            prediction += "prediction <- function(test, model_xgb, train=NULL, valid=NULL){\r\n";
             prediction += "test_data <- test %>% select(-" + listBox4.SelectedItem.ToString() + ")\r\n";
             prediction += "test_labels <- test %>% select(" + listBox4.SelectedItem.ToString() + ")\r\n";
             prediction += "\r\n";
@@ -3731,6 +3768,89 @@ namespace tft
             prediction += "\r\n";
             prediction += "predict <- test\r\n";
             prediction += "predict$predict <- pred\r\n";
+            prediction += "predict$upper <- pred\r\n";
+            prediction += "predict$lower <- pred\r\n";
+            
+            if (comboBox4.Text != "")
+            {
+                prediction += "IDs = unique(df$" + comboBox4.Text + ")\r\n";
+            }else
+            {
+                prediction += "IDs = NULL\r\n";
+            }
+
+            prediction += "df_tmp <- rbind(train, valid)\r\n";
+            prediction += "df_tmp$predict <- df_tmp$"+listBox4.SelectedItem.ToString()+"\r\n";
+            prediction += "df_tmp$upper <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "df_tmp$lower <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "df_tmp$Lo50 <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "df_tmp$PointForecast <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "df_tmp$Hi50 <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "df_tmp$Lo95 <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "df_tmp$Hi95 <- df_tmp$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "\r\n";
+            prediction += "test_tmp <- predict\r\n";
+            prediction += "test_tmp$PointForecast <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "test_tmp$Lo50 <- test$" + listBox4.SelectedItem.ToString()+"\r\n";
+            prediction += "test_tmp$Hi50 <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "test_tmp$Lo95 <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "test_tmp$Hi95 <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
+            prediction += "updated_rows <- NULL\r\n";
+            prediction += "if ( is.null(IDs))\r\n";
+            prediction += "{\r\n";
+            prediction += "    IDs <- c(\"__dummy__\")\r\n";
+            prediction += "}\r\n";
+            prediction += "for ( i in 1:length(IDs))\r\n";
+            prediction += "{\r\n";
+            prediction += "		model_name <- sprintf(\"arima_model%d\", i)\r\n";
+            prediction += "\r\n";
+            prediction += "		if ( file.exists(model_name))\r\n";
+            prediction += "		{\r\n";
+            prediction += "			arima_model <- readRDS(model_name)\r\n";
+            prediction += "			\r\n";
+            if (comboBox4.Text != "")
+            {
+                prediction += "			test_tmp0 <- test_tmp %>% filter(" + comboBox4.Text + " == IDs[i])\r\n";
+            }else
+            {
+                prediction += "			test_tmp0 <- test_tmp\r\n";
+            }
+            prediction += "			pred<-forecast(arima_model, level = c(50,95), h = nrow(test_tmp0))\r\n";
+            prediction += "			dd <- as.data.frame(pred)\r\n";
+            prediction += "\r\n";
+            prediction += "			#plot(pred)\r\n";
+            prediction += "			updated_rows2 <- test_tmp0 %>% \r\n";
+            prediction += "				mutate(PointForecast = dd[,\"Point Forecast\"]) %>%\r\n";
+            prediction += "				mutate(Lo50 = dd[,\"Lo 50\"]) %>%\r\n";
+            prediction += "				mutate(Hi50 = dd[,\"Hi 50\"]) %>%\r\n";
+            prediction += "				mutate(Lo95 = dd[,\"Lo 95\"]) %>%\r\n";
+            prediction += "				mutate(Hi95 = dd[,\"Hi 95\"])\r\n";
+            prediction += "\r\n";
+            prediction += "			predict_org <- updated_rows2$predict\r\n";
+            prediction += "			updated_rows2$predict <- predict_org*(1.0 -"+ textBox26.Text+") + updated_rows2$PointForecast* "+textBox26.Text+"\r\n";
+            prediction += "			updated_rows2$upper <- updated_rows2$predict + updated_rows2$Hi50-updated_rows2$PointForecast\r\n";
+            prediction += "			updated_rows2$lower <- updated_rows2$predict - (updated_rows2$PointForecast-updated_rows2$Lo50)\r\n";
+            prediction += "\r\n";
+            prediction += "			#arima_plt <- updated_rows2 %>% \r\n";
+            prediction += "			# ggplot(aes(x=data, y=predict)) +\r\n";
+            prediction += "			#geom_line()+\r\n";
+            prediction += "			#geom_ribbon(aes(ymin=lower,ymax=upper),alpha=0.2)#+\r\n";
+            prediction += "			#geom_ribbon(aes(ymin=Lo95,ymax=Hi95),alpha=0.2) +\r\n";
+            prediction += "			#geom_ribbon(aes(ymin=Lo50,ymax=Hi50),alpha=0.2)	\r\n";
+            prediction += "			#arima_plt\r\n";
+            prediction += "\r\n";
+            prediction += "			if ( !is.null(updated_rows))\r\n";
+            prediction += "			{\r\n";
+            prediction += "				updated_rows <- updated_rows %>% bind_rows(updated_rows2)\r\n";
+            prediction += "			}else\r\n";
+            prediction += "			{\r\n";
+            prediction += "				updated_rows <- updated_rows2\r\n";
+            prediction += "			}\r\n";
+            prediction += "		}\r\n";
+            prediction += "	}\r\n";
+            prediction += "	predict <- updated_rows\r\n";
+			prediction += "\r\n";            
+            
             prediction += "return(predict)}\r\n";
 
 
@@ -3969,7 +4089,7 @@ namespace tft
 
 
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
-            recursive_Feature += "	predict <- prediction(test,model_xgb)\r\n";
+            recursive_Feature += "	predict <- prediction(test,model_xgb, train, valid)\r\n";
             recursive_Feature += "	test$" + listBox4.SelectedItem.ToString() + " <- predict$predict\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
@@ -4002,11 +4122,14 @@ namespace tft
 
             recursive_Feature += "}\r\n";
             recursive_Feature += "\r\n";
+            recursive_Feature += "predict_ <- predict\r\n";
             recursive_Feature += "predict <- test_org\r\n";
             recursive_Feature += "#predict <- test\r\n";
 
             recursive_Feature += "predict$predict <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
             recursive_Feature += "predict$" + listBox4.SelectedItem.ToString() + " <- obs\r\n";
+            recursive_Feature += "#predict$upper <- predict_$upper\r\n";
+            recursive_Feature += "#predict$lower <- predict_$lower\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "return(predict)}\r\n";
             recursive_Feature += "\r\n";
@@ -4034,23 +4157,23 @@ namespace tft
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
                 cmd += "predict <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, 1)\r\n";
-                cmd += "predict$upper <- predict$predict\r\n";
-                cmd += "predict$lower <- predict$predict\r\n";
+                cmd += "#predict$upper <- predict$predict\r\n";
+                cmd += "#predict$lower <- predict$predict\r\n";
                 cmd += "for ( i in 2:sampling_num_max ){\r\n";
                 cmd += "    predict_ <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, i)\r\n";
                 cmd += "    predict$predict <-  predict$predict + predict_$predict\r\n";
                 cmd += "    for ( j in 1:length(predict$predict)){\r\n";
-                cmd += "        predict$upper[j] <- max(predict$upper[j], predict_$predict[j])\r\n";
-                cmd += "        predict$lower[j] <- min(predict$lower[j], predict_$predict[j])\r\n";
+                cmd += "        predict$upper[j] <- max(predict$upper[j], predict_$upper[j])\r\n";
+                cmd += "        predict$lower[j] <- min(predict$lower[j], predict_$lower[j])\r\n";
                 cmd += "    }\r\n";
                 cmd += "}\r\n";
                 cmd += "predict$predict <- predict$predict/(sampling_num_max)\r\n";
             }
             else
             {
-                cmd += "predict <- prediction(test,model_xgb)\r\n";
-                cmd += "predict$upper <- predict$predict\r\n";
-                cmd += "predict$lower <- predict$predict\r\n";
+                cmd += "predict <- prediction(test,model_xgb, train, valid)\r\n";
+                cmd += "#predict$upper <- predict$predict\r\n";
+                cmd += "#predict$lower <- predict$predict\r\n";
             }
 
             cmd += "fwrite(predict,'" + base_name0 + "_predict.csv', row.names = FALSE)\r\n";
@@ -4551,6 +4674,38 @@ namespace tft
                 comboBox10.Items.Add("\"dart\"");
                 comboBox10.Text = "\"gbtree\"";
                 label71.Text = "booster";
+            }
+        }
+
+        private void comboBox7_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox7.Text == "year")
+            {
+                textBox27.Text = "1\r\n";
+            }
+            if (comboBox7.Text == "month")
+            {
+                textBox27.Text = "12\r\n";
+            }
+            if (comboBox7.Text == "day")
+            {
+                textBox27.Text = "365\r\n";
+            }
+            if (comboBox7.Text == "week")
+            {
+                textBox27.Text = "52\r\n";
+            }
+            if (comboBox7.Text == "hour")
+            {
+                textBox27.Text = "24\r\n";
+            }
+            if (comboBox7.Text == "minute")
+            {
+                textBox27.Text = "1440\r\n";
+            }
+            if (comboBox7.Text == "second")
+            {
+                textBox27.Text = "86400\r\n";
             }
         }
     }

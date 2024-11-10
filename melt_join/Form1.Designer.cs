@@ -301,6 +301,10 @@ namespace tft
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.textBox26 = new System.Windows.Forms.TextBox();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label85 = new System.Windows.Forms.Label();
+            this.textBox27 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -1329,6 +1333,7 @@ namespace tft
             this.comboBox7.Size = new System.Drawing.Size(133, 23);
             this.comboBox7.TabIndex = 29;
             this.comboBox7.Text = "month";
+            this.comboBox7.SelectedIndexChanged += new System.EventHandler(this.comboBox7_SelectedIndexChanged);
             // 
             // label17
             // 
@@ -3053,6 +3058,10 @@ namespace tft
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.label85);
+            this.groupBox8.Controls.Add(this.textBox27);
+            this.groupBox8.Controls.Add(this.label84);
+            this.groupBox8.Controls.Add(this.textBox26);
             this.groupBox8.Controls.Add(this.checkBox12);
             this.groupBox8.Controls.Add(this.label55);
             this.groupBox8.Controls.Add(this.comboBox6);
@@ -3097,7 +3106,7 @@ namespace tft
             this.groupBox8.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(4);
-            this.groupBox8.Size = new System.Drawing.Size(526, 470);
+            this.groupBox8.Size = new System.Drawing.Size(526, 519);
             this.groupBox8.TabIndex = 0;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "hyper parameter";
@@ -3696,6 +3705,46 @@ namespace tft
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // textBox26
+            // 
+            this.textBox26.Location = new System.Drawing.Point(140, 442);
+            this.textBox26.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox26.Name = "textBox26";
+            this.textBox26.Size = new System.Drawing.Size(74, 22);
+            this.textBox26.TabIndex = 197;
+            this.textBox26.Text = "0.2";
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Location = new System.Drawing.Point(8, 445);
+            this.label84.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(45, 15);
+            this.label84.TabIndex = 216;
+            this.label84.Text = "arima";
+            this.toolTip1.SetToolTip(this.label84, "use arima");
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Location = new System.Drawing.Point(8, 471);
+            this.label85.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(80, 15);
+            this.label85.TabIndex = 218;
+            this.label85.Text = "frequency";
+            this.toolTip1.SetToolTip(this.label85, "frequency value");
+            // 
+            // textBox27
+            // 
+            this.textBox27.Location = new System.Drawing.Point(140, 468);
+            this.textBox27.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(74, 22);
+            this.textBox27.TabIndex = 217;
+            this.textBox27.Text = "1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -4068,6 +4117,10 @@ namespace tft
         private System.Windows.Forms.Label label82;
         private System.Windows.Forms.Label label81;
         private System.Windows.Forms.CheckBox checkBox12;
+        public System.Windows.Forms.Label label84;
+        private System.Windows.Forms.TextBox textBox26;
+        public System.Windows.Forms.Label label85;
+        private System.Windows.Forms.TextBox textBox27;
     }
 }
 
