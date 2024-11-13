@@ -3912,7 +3912,7 @@ namespace tft
             prediction += "			    updated_rows2$lower <- updated_rows2$predict - (updated_rows2$PointForecast-updated_rows2$Lo50)\r\n";
             prediction += "\r\n";
             prediction += "			    arima_plt <- updated_rows2 %>% \r\n";
-            prediction += "			     ggplot(aes(x=data, y=predict)) +\r\n";
+            prediction += "			     ggplot(aes(x=" + comboBox5.Text +",y=predict)) +\r\n";
             prediction += "			    geom_line()+\r\n";
             prediction += "			    geom_ribbon(aes(ymin=lower,ymax=upper),alpha=0.2, fill = 'green') + ggtitle(arima_model)\r\n";
             prediction += "			    arima_plt\r\n";
@@ -4029,7 +4029,13 @@ namespace tft
             recursive_Feature += "#  random_sampling = F\r\n";
             recursive_Feature += "#  use_KDE = F\r\n";
 
-            recursive_Feature += "	if ( T ){\r\n";
+            if (radioButton4.Checked)
+            {
+                recursive_Feature += "	if ( F ){\r\n";
+            }else
+            {
+                recursive_Feature += "	if ( T ){\r\n";
+            }
             if (comboBox5.Text == "")
             {
                 if (MessageBox.Show("Specify the column name indicating the time", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
@@ -4041,7 +4047,7 @@ namespace tft
                     return;
             }
 
-            if (comboBox4.Text != "" && comboBox5.Text != "")
+            if (listBox4.SelectedItem.ToString() != "" && comboBox5.Text != "")
             {
                 if (comboBox5.Text.Substring(0, 1) == "'")
                 {
@@ -4052,7 +4058,7 @@ namespace tft
                     recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "',-'" + listBox4.SelectedItem.ToString() + "' )\r\n";
                 }
             }
-            if (comboBox4.Text == "" && comboBox5.Text != "")
+            if (listBox4.SelectedItem.ToString() == "" && comboBox5.Text != "")
             {
                 if (comboBox5.Text.Substring(0, 1) == "'")
                 {
@@ -4063,11 +4069,11 @@ namespace tft
                     recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox5.Text + "')\r\n";
                 }
             }
-            if (comboBox4.Text != "" && comboBox5.Text == "")
+            if (listBox4.SelectedItem.ToString() != "" && comboBox5.Text == "")
             {
                 recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-'" + comboBox4.Text + "')\r\n";
             }
-            if (comboBox4.Text == "" && comboBox5.Text == "")
+            if (listBox4.SelectedItem.ToString() == "" && comboBox5.Text == "")
             {
                 recursive_Feature += "   	   wrk2 <- test %>% as.data.frame()\r\n";
             }

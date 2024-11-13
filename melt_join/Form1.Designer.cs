@@ -305,6 +305,7 @@ namespace tft
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -2558,6 +2559,7 @@ namespace tft
             // 
             // groupBox6
             // 
+            this.groupBox6.Controls.Add(this.radioButton4);
             this.groupBox6.Controls.Add(this.radioButton3);
             this.groupBox6.Controls.Add(this.radioButton2);
             this.groupBox6.Controls.Add(this.radioButton1);
@@ -2597,14 +2599,12 @@ namespace tft
             // radioButton1
             // 
             this.radioButton1.AutoSize = true;
-            this.radioButton1.Checked = true;
             this.radioButton1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.radioButton1.Location = new System.Drawing.Point(12, 22);
             this.radioButton1.Margin = new System.Windows.Forms.Padding(4);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(119, 19);
             this.radioButton1.TabIndex = 27;
-            this.radioButton1.TabStop = true;
             this.radioButton1.Text = "zero padding";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
@@ -3746,6 +3746,20 @@ namespace tft
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Checked = true;
+            this.radioButton4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.radioButton4.Location = new System.Drawing.Point(453, 24);
+            this.radioButton4.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(84, 19);
+            this.radioButton4.TabIndex = 30;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Nothing";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -4122,6 +4136,7 @@ namespace tft
         private System.Windows.Forms.TextBox textBox26;
         public System.Windows.Forms.Label label85;
         private System.Windows.Forms.TextBox textBox27;
+        private System.Windows.Forms.RadioButton radioButton4;
     }
 }
 
