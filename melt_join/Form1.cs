@@ -2662,6 +2662,29 @@ namespace tft
                     return;
             }
 
+            string file3 = string.Format("add_feature_names.r");
+            try
+            {
+                using (System.IO.StreamWriter sw = new StreamWriter(file3, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                {
+                    string t = "exclude_patterns <- c(\r\n";
+                    for (int i = 0; i < addfeature_cmd.Items.Count - 1; i++)
+                    {
+                        t += "  \""+addfeature_cmd.Items[i].ToString().Split('=')[0].Trim() + "\",\r\n";
+                    }
+                    t += "  \"" + addfeature_cmd.Items[addfeature_cmd.Items.Count - 1].ToString().Split('=')[0].Trim() + "\"\r\n";
+                    t += ")\r\n"; 
+
+                    sw.Write(t);
+                }
+            }
+            catch
+            {
+                status = -1;
+                if (MessageBox.Show("Cannot write in " + file3, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
+
             listBox3.Items.Clear();
             feature_cmd.Items.Clear();
             textBox7.Text = "";
@@ -3359,6 +3382,11 @@ namespace tft
                 if (MessageBox.Show("No target selected", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                     return;
             }
+            if (textBox27.Text == "")
+            {
+                if (MessageBox.Show("frequency?", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                    return;
+            }
             if (File.Exists("importance.png"))
             {
                 File.Delete("importance.png");
@@ -3610,11 +3638,26 @@ namespace tft
             {
                 train += "	df_tmp1 <- df_tmp\r\n";
             }
-            train += "	df_tt1 <- ts(df_tmp1[,"+ listBox4.SelectedItem.ToString()+"],start=c(2015,1),frequency=frequency_value_i)\r\n";
-            train += "	arima_model <- try(auto.arima(df_tt1, ic=\"aic\", seasonal = T, trace=T), silent = F)\r\n";
+            train += "\r\n";
+            train += "	if ( frequency_value_i == 0 ){\r\n";
+            train += "	    spec <- spec.pgram(df_tmp1[," + listBox4.SelectedItem.ToString()+"], log = \"no\")\r\n";
+            train += "	    peak_index <- which.max(spec$spec)\r\n";
+            train += "	    peak_frequency <- spec$freq[peak_index]\r\n";
+            train += "	    frequency_value_i <- max(1,1 / peak_frequency)\r\n";
+            train += "	}\r\n";
+            train += "	if ( frequency_value_i < 0 ){\r\n";
+            train += "	    df_tt1 <- c(df_tmp1[," + listBox4.SelectedItem.ToString() + "])\r\n";
+            train += "	}\r\n";
+            train += "	if ( frequency_value_i > 0 ){\r\n";
+            train += "	    df_tt1 <- ts(df_tmp1[," + listBox4.SelectedItem.ToString() + "],start=c(2015,1),frequency=frequency_value_i)\r\n";
+            train += "	}\r\n";
+            train += "	print(sprintf(\"frequency_value_i:%f\", frequency_value_i))\r\n";
+            train += "\r\n";
+            train += "	#arima_model <- try(auto.arima(df_tt1, ic=\"aic\", seasonal = T, trace=T), silent = F)\r\n";
+            train += "	arima_model <- try(auto.arima(df_tt1, ic =\"aic\", max.p = 3, max.q = 3, approximation=F,allowmean=F,allowdrift=F, stepwise=T, seasonal = T, trace=T), silent = F)\r\n";
             train += "	#plot(arima_model)\r\n";
             train += "	model_name <- sprintf(\"arima_model%d\", i)\r\n";
-            train += "	if ( !is.null(model_name))\r\n";
+            train += "	if ( !is.null(arima_model))\r\n";
             train += "	{\r\n";
             train += "		saveRDS(arima_model, file = model_name)\r\n";
             train += "	}else\r\n";
@@ -3659,6 +3702,7 @@ namespace tft
                     return;
             }
 
+            progressBar1.Value = 0;
             cmd_all += cmd;
             cmd_save();
             execute(file);
@@ -3740,7 +3784,7 @@ namespace tft
 
             string prediction = "";
 
-            prediction += "prediction <- function(test, model_xgb, train=NULL, valid=NULL){\r\n";
+            prediction += "prediction <- function(test, model_xgb, recursive_Feature_prediction=NULL, train=NULL, valid=NULL){\r\n";
             prediction += "test_data <- test %>% select(-" + listBox4.SelectedItem.ToString() + ")\r\n";
             prediction += "test_labels <- test %>% select(" + listBox4.SelectedItem.ToString() + ")\r\n";
             prediction += "\r\n";
@@ -3796,6 +3840,8 @@ namespace tft
             prediction += "test_tmp$Lo95 <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
             prediction += "test_tmp$Hi95 <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
             prediction += "updated_rows <- NULL\r\n";
+            prediction += "frequency_value_i = " + textBox27.Text + "\r\n";
+
             prediction += "if ( is.null(IDs))\r\n";
             prediction += "{\r\n";
             prediction += "    IDs <- c(\"__dummy__\")\r\n";
@@ -3804,10 +3850,38 @@ namespace tft
             prediction += "{\r\n";
             prediction += "		model_name <- sprintf(\"arima_model%d\", i)\r\n";
             prediction += "\r\n";
-            prediction += "		if ( file.exists(model_name))\r\n";
-            prediction += "		{\r\n";
-            prediction += "			arima_model <- readRDS(model_name)\r\n";
-            prediction += "			\r\n";
+            
+			prediction += "		if ( file.exists(model_name))\r\n";
+			prediction += "		{\r\n";
+			prediction += "			if (!is.null(recursive_Feature_prediction))\r\n";
+			prediction += "			{\r\n";
+			prediction += "				#df_tmp <- dplyr::bind_rows(train, valid)\r\n";
+			prediction += "				df_tmp <- valid\r\n";
+			prediction += "				df_tmp <- dplyr::bind_rows(df_tmp, test[1:recursive_Feature_prediction[1],])\r\n";
+			prediction += "				\r\n";
+			prediction += "				df_tmp1 <- df_tmp %>% filter(sistema == IDs[i])\r\n";
+
+            prediction += "\r\n";
+            prediction += "				if ( frequency_value_i == 0 ){\r\n";
+            prediction += "					    spec <- spec.pgram(df_tmp1[," + listBox4.SelectedItem.ToString() + "], log = \"no\")\r\n";
+            prediction += "					    peak_index <- which.max(spec$spec)\r\n";
+            prediction += "					    peak_frequency <- spec$freq[peak_index]\r\n";
+            prediction += "					    frequency_value_i <- max(1,1 / peak_frequency)\r\n";
+            prediction += "				}\r\n";
+            prediction += "				if ( frequency_value_i < 0 ){\r\n";
+            prediction += "					    df_tt1 <- c(df_tmp1[," + listBox4.SelectedItem.ToString() + "])\r\n";
+            prediction += "				}\r\n";
+            prediction += "				if ( frequency_value_i > 0 ){\r\n";
+            prediction += "	    				df_tt1 <- ts(df_tmp1[," + listBox4.SelectedItem.ToString() + "],start=c(2015,1),frequency=frequency_value_i)\r\n";
+            prediction += "				}\r\n";
+            prediction += "				print(sprintf(\"frequency_value_i:%f\", frequency_value_i))\r\n";
+
+			prediction += "				arima_model <- try(auto.arima(df_tt1, ic=\"aic\", max.p = 3, max.q = 3, approximation=F,allowmean=F,allowdrift=F, stepwise=T, seasonal = T, trace=T), silent = F)\r\n";
+			prediction += "			}else\r\n";
+			prediction += "			{\r\n";
+			prediction += "				arima_model <- readRDS(model_name)\r\n";
+			prediction += "			}\r\n";
+            
             if (comboBox4.Text != "")
             {
                 prediction += "			test_tmp0 <- test_tmp %>% filter(" + comboBox4.Text + " == IDs[i])\r\n";
@@ -3815,29 +3889,36 @@ namespace tft
             {
                 prediction += "			test_tmp0 <- test_tmp\r\n";
             }
-            prediction += "			pred<-forecast(arima_model, level = c(50,95), h = nrow(test_tmp0))\r\n";
-            prediction += "			dd <- as.data.frame(pred)\r\n";
+            prediction += "			if ( !is.null(arima_model)){\r\n";
+            prediction += "			    pred<-forecast(arima_model, level = c(50,95), h = nrow(test_tmp0))\r\n";
+            prediction += "			    dd <- as.data.frame(pred)\r\n";
             prediction += "\r\n";
-            prediction += "			#plot(pred)\r\n";
-            prediction += "			updated_rows2 <- test_tmp0 %>% \r\n";
-            prediction += "				mutate(PointForecast = dd[,\"Point Forecast\"]) %>%\r\n";
-            prediction += "				mutate(Lo50 = dd[,\"Lo 50\"]) %>%\r\n";
-            prediction += "				mutate(Hi50 = dd[,\"Hi 50\"]) %>%\r\n";
-            prediction += "				mutate(Lo95 = dd[,\"Lo 95\"]) %>%\r\n";
-            prediction += "				mutate(Hi95 = dd[,\"Hi 95\"])\r\n";
+            prediction += "			    #plot(pred)\r\n";
+            prediction += "			    updated_rows2 <- test_tmp0 %>% \r\n";
+            prediction += "				    mutate(PointForecast = dd[,\"Point Forecast\"]) %>%\r\n";
+            prediction += "				    mutate(Lo50 = dd[,\"Lo 50\"]) %>%\r\n";
+            prediction += "				    mutate(Hi50 = dd[,\"Hi 50\"]) %>%\r\n";
+            prediction += "				    mutate(Lo95 = dd[,\"Lo 95\"]) %>%\r\n";
+            prediction += "				    mutate(Hi95 = dd[,\"Hi 95\"])\r\n";
             prediction += "\r\n";
-            prediction += "			predict_org <- updated_rows2$predict\r\n";
-            prediction += "			updated_rows2$predict <- predict_org*(1.0 -"+ textBox26.Text+") + updated_rows2$PointForecast* "+textBox26.Text+"\r\n";
-            prediction += "			updated_rows2$upper <- updated_rows2$predict + updated_rows2$Hi50-updated_rows2$PointForecast\r\n";
-            prediction += "			updated_rows2$lower <- updated_rows2$predict - (updated_rows2$PointForecast-updated_rows2$Lo50)\r\n";
+            prediction += "			    predict_org <- updated_rows2$predict\r\n";
+            prediction += "			    updated_rows2$" + comboBox5.Text + " <- test_tmp0$" + comboBox5.Text + "\r\n";
+            if (comboBox4.Text != "")
+            {
+                prediction += "			    updated_rows2$" + comboBox4.Text + " <- test_tmp0$" + comboBox4.Text + "\r\n";
+            }
+            prediction += "			    updated_rows2$predict <- predict_org*(1.0 -"+ textBox26.Text+") + updated_rows2$PointForecast* "+textBox26.Text+"\r\n";
+            prediction += "			    updated_rows2$upper <- updated_rows2$predict + updated_rows2$Hi50-updated_rows2$PointForecast\r\n";
+            prediction += "			    updated_rows2$lower <- updated_rows2$predict - (updated_rows2$PointForecast-updated_rows2$Lo50)\r\n";
             prediction += "\r\n";
-            prediction += "			#arima_plt <- updated_rows2 %>% \r\n";
-            prediction += "			# ggplot(aes(x=data, y=predict)) +\r\n";
-            prediction += "			#geom_line()+\r\n";
-            prediction += "			#geom_ribbon(aes(ymin=lower,ymax=upper),alpha=0.2)#+\r\n";
-            prediction += "			#geom_ribbon(aes(ymin=Lo95,ymax=Hi95),alpha=0.2) +\r\n";
-            prediction += "			#geom_ribbon(aes(ymin=Lo50,ymax=Hi50),alpha=0.2)	\r\n";
-            prediction += "			#arima_plt\r\n";
+            prediction += "			    arima_plt <- updated_rows2 %>% \r\n";
+            prediction += "			     ggplot(aes(x=data, y=predict)) +\r\n";
+            prediction += "			    geom_line()+\r\n";
+            prediction += "			    geom_ribbon(aes(ymin=lower,ymax=upper),alpha=0.2, fill = 'green') + ggtitle(arima_model)\r\n";
+            prediction += "			    arima_plt\r\n";
+            prediction += "			    if (!file.exists(\"tmp\"))dir.create(\"tmp\")\r\n";
+            prediction += "			    ggsave(filename=sprintf(\"tmp/%s.png\",model_name), arima_plt, limitsize=F, width = 16, height = 9)\r\n";
+            prediction += "         }\r\n";
             prediction += "\r\n";
             prediction += "			if ( !is.null(updated_rows))\r\n";
             prediction += "			{\r\n";
@@ -3857,6 +3938,7 @@ namespace tft
             string recursive_Feature = "";
             recursive_Feature += "recursive_Feature_predict <- function(df, train, valid, test, model_xgb, recursive_step, sampling_max=1, sampling_count=1){\r\n";
             recursive_Feature += "if ( file.exists(\"progress.txt\") && sampling_count==1) file.remove(\"progress.txt\")\r\n";
+            recursive_Feature += "source('split_func.r')\r\n";
 
             recursive_Feature += "test  <- as.data.frame(test)\r\n";
             recursive_Feature += "\r\n";
@@ -3906,31 +3988,22 @@ namespace tft
             recursive_Feature += "	                        \"sin_M\",\r\n";
             recursive_Feature += "	                        \"cos_M\",\r\n";
             recursive_Feature += "	                        \"sin_D\",\r\n";
-            recursive_Feature += "	                        \"cos_D\")\r\n";
+            recursive_Feature += "	                        \"cos_D\",\r\n";
+            recursive_Feature += "	                        \"upper\",\r\n";
+            recursive_Feature += "	                        \"lower\",\r\n";
+            recursive_Feature += "	                        \"PointForecast\",\r\n";
+            recursive_Feature += "	                        \"Lo50\",\r\n";
+            recursive_Feature += "	                        \"Hi50\",\r\n";
+            recursive_Feature += "	                        \"Lo95\",\r\n";
+            recursive_Feature += "	                        \"Hi95\",\r\n";
+            recursive_Feature += "	                        \"predict\",\r\n";
+            recursive_Feature += "	                        \"sd_"+listBox4.SelectedItem.ToString()+"\",\r\n";
+            recursive_Feature += "	                        \"mean_" + listBox4.SelectedItem.ToString() + "\",\r\n";
+            recursive_Feature += "	                        \"max_" + listBox4.SelectedItem.ToString() + "\",\r\n";
+            recursive_Feature += "	                        \"min_" + listBox4.SelectedItem.ToString() + "\")\r\n";
+            recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
 
-
-            recursive_Feature += "for ( k in 1:10000)\r\n";
-            recursive_Feature += "{\r\n";
-            recursive_Feature += "	if ( e >= nn) e = nn\r\n";
-            recursive_Feature += "	d <- c(s:e)\r\n";
-            recursive_Feature += "	x <- test[d,]\r\n";
-            recursive_Feature += "	x[is.na(x)] <- 0\r\n";
-            recursive_Feature += "\r\n";
-            recursive_Feature += "	#predict <- prediction(x,model_xgb)\r\n";
-            recursive_Feature += "\r\n";
-            recursive_Feature += "	#test$" + listBox4.SelectedItem.ToString() + "[d] <- predict$predict\r\n";
-            recursive_Feature += "	\r\n";
-            recursive_Feature += "	xx <- bind_rows(lockback,test)\r\n";
-            recursive_Feature += "	xx <- feature_gen(xx, clip = T)\r\n";
-            //recursive_Feature += "  xx <- xx %>% \r\n";
-
-            //if (comboBox4.Text != "")
-            //{
-            //    recursive_Feature += "   group_by('"+ comboBox4.Text+"') %>%\r\n";
-            //}
-            //recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
-            recursive_Feature += "	test <- xx[(nrow(xx)-test_n+1):nrow(xx),]\r\n";
             recursive_Feature += "\r\n";
 
             //sampline 
@@ -3956,7 +4029,7 @@ namespace tft
             recursive_Feature += "#  random_sampling = F\r\n";
             recursive_Feature += "#  use_KDE = F\r\n";
 
-            recursive_Feature += "	if ( random_sampling ){\r\n";
+            recursive_Feature += "	if ( T ){\r\n";
             if (comboBox5.Text == "")
             {
                 if (MessageBox.Show("Specify the column name indicating the time", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
@@ -3983,7 +4056,7 @@ namespace tft
             {
                 if (comboBox5.Text.Substring(0, 1) == "'")
                 {
-                    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-" + comboBox5.Text+")\r\n";
+                    recursive_Feature += "   	   wrk2 <- test %>% as.data.frame() %>% dplyr::select(-" + comboBox5.Text + ")\r\n";
                 }
                 else
                 {
@@ -4018,7 +4091,6 @@ namespace tft
             //}
 
 
-            recursive_Feature += "	   wrk2 <- wrk2[d,]\r\n";
             recursive_Feature += "	   \r\n";
             recursive_Feature += "	   names <- colnames(wrk2)\r\n";
             recursive_Feature += "	   valid_names <- names[!sapply(names, function(name) any(grepl(paste(exclude_patterns, collapse = \"|\"), name)))]\r\n";
@@ -4028,7 +4100,7 @@ namespace tft
                 recursive_Feature += "	   df_tmp <- data.frame(df)[,c('" + comboBox4.Text + "',valid_names), drop = FALSE]\r\n";
             }
 
-            recursive_Feature += "	   for ( ii in 1:length(d))\r\n";
+            recursive_Feature += "	   for ( ii in 1:nrow(test))\r\n";
             recursive_Feature += "	   {\r\n";
             if (comboBox4.Text != "")
             {
@@ -4044,6 +4116,7 @@ namespace tft
             recursive_Feature += "             x <- x[(nrow(x)*0.2):nrow(x), , drop = FALSE]\r\n";
 
             recursive_Feature += "\r\n";
+            recursive_Feature += "             next_sample <- 0\r\n";
             recursive_Feature += "             if ( use_KDE )\r\n";
             recursive_Feature += "             {\r\n";
             recursive_Feature += "                 # Kernel Density Estimation\r\n";
@@ -4061,19 +4134,18 @@ namespace tft
             recursive_Feature += "                     #p1 <- kde_cdf_func(next_sample)\r\n";
             recursive_Feature += "                     #if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
             recursive_Feature += "                 #}\r\n";
-            
-            recursive_Feature += "	           }else\r\n";
+
+            recursive_Feature += "	           }\r\n";
+            recursive_Feature += "             if ( random_sampling )\r\n";
             recursive_Feature += "	           {\r\n";
-            recursive_Feature += "                 mean_=mean(d,na.rm=T)\r\n";
-            recursive_Feature += "                 sd_=sd(d,na.rm=T)\r\n";
+            recursive_Feature += "                 mean_=mean(x[[name]],na.rm=T)\r\n";
+            recursive_Feature += "                 sd_=sd(x[[name]],na.rm=T)\r\n";
             recursive_Feature += "                 #repeat\r\n";
             recursive_Feature += "                 #{\r\n";
-            recursive_Feature += "                     next_sample <- rnorm(1, mean=mean(d,na.rm=T), sd=sd(d,na.rm=T))\r\n";
+            recursive_Feature += "                     next_sample <- rnorm(1, mean=mean(x[[name]],na.rm=T), sd=sd(x[[name]],na.rm=T))\r\n";
             recursive_Feature += "                     #p1 <- pnorm(next_sample, mean = mean_, sd = sd_)\r\n";
             recursive_Feature += "                     #if ( p1 < 0.75 && p1 > 0.35 ) break\r\n";
             recursive_Feature += "                 #}\r\n";
-
- 
             recursive_Feature += "	           }\r\n";
             recursive_Feature += "	           wrk2[,name][ii] <- next_sample\r\n";
             recursive_Feature += "		   }\r\n";
@@ -4081,16 +4153,55 @@ namespace tft
             recursive_Feature += "	    \r\n";
             recursive_Feature += "	    test=as.data.frame(test)\r\n";
             recursive_Feature += "	    wrk2=as.data.frame(wrk2)\r\n";
-            recursive_Feature += "	    test[d, names] <- wrk2[,names]\r\n";
+            recursive_Feature += "	    test[, valid_names] <- wrk2[,valid_names]\r\n";
             recursive_Feature += "	}\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
             //
 
 
+
+            recursive_Feature += "for ( k in 1:10000)\r\n";
+            recursive_Feature += "{\r\n";
+            recursive_Feature += "	if ( e >= nn) e = nn\r\n";
+            recursive_Feature += "	d <- c(s:e)\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "\r\n";
+            recursive_Feature += "	\r\n";
+            recursive_Feature += "	xx <- bind_rows(lockback,test)\r\n";
+            recursive_Feature += "	xx <- feature_gen(xx)\r\n";
+
+            recursive_Feature += "	split <- split_data(xx)\r\n";
+            recursive_Feature += "	test  <- as.data.frame(split[[3]])\r\n";
+
+            //recursive_Feature += "  xx <- xx %>% \r\n";
+
+            //if (comboBox4.Text != "")
+            //{
+            //    recursive_Feature += "   group_by('"+ comboBox4.Text+"') %>%\r\n";
+            //}
+            //recursive_Feature += "      mutate(sequence_index = row_number())\r\n";
+            //recursive_Feature += "	test <- xx[(nrow(xx)-test_n+1):nrow(xx),]\r\n";
+
             recursive_Feature += "	test <- as.data.frame(test)\r\n";
-            recursive_Feature += "	predict <- prediction(test,model_xgb, train, valid)\r\n";
-            recursive_Feature += "	test$" + listBox4.SelectedItem.ToString() + " <- predict$predict\r\n";
+            recursive_Feature += "	#predict <- prediction(test,model_xgb, recursive_Feature_prediction=d, train, valid)\r\n";
+            recursive_Feature += "	predict <- prediction(test,model_xgb, recursive_Feature_prediction=NULL, train, valid)\r\n";
+
+            recursive_Feature += "\r\n";
+            recursive_Feature += "	#test$" + comboBox5.Text + " <- predict$" + comboBox5.Text + "\r\n";
+            recursive_Feature += "	test <- predict\r\n";
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "	#test$" + comboBox4.Text + " <- predict$" + comboBox4.Text + "\r\n";
+                recursive_Feature += "	#test$" + listBox4.SelectedItem.ToString() + " <- NULL\r\n";
+                recursive_Feature += "	#test <- test %>% dplyr::left_join(predict, by=c(\"" + comboBox4.Text + "\", \"" + comboBox5.Text + "\"))\r\n";
+            }else
+            {
+                recursive_Feature += "	#test$" + listBox4.SelectedItem.ToString() + " <- NULL\r\n";
+                recursive_Feature += "	#test <- test %>% dplyr::left_join(predict, by=c(\"" + comboBox5.Text + "\"))\r\n";
+            }
+            recursive_Feature += "	#test$" + listBox4.SelectedItem.ToString() + " <- test$predict\r\n";
+
             recursive_Feature += "\r\n";
             recursive_Feature += "\r\n";
             recursive_Feature += "	#print(sum(test$" + listBox4.SelectedItem.ToString() + " - obs))\r\n";
@@ -4122,14 +4233,15 @@ namespace tft
 
             recursive_Feature += "}\r\n";
             recursive_Feature += "\r\n";
-            recursive_Feature += "predict_ <- predict\r\n";
-            recursive_Feature += "predict <- test_org\r\n";
-            recursive_Feature += "#predict <- test\r\n";
-
-            recursive_Feature += "predict$predict <- test$" + listBox4.SelectedItem.ToString() + "\r\n";
-            recursive_Feature += "predict$" + listBox4.SelectedItem.ToString() + " <- obs\r\n";
-            recursive_Feature += "#predict$upper <- predict_$upper\r\n";
-            recursive_Feature += "#predict$lower <- predict_$lower\r\n";
+            recursive_Feature += "#predict$"+listBox4.SelectedItem.ToString()+" <- NULL\r\n";
+            if (comboBox4.Text != "")
+            {
+                recursive_Feature += "#predict <- predict %>% dplyr::left_join(test_org, by=c(\"" + comboBox4.Text + "\", \"" + comboBox5.Text + "\"))\r\n";
+            }
+            else
+            {
+                recursive_Feature += "#predict <- predict %>% dplyr::left_join(test_org, by=c(\"" + comboBox5.Text + "\"))\r\n";
+            }
             recursive_Feature += "\r\n";
             recursive_Feature += "return(predict)}\r\n";
             recursive_Feature += "\r\n";
@@ -4149,29 +4261,37 @@ namespace tft
                     if (MessageBox.Show("recursive_step=0", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
                         return;
                 }
+                if (textBox27.Text == "")
+                {
+                    if (MessageBox.Show("frequency?", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                        return;
+                }
                 timer1.Enabled = true;
                 timer1.Start();
 
                 cmd += "source('feature_gen_fnc.r')\r\n";
                 cmd += "sampling_num_max <- " + sampling_num_max.ToString() + "\r\n";
+                cmd += "sampling_num_max <- 1\r\n";
                 cmd += "recursive_step = " + numericUpDown9.Value.ToString() + "\r\n";
                 cmd += "source('recursive_Feature_prediction_fnc.r')\r\n";
                 cmd += "predict <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, 1)\r\n";
                 cmd += "#predict$upper <- predict$predict\r\n";
                 cmd += "#predict$lower <- predict$predict\r\n";
-                cmd += "for ( i in 2:sampling_num_max ){\r\n";
-                cmd += "    predict_ <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, i)\r\n";
-                cmd += "    predict$predict <-  predict$predict + predict_$predict\r\n";
-                cmd += "    for ( j in 1:length(predict$predict)){\r\n";
-                cmd += "        predict$upper[j] <- max(predict$upper[j], predict_$upper[j])\r\n";
-                cmd += "        predict$lower[j] <- min(predict$lower[j], predict_$lower[j])\r\n";
+                cmd += "if ( sampling_num_max > 1 ){\r\n";
+                cmd += "    for ( i in 2:sampling_num_max ){\r\n";
+                cmd += "        predict_ <- recursive_Feature_predict(df, train, valid, test,model_xgb, recursive_step, sampling_num_max, i)\r\n";
+                cmd += "        predict$predict <-  predict$predict + predict_$predict\r\n";
+                cmd += "        for ( j in 1:length(predict$predict)){\r\n";
+                cmd += "            predict$upper[j] <- max(predict$upper[j], predict_$upper[j])\r\n";
+                cmd += "            predict$lower[j] <- min(predict$lower[j], predict_$lower[j])\r\n";
+                cmd += "        }\r\n";
                 cmd += "    }\r\n";
+                cmd += "    predict$predict <- predict$predict/(sampling_num_max)\r\n";
                 cmd += "}\r\n";
-                cmd += "predict$predict <- predict$predict/(sampling_num_max)\r\n";
             }
             else
             {
-                cmd += "predict <- prediction(test,model_xgb, train, valid)\r\n";
+                cmd += "predict <- prediction(test,model_xgb, NULL, train, valid)\r\n";
                 cmd += "#predict$upper <- predict$predict\r\n";
                 cmd += "#predict$lower <- predict$predict\r\n";
             }
@@ -4689,11 +4809,11 @@ namespace tft
             }
             if (comboBox7.Text == "day")
             {
-                textBox27.Text = "365\r\n";
+                textBox27.Text = "7\r\n";
             }
             if (comboBox7.Text == "week")
             {
-                textBox27.Text = "52\r\n";
+                textBox27.Text = "4\r\n";
             }
             if (comboBox7.Text == "hour")
             {
@@ -4701,11 +4821,23 @@ namespace tft
             }
             if (comboBox7.Text == "minute")
             {
-                textBox27.Text = "1440\r\n";
+                textBox27.Text = "60\r\n";
             }
             if (comboBox7.Text == "second")
             {
-                textBox27.Text = "86400\r\n";
+                textBox27.Text = "60\r\n";
+            }
+        }
+
+        private void checkBox7_CheckedChanged(object sender, EventArgs e)
+        {
+            if ( checkBox7.Checked)
+            {
+                if ( numericUpDown9.Value == 0)
+                {
+                    if (MessageBox.Show("Please set recursive feature step", "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                        return;
+                }
             }
         }
     }

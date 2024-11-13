@@ -74,6 +74,8 @@ namespace tft
             this.label71 = new System.Windows.Forms.Label();
             this.label74 = new System.Windows.Forms.Label();
             this.label78 = new System.Windows.Forms.Label();
+            this.label84 = new System.Windows.Forms.Label();
+            this.label85 = new System.Windows.Forms.Label();
             this.listBox4 = new System.Windows.Forms.ListBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -255,6 +257,8 @@ namespace tft
             this.textBox10 = new System.Windows.Forms.TextBox();
             this.tabPage7 = new System.Windows.Forms.TabPage();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.textBox27 = new System.Windows.Forms.TextBox();
+            this.textBox26 = new System.Windows.Forms.TextBox();
             this.checkBox12 = new System.Windows.Forms.CheckBox();
             this.label55 = new System.Windows.Forms.Label();
             this.comboBox6 = new System.Windows.Forms.ComboBox();
@@ -301,10 +305,6 @@ namespace tft
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.textBox26 = new System.Windows.Forms.TextBox();
-            this.label84 = new System.Windows.Forms.Label();
-            this.label85 = new System.Windows.Forms.Label();
-            this.textBox27 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -903,6 +903,28 @@ namespace tft
             this.label78.TabIndex = 30;
             this.label78.Text = "Time unit at plot";
             this.toolTip1.SetToolTip(this.label78, "If the time scale is too fine, please change it.");
+            // 
+            // label84
+            // 
+            this.label84.AutoSize = true;
+            this.label84.Location = new System.Drawing.Point(8, 445);
+            this.label84.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label84.Name = "label84";
+            this.label84.Size = new System.Drawing.Size(45, 15);
+            this.label84.TabIndex = 216;
+            this.label84.Text = "arima";
+            this.toolTip1.SetToolTip(this.label84, "use arima");
+            // 
+            // label85
+            // 
+            this.label85.AutoSize = true;
+            this.label85.Location = new System.Drawing.Point(8, 471);
+            this.label85.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label85.Name = "label85";
+            this.label85.Size = new System.Drawing.Size(80, 15);
+            this.label85.TabIndex = 218;
+            this.label85.Text = "frequency";
+            this.toolTip1.SetToolTip(this.label85, "frequency value");
             // 
             // listBox4
             // 
@@ -3111,6 +3133,24 @@ namespace tft
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "hyper parameter";
             // 
+            // textBox27
+            // 
+            this.textBox27.Location = new System.Drawing.Point(140, 468);
+            this.textBox27.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox27.Name = "textBox27";
+            this.textBox27.Size = new System.Drawing.Size(74, 22);
+            this.textBox27.TabIndex = 217;
+            this.textBox27.Text = "1";
+            // 
+            // textBox26
+            // 
+            this.textBox26.Location = new System.Drawing.Point(140, 442);
+            this.textBox26.Margin = new System.Windows.Forms.Padding(2);
+            this.textBox26.Name = "textBox26";
+            this.textBox26.Size = new System.Drawing.Size(74, 22);
+            this.textBox26.TabIndex = 197;
+            this.textBox26.Text = "0.2";
+            // 
             // checkBox12
             // 
             this.checkBox12.AutoSize = true;
@@ -3687,6 +3727,7 @@ namespace tft
             this.checkBox7.TabIndex = 5;
             this.checkBox7.Text = "recursive feature ";
             this.checkBox7.UseVisualStyleBackColor = true;
+            this.checkBox7.CheckedChanged += new System.EventHandler(this.checkBox7_CheckedChanged);
             // 
             // numericUpDown9
             // 
@@ -3704,46 +3745,6 @@ namespace tft
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // textBox26
-            // 
-            this.textBox26.Location = new System.Drawing.Point(140, 442);
-            this.textBox26.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox26.Name = "textBox26";
-            this.textBox26.Size = new System.Drawing.Size(74, 22);
-            this.textBox26.TabIndex = 197;
-            this.textBox26.Text = "0.2";
-            // 
-            // label84
-            // 
-            this.label84.AutoSize = true;
-            this.label84.Location = new System.Drawing.Point(8, 445);
-            this.label84.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label84.Name = "label84";
-            this.label84.Size = new System.Drawing.Size(45, 15);
-            this.label84.TabIndex = 216;
-            this.label84.Text = "arima";
-            this.toolTip1.SetToolTip(this.label84, "use arima");
-            // 
-            // label85
-            // 
-            this.label85.AutoSize = true;
-            this.label85.Location = new System.Drawing.Point(8, 471);
-            this.label85.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label85.Name = "label85";
-            this.label85.Size = new System.Drawing.Size(80, 15);
-            this.label85.TabIndex = 218;
-            this.label85.Text = "frequency";
-            this.toolTip1.SetToolTip(this.label85, "frequency value");
-            // 
-            // textBox27
-            // 
-            this.textBox27.Location = new System.Drawing.Point(140, 468);
-            this.textBox27.Margin = new System.Windows.Forms.Padding(2);
-            this.textBox27.Name = "textBox27";
-            this.textBox27.Size = new System.Drawing.Size(74, 22);
-            this.textBox27.TabIndex = 217;
-            this.textBox27.Text = "1";
             // 
             // Form1
             // 
