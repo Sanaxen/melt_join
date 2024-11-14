@@ -3708,7 +3708,7 @@ namespace tft
             train += "		saveRDS(arima_model, file = model_name)\r\n";
             train += "	}else\r\n";
             train += "	{\r\n";
-            train += "		if ( file.exist(model_name)) file.remove(model_name)\r\n";
+            train += "		if ( file.exists(model_name)) file.remove(model_name)\r\n";
             train += "	}\r\n";
             train += "	\r\n";
             train += "}\r\n";
@@ -3970,7 +3970,13 @@ namespace tft
             prediction += "         ggsave(filename=sprintf(\"%s.png\",model_name), arima_plt, limitsize=F, width = 16, height = 9)\r\n";
             prediction += "     }else{\r\n";
 
-            prediction += "         test_tmp0 <- test_tmp %>% filter(loaction_id == IDs[i])\r\n";
+            if (comboBox4.Text != "")
+            {
+                prediction += "         test_tmp0 <- test_tmp %>% filter(loaction_id == IDs[i])\r\n";
+            }else
+            {
+                prediction += "         test_tmp0 <- test_tmp\r\n";
+            }
             prediction += "         updated_rows2 <- test_tmp0\r\n";
             prediction += "\r\n";
             prediction += "         predict_org <- updated_rows2$predict\r\n";
