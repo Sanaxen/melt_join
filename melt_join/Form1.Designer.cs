@@ -211,6 +211,7 @@ namespace tft
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
@@ -305,7 +306,8 @@ namespace tft
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.label86 = new System.Windows.Forms.Label();
+            this.comboBox11 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -2572,6 +2574,20 @@ namespace tft
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Extended explanatory variables";
             // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Checked = true;
+            this.radioButton4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.radioButton4.Location = new System.Drawing.Point(460, 25);
+            this.radioButton4.Margin = new System.Windows.Forms.Padding(4);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(84, 19);
+            this.radioButton4.TabIndex = 30;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Nothing";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
             // radioButton3
             // 
             this.radioButton3.AutoSize = true;
@@ -3149,7 +3165,7 @@ namespace tft
             this.textBox26.Name = "textBox26";
             this.textBox26.Size = new System.Drawing.Size(74, 22);
             this.textBox26.TabIndex = 197;
-            this.textBox26.Text = "0.2";
+            this.textBox26.Text = "0.0";
             // 
             // checkBox12
             // 
@@ -3522,10 +3538,10 @@ namespace tft
             // 
             this.panel23.Controls.Add(this.pictureBox8);
             this.panel23.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel23.Location = new System.Drawing.Point(0, 509);
+            this.panel23.Location = new System.Drawing.Point(0, 523);
             this.panel23.Margin = new System.Windows.Forms.Padding(2);
             this.panel23.Name = "panel23";
-            this.panel23.Size = new System.Drawing.Size(654, 211);
+            this.panel23.Size = new System.Drawing.Size(654, 197);
             this.panel23.TabIndex = 14;
             // 
             // pictureBox8
@@ -3534,7 +3550,7 @@ namespace tft
             this.pictureBox8.Location = new System.Drawing.Point(0, 0);
             this.pictureBox8.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox8.Name = "pictureBox8";
-            this.pictureBox8.Size = new System.Drawing.Size(654, 211);
+            this.pictureBox8.Size = new System.Drawing.Size(654, 197);
             this.pictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox8.TabIndex = 0;
             this.pictureBox8.TabStop = false;
@@ -3543,7 +3559,7 @@ namespace tft
             // splitter20
             // 
             this.splitter20.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter20.Location = new System.Drawing.Point(0, 501);
+            this.splitter20.Location = new System.Drawing.Point(0, 515);
             this.splitter20.Margin = new System.Windows.Forms.Padding(2);
             this.splitter20.Name = "splitter20";
             this.splitter20.Size = new System.Drawing.Size(654, 8);
@@ -3556,7 +3572,7 @@ namespace tft
             this.panel22.Controls.Add(this.splitter19);
             this.panel22.Controls.Add(this.pictureBox6);
             this.panel22.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel22.Location = new System.Drawing.Point(0, 337);
+            this.panel22.Location = new System.Drawing.Point(0, 351);
             this.panel22.Margin = new System.Windows.Forms.Padding(4);
             this.panel22.Name = "panel22";
             this.panel22.Size = new System.Drawing.Size(654, 164);
@@ -3598,7 +3614,7 @@ namespace tft
             // splitter18
             // 
             this.splitter18.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter18.Location = new System.Drawing.Point(0, 333);
+            this.splitter18.Location = new System.Drawing.Point(0, 347);
             this.splitter18.Margin = new System.Windows.Forms.Padding(4);
             this.splitter18.Name = "splitter18";
             this.splitter18.Size = new System.Drawing.Size(654, 4);
@@ -3609,7 +3625,7 @@ namespace tft
             // 
             this.panel21.Controls.Add(this.pictureBox5);
             this.panel21.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel21.Location = new System.Drawing.Point(0, 125);
+            this.panel21.Location = new System.Drawing.Point(0, 139);
             this.panel21.Margin = new System.Windows.Forms.Padding(4);
             this.panel21.Name = "panel21";
             this.panel21.Size = new System.Drawing.Size(654, 208);
@@ -3630,7 +3646,7 @@ namespace tft
             // splitter17
             // 
             this.splitter17.Dock = System.Windows.Forms.DockStyle.Top;
-            this.splitter17.Location = new System.Drawing.Point(0, 121);
+            this.splitter17.Location = new System.Drawing.Point(0, 135);
             this.splitter17.Margin = new System.Windows.Forms.Padding(4);
             this.splitter17.Name = "splitter17";
             this.splitter17.Size = new System.Drawing.Size(654, 4);
@@ -3639,13 +3655,15 @@ namespace tft
             // 
             // panel20
             // 
+            this.panel20.Controls.Add(this.label86);
+            this.panel20.Controls.Add(this.comboBox11);
             this.panel20.Controls.Add(this.groupBox10);
             this.panel20.Controls.Add(this.groupBox9);
             this.panel20.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel20.Location = new System.Drawing.Point(0, 0);
             this.panel20.Margin = new System.Windows.Forms.Padding(4);
             this.panel20.Name = "panel20";
-            this.panel20.Size = new System.Drawing.Size(654, 121);
+            this.panel20.Size = new System.Drawing.Size(654, 135);
             this.panel20.TabIndex = 8;
             // 
             // groupBox10
@@ -3746,19 +3764,27 @@ namespace tft
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // radioButton4
+            // label86
             // 
-            this.radioButton4.AutoSize = true;
-            this.radioButton4.Checked = true;
-            this.radioButton4.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.radioButton4.Location = new System.Drawing.Point(453, 24);
-            this.radioButton4.Margin = new System.Windows.Forms.Padding(4);
-            this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(84, 19);
-            this.radioButton4.TabIndex = 30;
-            this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "Nothing";
-            this.radioButton4.UseVisualStyleBackColor = true;
+            this.label86.AutoSize = true;
+            this.label86.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label86.Location = new System.Drawing.Point(11, 107);
+            this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(54, 15);
+            this.label86.TabIndex = 92;
+            this.label86.Text = "weight";
+            // 
+            // comboBox11
+            // 
+            this.comboBox11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.comboBox11.FormattingEnabled = true;
+            this.comboBox11.Location = new System.Drawing.Point(69, 104);
+            this.comboBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox11.Name = "comboBox11";
+            this.comboBox11.Size = new System.Drawing.Size(142, 23);
+            this.comboBox11.TabIndex = 91;
+            this.toolTip1.SetToolTip(this.comboBox11, "Select an identification ID for each univariate in the case of multivariate");
             // 
             // Form1
             // 
@@ -3852,6 +3878,7 @@ namespace tft
             this.panel21.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.panel20.ResumeLayout(false);
+            this.panel20.PerformLayout();
             this.groupBox10.ResumeLayout(false);
             this.groupBox9.ResumeLayout(false);
             this.groupBox9.PerformLayout();
@@ -4137,6 +4164,8 @@ namespace tft
         public System.Windows.Forms.Label label85;
         private System.Windows.Forms.TextBox textBox27;
         private System.Windows.Forms.RadioButton radioButton4;
+        private System.Windows.Forms.Label label86;
+        private System.Windows.Forms.ComboBox comboBox11;
     }
 }
 

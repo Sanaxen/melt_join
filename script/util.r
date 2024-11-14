@@ -190,7 +190,7 @@ plot_predict1 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		  ggplot(aes(x = date, y = target))+
 		  geom_line(linewidth =0.5, color = line_color_bule, linetype = "dotted")+
 		  geom_line(aes(x = date, y = predict),linewidth =1.2, color = line_color_red)+
-		  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .3)
+		  geom_ribbon(aes(ymin = lower, ymax = upper), alpha = .15)
 		  #+
 		  #scale_x_datetime(breaks = date_breaks(timestep), labels = date_format("%Y-%m-%d %H")) +
 		  #theme(axis.text.x = element_text(angle = 90, hjust = 1))
@@ -290,7 +290,7 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 		  ggplot() +
 		  geom_line( aes(x = date, y = predict), color = line_color_red, linewidth =0.6) +
 		  geom_line( aes(x = date, y = target), color = line_color_bule, linewidth =0.6) +
-  		  geom_ribbon(aes(x = date, y = predict, ymin = lower, ymax = upper), alpha = .3)
+  		  geom_ribbon(aes(x = date, y = predict, ymin = lower, ymax = upper), alpha = .15)
 
 		
 		if (F)
