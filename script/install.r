@@ -41,4 +41,8 @@ PKG_URL <- "https://github.com/microsoft/LightGBM/releases/download/v4.4.0/light
 remotes::install_url(PKG_URL)
 
 install.packages("cli")
+
+#install.packages("tsibble")
+#install.packages("fable")
+
 #update.packages(ask = FALSE)
