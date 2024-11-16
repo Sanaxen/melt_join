@@ -3889,6 +3889,7 @@ namespace tft
             prediction += "frequency_value_i = " + textBox27.Text + "\r\n";
             prediction += "arima_ratio <- " + textBox26.Text + "\r\n";
 
+            prediction += "if (arima_ratio == 0 ) return(predict)\r\n";
             prediction += "if ( !dir.exists(\"arima\"))dir.create(\"arima\")\r\n";
             prediction += "if ( is.null(IDs))\r\n";
             prediction += "{\r\n";
@@ -3972,7 +3973,7 @@ namespace tft
 
             if (comboBox4.Text != "")
             {
-                prediction += "         test_tmp0 <- test_tmp %>% filter(loaction_id == IDs[i])\r\n";
+                prediction += "         test_tmp0 <- test_tmp %>% filter(" + comboBox5.Text + " == IDs[i])\r\n";
             }else
             {
                 prediction += "         test_tmp0 <- test_tmp\r\n";
