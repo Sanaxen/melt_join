@@ -12,3 +12,9 @@ but with more realistic data, it is often necessary to immediately merge in othe
 Designing features is also troublesome.
 
 This tool aims to perform these tasks with GUI operation, and to perform time-series forecasting without thinking about details.
+
+---
+# Tutorial
+[tutorial-1](./tutorial-1.md)  
+[tutorial-2](./tutorial-2.md)  
+
