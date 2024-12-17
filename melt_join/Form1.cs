@@ -49,6 +49,9 @@ namespace tft
 
         public bool use_lightgbm = false;
         public int status = 0;
+
+        Encoding utf8_encoding = new System.Text.UTF8Encoding(false);
+
         public Form1()
         {
             InitializeComponent();
@@ -121,7 +124,7 @@ namespace tft
             string file = "melt_join.r";
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write(cmd_all);
                 }
@@ -318,7 +321,7 @@ namespace tft
 
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write("sink(file = \"names.txt\")\r\n");
@@ -732,7 +735,7 @@ namespace tft
             string file = "melt_join_setting_" + base_name0 + string.Format("{0}", output_idx)+".txt";
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write(output_idx.ToString() + "\n");
                     sw.Write(listBox1.Items.Count.ToString() + "\n");
@@ -918,7 +921,7 @@ namespace tft
             string rexe = rexe1;
 
             bool rpath_chg = false;
-            System.IO.StreamReader sr = new System.IO.StreamReader(file, Encoding.GetEncoding("SHIFT_JIS"));
+            System.IO.StreamReader sr = new System.IO.StreamReader(file, utf8_encoding);
             if (sr != null)
             {
                 while (sr.EndOfStream == false)
@@ -1474,7 +1477,7 @@ namespace tft
 
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write(textBox1.Text + "\n");
                 }
@@ -1566,6 +1569,41 @@ namespace tft
             work_dir = base_dir + "\\work\\" + base_name;
             System.IO.Directory.SetCurrentDirectory(work_dir);
 
+            if (true)
+            {
+                string nkf_conv = work_dir + "\\"+ base_name + "_nkf.bat";
+                string bat_file = "";
+                bat_file += base_dir + "\\nkf.exe -w \"" + csv_file + "\" > " + work_dir + "\\"+ base_name+"_utf8.csv";
+
+                try
+                {
+                    using (System.IO.StreamWriter sw = new StreamWriter(nkf_conv, false, utf8_encoding))
+                    {
+                        sw.Write(bat_file + "\n");
+                    }
+                }
+                catch
+                {
+                    if (MessageBox.Show(nkf_conv, "", MessageBoxButtons.OK, MessageBoxIcon.Error) == DialogResult.OK)
+                        return;
+                }
+                ProcessStartInfo pInfo = new ProcessStartInfo();
+                pInfo.FileName = "cmd.exe";
+                pInfo.Arguments = "/c \"" + nkf_conv + "\"";
+
+                if (!File.Exists(base_dir + "\\nkf.exe"))
+                {
+                    MessageBox.Show(base_dir + "\\nkf.exe" + " is not found.\n");
+                    return;
+                }
+
+                csv_file = work_dir + "\\"+ base_name+"_utf8.csv";
+                //Process p = Process.Start(pInfo);
+                Process p = new Process();
+                p.StartInfo = pInfo;
+                p.Start();
+                p.WaitForExit();
+            }
             int id = (int)numericUpDown6.Value;
 
             string tmp = Path.GetDirectoryName(work_dir + "\\" + base_name + ".csv");
@@ -1629,7 +1667,7 @@ namespace tft
 
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write(textBox1.Text + "\n");
                 }
@@ -1770,7 +1808,7 @@ namespace tft
             string file = string.Format("reshape2_melt{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -1895,7 +1933,7 @@ namespace tft
             string file = string.Format("left_join{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -2124,7 +2162,7 @@ namespace tft
             string file = string.Format("finalOutput{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -2235,7 +2273,7 @@ namespace tft
             string file = string.Format("reshape2_melt{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -2652,7 +2690,7 @@ namespace tft
             string file = string.Format("feature{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -2669,7 +2707,7 @@ namespace tft
             string file2 = "feature_gen_fnc.r";
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file2, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file2, false, utf8_encoding))
                 {
                     sw.Write(feature_gen);
                 }
@@ -2684,7 +2722,7 @@ namespace tft
             string file3 = string.Format("add_feature_names.r");
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file3, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file3, false, utf8_encoding))
                 {
                     string t = "exclude_patterns <- c(\r\n";
                     for (int i = 0; i < addfeature_cmd.Items.Count - 1; i++)
@@ -3085,7 +3123,7 @@ namespace tft
             string src = string.Format("split_func.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, utf8_encoding))
                 {
                     sw.Write(split);
                 }
@@ -3101,7 +3139,7 @@ namespace tft
             string file = string.Format("split{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -3169,7 +3207,7 @@ namespace tft
 
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -3324,7 +3362,7 @@ namespace tft
             string file = string.Format("delete_columns{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -3722,7 +3760,7 @@ namespace tft
             string src = string.Format("training_fnc.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, utf8_encoding))
                 {
                     sw.Write(train);
                 }
@@ -3735,7 +3773,7 @@ namespace tft
             string file = string.Format("train{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -4403,7 +4441,7 @@ namespace tft
             string src = string.Format("recursive_Feature_prediction_fnc.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, utf8_encoding))
                 {
                     sw.Write(recursive_Feature);
                 }
@@ -4417,7 +4455,7 @@ namespace tft
             src = string.Format("prediction_fnc.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(src, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(src, false, utf8_encoding))
                 {
                     sw.Write(prediction);
                 }
@@ -4432,7 +4470,7 @@ namespace tft
             string file = string.Format("predict{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -4537,7 +4575,7 @@ namespace tft
 
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);
@@ -4734,7 +4772,7 @@ namespace tft
             string file = string.Format("make_keyID{0}.r", output_idx);
             try
             {
-                using (System.IO.StreamWriter sw = new StreamWriter(file, false, System.Text.Encoding.GetEncoding("shift_jis")))
+                using (System.IO.StreamWriter sw = new StreamWriter(file, false, utf8_encoding))
                 {
                     sw.Write("options(width=1000)\r\n");
                     sw.Write(cmd1);

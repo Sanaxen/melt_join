@@ -20,6 +20,7 @@ library(plotly)
 library(patchwork)
 library(htmlwidgets)
 
+
 find_closest_factors <- function(n) {
   sqrt_n <- floor(sqrt(n))
   for (i in sqrt_n:1) {
@@ -336,8 +337,8 @@ plot_predict2 <- function( x, y, id, train, valid, predict, timeUnit="week")
 }
 
 
-#ids_cols:en:Column name string to be fixed (jp:ŒÅ’è‚·‚é—ñ–¼•¶Žš—ñ) example: c("date_time", "deg_C", "relative_humidity")
-#key_cols:en:Column name strings lined up for each column you want to arrange vertically (jp:c‚É•À‚×‚½‚¢—ñ–ˆ‚É•À‚ñ‚Å‚¢‚é—ñ–¼•¶Žš—ñ) example:c("target_carbon_monoxide", "target_benzene","target_nitrogen_oxides")
+#ids_cols:en:Column name string to be fixed (jp:å›ºå®šã™ã‚‹åˆ—åæ–‡å­—åˆ—) example: c("date_time", "deg_C", "relative_humidity")
+#key_cols:en:Column name strings lined up for each column you want to arrange vertically (jp:ç¸¦ã«ä¸¦ã¹ãŸã„åˆ—æ¯Žã«ä¸¦ã‚“ã§ã„ã‚‹åˆ—åæ–‡å­—åˆ—) example:c("target_carbon_monoxide", "target_benzene","target_nitrogen_oxides")
 horizontally_to_vertically <- function(df, ids_cols, key_cols)
 {
 	df2 <- reshape2::melt(df, id.vars=ids_cols, measure.vars=key_cols, 
@@ -346,8 +347,8 @@ horizontally_to_vertically <- function(df, ids_cols, key_cols)
 	return (df2)
 }
 
-#ids_cols:en:Column name string to be fixed (jp:ŒÅ’è‚·‚é—ñ–¼•¶Žš—ñ) example: c("date_time", "deg_C", "relative_humidity")
-#key: en:Column name string you want to lay down (jp:‰¡‚É‚µ‚½‚¢—ñ–¼•¶Žš—ñ)
+#ids_cols:en:Column name string to be fixed (jp:å›ºå®šã™ã‚‹åˆ—åæ–‡å­—åˆ—) example: c("date_time", "deg_C", "relative_humidity")
+#key: en:Column name string you want to lay down (jp:æ¨ªã«ã—ãŸã„åˆ—åæ–‡å­—åˆ—)
 vertically_to_horizontally <- function(df, ids_cols, key="key")
 {
 	fomuler = ids_cols[1]

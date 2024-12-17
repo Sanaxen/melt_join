@@ -76,6 +76,7 @@ namespace tft
             this.label78 = new System.Windows.Forms.Label();
             this.label84 = new System.Windows.Forms.Label();
             this.label85 = new System.Windows.Forms.Label();
+            this.comboBox11 = new System.Windows.Forms.ComboBox();
             this.listBox4 = new System.Windows.Forms.ListBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
@@ -297,6 +298,7 @@ namespace tft
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.splitter17 = new System.Windows.Forms.Splitter();
             this.panel20 = new System.Windows.Forms.Panel();
+            this.label86 = new System.Windows.Forms.Label();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.button37 = new System.Windows.Forms.Button();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -306,8 +308,6 @@ namespace tft
             this.checkBox7 = new System.Windows.Forms.CheckBox();
             this.numericUpDown9 = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label86 = new System.Windows.Forms.Label();
-            this.comboBox11 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
             this.panel7.SuspendLayout();
             this.panel9.SuspendLayout();
@@ -929,6 +929,17 @@ namespace tft
             this.label85.Text = "frequency";
             this.toolTip1.SetToolTip(this.label85, "frequency value");
             // 
+            // comboBox11
+            // 
+            this.comboBox11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.comboBox11.FormattingEnabled = true;
+            this.comboBox11.Location = new System.Drawing.Point(69, 104);
+            this.comboBox11.Margin = new System.Windows.Forms.Padding(4);
+            this.comboBox11.Name = "comboBox11";
+            this.comboBox11.Size = new System.Drawing.Size(142, 23);
+            this.comboBox11.TabIndex = 91;
+            this.toolTip1.SetToolTip(this.comboBox11, "Select an identification ID for each univariate in the case of multivariate");
+            // 
             // listBox4
             // 
             this.listBox4.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1375,14 +1386,13 @@ namespace tft
             this.comboBox1.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "sjis",
             "utf-8"});
             this.comboBox1.Location = new System.Drawing.Point(362, 20);
             this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(105, 23);
             this.comboBox1.TabIndex = 72;
-            this.comboBox1.Text = "sjis";
+            this.comboBox1.Text = "utf-8";
             // 
             // label20
             // 
@@ -3666,6 +3676,17 @@ namespace tft
             this.panel20.Size = new System.Drawing.Size(654, 135);
             this.panel20.TabIndex = 8;
             // 
+            // label86
+            // 
+            this.label86.AutoSize = true;
+            this.label86.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label86.Location = new System.Drawing.Point(11, 107);
+            this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label86.Name = "label86";
+            this.label86.Size = new System.Drawing.Size(54, 15);
+            this.label86.TabIndex = 92;
+            this.label86.Text = "weight";
+            // 
             // groupBox10
             // 
             this.groupBox10.Controls.Add(this.button37);
@@ -3763,28 +3784,6 @@ namespace tft
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // label86
-            // 
-            this.label86.AutoSize = true;
-            this.label86.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label86.Location = new System.Drawing.Point(11, 107);
-            this.label86.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label86.Name = "label86";
-            this.label86.Size = new System.Drawing.Size(54, 15);
-            this.label86.TabIndex = 92;
-            this.label86.Text = "weight";
-            // 
-            // comboBox11
-            // 
-            this.comboBox11.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.comboBox11.FormattingEnabled = true;
-            this.comboBox11.Location = new System.Drawing.Point(69, 104);
-            this.comboBox11.Margin = new System.Windows.Forms.Padding(4);
-            this.comboBox11.Name = "comboBox11";
-            this.comboBox11.Size = new System.Drawing.Size(142, 23);
-            this.comboBox11.TabIndex = 91;
-            this.toolTip1.SetToolTip(this.comboBox11, "Select an identification ID for each univariate in the case of multivariate");
             // 
             // Form1
             // 
